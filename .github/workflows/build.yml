@@ -6,7 +6,7 @@ on:
 
 jobs:
   build:
-    runs-on: self-hosted
+    runs-on: ubuntu-latest
 
     steps:
       - name: 레포지토리 체크아웃 중..
@@ -22,6 +22,8 @@ jobs:
 
       - name: 종속성 설치중...
         run: pnpm install
+        working-directory: ./fe
 
       - name: 빌드 중..
         run: pnpm build
+        working-directory: ./fe
