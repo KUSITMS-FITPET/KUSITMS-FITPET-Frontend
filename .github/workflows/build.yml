@@ -22,6 +22,8 @@ jobs:
 
       - name: 종속성 설치중...
         run: pnpm install
+        working-directory: ./fe
 
       - name: 빌드 중..
         run: pnpm build
+        working-directory: ./fe
