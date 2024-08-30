@@ -30,6 +30,10 @@ const config: Config = {
       white: '#ffffff',
       textColor: '#333333',
       black: '#000000',
+      main: '#008CFF',
+      mediumGray: '#A5A5A5',
+      bgColor1:'#CDFAFA',
+      bgColor3:'#F4F7FA'
     },
     extend: {
       width: px0To1000,
