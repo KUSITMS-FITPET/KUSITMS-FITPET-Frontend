@@ -1,8 +1,7 @@
 import Image from 'next/image'
-import { useParams, useRouter } from 'next/navigation'
+import { useRouter } from 'next/navigation'
 
 export default function Page() {
-  const { id } = useParams()
   const { push } = useRouter()
 
   return (
@@ -11,7 +10,7 @@ export default function Page() {
         <div className="w-full lg:w-1/2 flex justify-center mb-8 lg:mb-0">
           <Image
             src="/images/temp.jpg"
-            alt={`${id} news`}
+            alt="news"
             width={500}
             height={400}
             className="rounded-lg object-cover"
