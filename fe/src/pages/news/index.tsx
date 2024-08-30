@@ -1,6 +1,4 @@
-import { RadioButton } from '@/components'
-import { Card } from './components'
-import { Pagination } from '@/components'
+import { RadioButton, Card, Pagination } from '@/components'
 import { useState } from 'react'
 
 export default function Page() {

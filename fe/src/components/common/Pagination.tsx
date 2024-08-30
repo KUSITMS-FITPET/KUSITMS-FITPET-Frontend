@@ -37,6 +37,7 @@ export default function Pagination({
       <ul className="flex flex-row">
         <li className={cn('relative', { invisible: currentPage === 1 })}>
           <button
+            type="button"
             onClick={() => onPageChange(currentPage - 1)}
             className="text-center bg-transparent"
             disabled={currentPage === 1}
@@ -47,11 +48,12 @@ export default function Pagination({
         {pageRange.map((page) => (
           <li key={page} className="mx-10 w-24 h-24 text-center text-15">
             <button
+              type="button"
               onClick={() => onPageChange(page)}
               className={cn(
                 'w-full h-full text-black flex items-center justify-center',
                 page === currentPage &&
-                  'text-white font-bold bg-black rounded-full'
+                  'text-white font-bold bg-black rounded-full',
               )}
             >
               {page}
@@ -62,6 +64,7 @@ export default function Pagination({
           className={cn('relative', { invisible: currentPage === totalPages })}
         >
           <button
+            type="button"
             onClick={() => onPageChange(currentPage + 1)}
             className="text-center bg-transparent"
             disabled={currentPage === totalPages}

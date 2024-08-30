@@ -11,7 +11,7 @@ export default function Page() {
         <div className="w-full lg:w-1/2 flex justify-center mb-8 lg:mb-0">
           <Image
             src="/images/temp.jpg"
-            alt="news"
+            alt={`${id} news`}
             width={500}
             height={400}
             className="rounded-lg object-cover"
@@ -44,6 +44,7 @@ export default function Page() {
           </p>
           <div className="flex justify-end">
             <button
+              type="button"
               onClick={() => push('/news')}
               className="w-148 h-60 px-8 text-lg py-4 bg-main text-white rounded-lg hover:opacity-70"
             >

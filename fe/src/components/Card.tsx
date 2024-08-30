@@ -1,27 +1,28 @@
-import Image from 'next/image';
-import { useRouter } from 'next/router';
+import Image from 'next/image'
+import { useRouter } from 'next/router'
 
 export default function Card({
   title,
   content,
   id,
 }: {
-  title: string;
-  content: string;
-  id: number;
+  title: string
+  content: string
+  id: number
 }) {
-  const router = useRouter();
+  const router = useRouter()
 
   const handleClick = () => {
-    router.push(`/news/${id}`);
-  };
+    router.push(`/news/${id}`)
+  }
 
   return (
-    <div
-      className="w-full max-w-sm rounded-xl shadow-sm bg-white hover-pointer hover:opacity-70 cursor-pointer"
-      onClick={handleClick}
-    >
-      <div className="overflow-hidden rounded-t-xl">
+    <div className="w-full max-w-sm rounded-xl shadow-sm bg-white hover-pointer hover:opacity-70 cursor-pointer">
+      <button
+        type="button"
+        onClick={handleClick}
+        className="overflow-hidden rounded-t-xl"
+      >
         <Image
           src="/images/temp.jpg"
           alt="card"
@@ -29,11 +30,11 @@ export default function Card({
           height={250}
           className="w-full h-250 object-cover transition-opacity duration-300"
         />
-      </div>
+      </button>
       <div className="m-33">
         <h1 className="text-2xl font-bold mb-2">{title}</h1>
         <p className="text-base line-clamp-2">{content}</p>
       </div>
     </div>
-  );
+  )
 }

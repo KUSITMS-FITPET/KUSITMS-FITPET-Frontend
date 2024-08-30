@@ -26,14 +26,9 @@ export default function RadioButton({
           checked && 'border-main',
         )}
       >
-        {checked && <div className="w-8 h-8 rounded-full bg-main"></div>}
+        {checked && <div className="w-8 h-8 rounded-full bg-main" />}
       </div>
-      <span
-        className={cn(
-          'ml-2 text-mediumGray',
-          checked && 'text-black',
-        )}
-      >
+      <span className={cn('ml-2 text-mediumGray', checked && 'text-black')}>
         {label}
       </span>
     </label>
