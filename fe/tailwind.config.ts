@@ -1,4 +1,4 @@
-import type { Config } from "tailwindcss";
+import type { Config } from 'tailwindcss'
 
 const px0To10 = {
   ...Array.from(Array(11)).reduce(
@@ -21,15 +21,19 @@ const px0To1000 = {
 
 const config: Config = {
   content: [
-    "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
-    "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    './src/pages/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/components/**/*.{js,ts,jsx,tsx,mdx}',
+    './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
     colors: {
       white: '#ffffff',
       textColor: '#333333',
       black: '#000000',
+      main: '#008CFF',
+      mediumGray: '#A5A5A5',
+      bgColor1: '#CDFAFA',
+      bgColor3: '#F4F7FA',
     },
     extend: {
       width: px0To1000,
@@ -44,5 +48,5 @@ const config: Config = {
     },
   },
   plugins: [],
-};
-export default config;
+}
+export default config
