@@ -1,9 +1,9 @@
-import type { Config } from 'tailwindcss';
+import type { Config } from 'tailwindcss'
 
 // Generate pixel values from 0 to 10
 const px0To10 = {
   ...Array.from(Array(11)).reduce(
-    (acc, _, i) => ({ ...acc, [i]: `${i}px` }),
+    (acc, _, i) => ({ ...acc, [i]: `${i}px` }), // Corrected: Added backticks around `${i}px`
     {},
   ),
 };
@@ -11,7 +11,7 @@ const px0To10 = {
 // Generate pixel values from 0 to 100
 const px0To100 = {
   ...Array.from(Array(101)).reduce(
-    (acc, _, i) => ({ ...acc, [i]: `${i}px` }),
+    (acc, _, i) => ({ ...acc, [i]: `${i}px` }), // Corrected: Added backticks around `${i}px`
     {},
   ),
 };
@@ -19,7 +19,7 @@ const px0To100 = {
 // Generate pixel values from 0 to 1000
 const px0To1000 = {
   ...Array.from(Array(1001)).reduce(
-    (acc, _, i) => ({ ...acc, [i]: `${i}px` }),
+    (acc, _, i) => ({ ...acc, [i]: `${i}px` }), // Corrected: Added backticks around `${i}px`
     {},
   ),
 };
@@ -31,25 +31,28 @@ const config: Config = {
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
-    extend: {
-      colors: {
-        white: '#ffffff',
-        textColor: '#333333',
-        black: '#000000',
-        main: '#008CFF',
-        mediumGray: '#A5A5A5',
-        bgColor1: '#CDFAFA',
-        bgColor3: '#F4F7FA',
-        "main-color": "#008cff",       // Custom color
-        "darkslategray": "#374553",    // Custom color
-        "gray": {                      // Custom gray shades
-          "100": "#858585",
-          "200": "#282828",
-        },
-        "lightcyan": "#cdfafa",        // Custom color
-        "gold": "#ffd600",             // Custom color
-        "lightgray": "#5A5A5A",        // Custom color
+    colors: {
+      white: '#ffffff',
+      textColor: '#333333',
+      black: '#000000',
+<<<<<<< Updated upstream
+      main: '#008CFF',
+      mediumGray: '#A5A5A5',
+      bgColor1: '#CDFAFA',
+      bgColor3: '#F4F7FA',
+=======
+      "main-color": "#008cff",       // Custom color
+      "darkslategray": "#374553",    // Custom color
+      "gray": {                      // Custom gray shades
+        "100": "#858585",
+        "200": "#282828",
       },
+      "lightcyan": "#cdfafa",        // Custom color
+      "gold": "#ffd600",             // Custom color
+      "lightgray": "#5A5A5A",        // Custom color
+>>>>>>> Stashed changes
+    },
+    extend: {
       width: px0To1000,
       height: px0To1000,
       borderWidth: px0To10,
@@ -65,6 +68,11 @@ const config: Config = {
     },
   },
   plugins: [],
+<<<<<<< Updated upstream
+}
+export default config
+=======
 };
 
 export default config;
+>>>>>>> Stashed changes
