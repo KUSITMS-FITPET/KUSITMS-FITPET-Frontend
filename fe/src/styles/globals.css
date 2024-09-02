@@ -53,8 +53,18 @@ body::-webkit-scrollbar {
   display: none; /* Chrome, Safari에서 스크롤바 숨기기 */
 }
 
+/* 추가된 스타일 */
+body {
+  @apply text-textColor;
+  font-family: 'Pretendard Variable', Pretendard;
+}
+
 @layer utilities {
   .text-balance {
     text-wrap: balance; /* 텍스트 균형 맞추기 */
+  }
+
+  .gradient-circle {
+    background: linear-gradient(157deg, rgba(205, 250, 250, 0.30) 8.58%, rgba(205, 250, 250, 0.00) 51.24%);
   }
 }
