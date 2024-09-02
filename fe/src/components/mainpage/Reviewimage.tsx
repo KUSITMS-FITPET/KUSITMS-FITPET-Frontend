@@ -1,12 +1,12 @@
 import Image from 'next/image';
 import { FC } from 'react';
 
-interface ReviewPageProps {
+interface ReviewimageProps {
   src?: string;
   alt?: string;
 }
 
-const Review: FC<ReviewPageProps> = ({ src = '/images/review.svg', alt = 'Review Image' }) => {
+const Reviewimage: FC<ReviewimageProps> = ({ src = '/images/review.svg', alt = 'Review Image' }) => {
   return (
     <div className="relative flex justify-center w-full h-auto font-pretendard">
       <div className="relative w-full h-auto max-w-full">
@@ -34,4 +34,4 @@ const Review: FC<ReviewPageProps> = ({ src = '/images/review.svg', alt = 'Review
   );
 };
 
-export default Review;
+export default Reviewimage;

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import type { ComponentType } from 'react';
 import dynamic from 'next/dynamic';
-import { fetchConsultationCount } from '../../api/ConsultationCount';
+import { fetchConsultationCount } from '../../pages/api/ConsultationCount';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Link from 'next/link';
