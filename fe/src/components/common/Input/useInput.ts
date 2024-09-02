@@ -3,7 +3,7 @@
 import { InputHTMLAttributes, ChangeEvent, useCallback } from 'react'
 import { cn } from '@/util'
 import { useDOMRef } from '@/hooks'
-import type { ReactRef } from '@/type'
+import { ReactRef } from '@/type/react'
 
 export interface UseInputProps extends InputHTMLAttributes<HTMLInputElement> {
   ref?: ReactRef<HTMLInputElement>
