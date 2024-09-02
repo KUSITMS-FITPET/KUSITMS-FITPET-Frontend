@@ -3,6 +3,7 @@ import {
   ChangeEvent,
   Dispatch,
   RefObject,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -13,42 +14,29 @@ import { Down, Question } from '@/components/common/Icons'
 import Image from 'next/image'
 import Modal from '@/components/common/Modal'
 import { useRouter } from 'next/navigation'
+import { usePostQuotation } from '@/api/quote'
 import { dogList } from '../../../../public/content/dogList'
 import { catList } from '../../../../public/content/catList'
 import ToggleButton from './ToggleButton'
 import { privacyPolicy } from '../../../../public/content/privacyPolicy'
-import useQuote from '../hooks/useQuote'
 
 export default function Quote() {
+  const { mutate } = usePostQuotation()
+
   const [filteredBreeds, setFilteredBreeds] = useState<string[]>([])
   const [showImage, setShowImage] = useState(false)
-
-  const {
-    showModal,
-    petType,
-    name,
-    age,
-    breed,
-    agreement,
-    ageError,
-    nameError,
-    notes,
-    phone2,
-    phone3,
-    phoneError,
-    setPhone2,
-    setPhoneError,
-    setPhone3,
-    setNotes,
-    setNameError,
-    setAgeError,
-    handleSubmit,
-    setAgreement,
-    setAge,
-    setBreed,
-    setName,
-    setPetType,
-  } = useQuote()
+  const [petType, setPetType] = useState<'dog' | 'cat'>('dog')
+  const [name, setName] = useState('')
+  const [age, setAge] = useState('')
+  const [breed, setBreed] = useState('')
+  const [agreement, setAgreement] = useState(false)
+  const [ageError, setAgeError] = useState('')
+  const [nameError, setNameError] = useState('')
+  const [notes, setNotes] = useState('')
+  const [phone2, setPhone2] = useState('')
+  const [phone3, setPhone3] = useState('')
+  const [phoneError, setPhoneError] = useState('')
+  const [showModal, setShowModal] = useState(false)
 
   const breedList = petType === 'dog' ? dogList : catList
   const isSection1Complete = petType && name && age && breed
@@ -134,10 +122,35 @@ export default function Quote() {
     }
     validatePhone(value)
   }
+  const handleSubmit = useCallback(() => {
+    if (ageError || nameError || phoneError) {
+      alert('에러')
+      console.log(ageError, nameError)
+    }
+    mutate(
+      {
+        petName: name,
+        petSpecies: petType,
+        petAge: parseInt(age, 10),
+        phoneNumber: `010${phone2}${phone3}`,
+        moreInfo: notes,
+        agreement: true,
+      },
+      {
+        onSuccess: () => {
+          setShowModal(true)
+        },
+        onError: () => {
+          alert('잠시 후 다시 시도해주세요.')
+        },
+      },
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="max-w-2xl mx-auto pl-10">
-      {!showModal && (
+      {showModal && (
         <Modal>
           <div>
             <h1 className="text-2xl font-medium mb-22 leading-36">

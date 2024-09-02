@@ -3,7 +3,6 @@ import { http } from '@/api'
 
 export type Quotation = {
   petName: string
-  petInfo: string
   petSpecies: string
   petAge: number
   phoneNumber: string
