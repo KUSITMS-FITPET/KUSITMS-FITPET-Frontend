@@ -12,15 +12,15 @@ export default function Page() {
   }
 
   return (
-    <div className="bg-bgColor3 h-screen overflow-y-scroll">
-      <div className="w-full h-240 bg-[#008CFF]">
-        <div className="h-300 flex flex-col px-120 justify-center text-white font-normal">
+    <div className="h-screen">
+      <section className="w-full h-300 bg-[#008CFF]">
+        <div className="h-full flex flex-col px-120 justify-center text-white font-normal">
           <p className="text-2xl font-regular">어렵기만 했던 펫보험,</p>
           <p className="text-4xl font-semibold">
             SC의 카드뉴스와 함께 알아볼까요?
           </p>
         </div>
-      </div>
+      </section>
 
       <section className="w-4/5 h-auto mt-100 flex flex-col items-center mx-auto p-20">
         <div className="w-full flex flex-row gap-20 justify-end mb-36">

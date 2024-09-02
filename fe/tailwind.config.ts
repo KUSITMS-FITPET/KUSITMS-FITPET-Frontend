@@ -28,12 +28,13 @@ const config: Config = {
   theme: {
     colors: {
       white: '#ffffff',
-      textColor: '#333333',
+      textColor: '#282828',
       black: '#000000',
       main: '#008CFF',
       mediumGray: '#A5A5A5',
       bgColor1: '#CDFAFA',
       bgColor3: '#F4F7FA',
+      red: '#D61F2D',
     },
     extend: {
       width: px0To1000,
