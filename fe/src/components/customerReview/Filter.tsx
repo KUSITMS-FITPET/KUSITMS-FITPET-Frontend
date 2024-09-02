@@ -28,7 +28,7 @@ const Filter: React.FC = () => {
             onChange={() => setSelectedPet(selectedPet === 'dog' ? null : 'dog')}
             className="mr-10"
           />
-          <div className="w-[50px] relative text-[16px] leading-[30px] font-medium font-pretendard text-medium-gray text-left inline-block">
+          <div className="w-[50px] relative text-[16px] leading-[30px] font-medium font-pretendard text-light-gray text-left inline-block">
             강아지
           </div>
         </label>
@@ -39,7 +39,7 @@ const Filter: React.FC = () => {
             onChange={() => setSelectedPet(selectedPet === 'cat' ? null : 'cat')}
             className="mr-10"
           />
-          <div className="w-[50px] relative text-[16px] leading-[30px] font-medium font-pretendard text-medium-gray text-left inline-block">
+          <div className="w-[50px] relative text-[16px] leading-[30px] font-medium font-pretendard text-light-gray text-left inline-block">
             고양이
           </div>
         </label>
