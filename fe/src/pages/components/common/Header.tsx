@@ -27,7 +27,7 @@ const Header: React.FC = () => {
         <div className="flex flex-row items-center justify-end gap-6 sm:gap-10 lg:gap-54 text-base sm:text-lg lg:text-xl text-text-color">
           <Link href="/" className={router.pathname === "/" ? "text-[#008cff] font-bold" : "text-[#282828] font-medium"}>홈</Link>
           <Link href="/compare" className={router.pathname === "/compare" ? "text-[#008cff] font-bold" : "text-[#282828] font-medium"}>보험 비교</Link>
-          <Link href="/tips" className={router.pathname === "/tips" ? "text-[#008cff] font-bold" : "text-[#282828] font-medium"}>보험 팁</Link>
+          <Link href="/news" className={router.pathname === "/news" ? "text-[#008cff] font-bold" : "text-[#282828] font-medium"}>보험 팁</Link>
           <Link href="/reviews" className={router.pathname === "/reviews" ? "text-[#008cff] font-bold" : "text-[#282828] font-medium"}>고객 리뷰</Link>
           <Link href="/faq" className={router.pathname === "/faq" ? "text-[#008cff] font-bold" : "text-[#282828] font-medium"}>FAQ</Link>
         </div>

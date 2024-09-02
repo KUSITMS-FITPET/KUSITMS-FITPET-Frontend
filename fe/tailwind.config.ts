@@ -35,12 +35,10 @@ const config: Config = {
       white: '#ffffff',
       textColor: '#333333',
       black: '#000000',
-<<<<<<< Updated upstream
       main: '#008CFF',
       mediumGray: '#A5A5A5',
       bgColor1: '#CDFAFA',
       bgColor3: '#F4F7FA',
-=======
       "main-color": "#008cff",       // Custom color
       "darkslategray": "#374553",    // Custom color
       "gray": {                      // Custom gray shades
@@ -50,7 +48,6 @@ const config: Config = {
       "lightcyan": "#cdfafa",        // Custom color
       "gold": "#ffd600",             // Custom color
       "lightgray": "#5A5A5A",        // Custom color
->>>>>>> Stashed changes
     },
     extend: {
       width: px0To1000,
@@ -68,11 +65,6 @@ const config: Config = {
     },
   },
   plugins: [],
-<<<<<<< Updated upstream
-}
-export default config
-=======
 };
 
 export default config;
->>>>>>> Stashed changes

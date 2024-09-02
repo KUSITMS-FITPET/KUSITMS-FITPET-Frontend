@@ -1,13 +1,15 @@
 import React, { useState, useEffect } from 'react';
+import type { ComponentType } from 'react';
 import dynamic from 'next/dynamic';
-import { fetchConsultationCount } from '../../api/ConsultationCount'; 
-import 'slick-carousel/slick/slick.css'; 
+import { fetchConsultationCount } from '../../api/ConsultationCount';
+import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import Link from 'next/link';
 import Image from 'next/image';
 import { FaArrowRight } from 'react-icons/fa';
 
-const Slider = dynamic(() => import('react-slick'), { ssr: false });
+// react-slick의 기본 내보내기를 명시적으로 가져오고 dynamic import 사용
+const Slider = dynamic(() => import('react-slick').then(mod => mod.default) as Promise<ComponentType<any>>, { ssr: false });
 
 const CustomPrevArrow = (props: any) => (
   <div
@@ -44,14 +46,14 @@ const SlideBanner: React.FC = () => {
   useEffect(() => {
     const loadConsultationCount = async () => {
       try {
-        const count = await fetchConsultationCount(); // API 호출
+        const count = await fetchConsultationCount();
         setConsultationCount(count); 
       } catch (error) {
         console.error("Failed to fetch consultation count", error);
       }
     };
 
-    loadConsultationCount(); // 컴포넌트 마운트 시 API 호출
+    loadConsultationCount();
   }, []);
 
   const settings = {
