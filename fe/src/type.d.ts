@@ -1,4 +1,3 @@
 declare module '@heroicons/react/outline' {
-    export * from '@heroicons/react';
-  }
-  
+  export * from '@heroicons/react'
+}

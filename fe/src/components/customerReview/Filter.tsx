@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
-import Image from 'next/image';
+import React, { useState } from 'react'
+import Image from 'next/image'
 
-const Filter: React.FC = () => {
-  const [selectedPet, setSelectedPet] = useState<string | null>(null);
-  const [sortOrder, setSortOrder] = useState<string>('latest');
+function Filter() {
+  const [selectedPet, setSelectedPet] = useState<string | null>(null)
+  const [sortOrder, setSortOrder] = useState<string>('latest')
 
   return (
     <div className="w-[180px] h-auto bg-white p-[16px] pt-[40px] rounded-lg shadow-md">
@@ -11,11 +11,11 @@ const Filter: React.FC = () => {
 
       {/* Line SVG Image */}
       <div className="flex justify-center mb-[16px]">
-        <Image 
-          src="/images/Line.svg" 
-          alt="Line Divider" 
-          width={140} 
-          height={1} 
+        <Image
+          src="/images/Line.svg"
+          alt="Line Divider"
+          width={140}
+          height={1}
         />
       </div>
 
@@ -25,7 +25,9 @@ const Filter: React.FC = () => {
           <input
             type="checkbox"
             checked={selectedPet === 'dog'}
-            onChange={() => setSelectedPet(selectedPet === 'dog' ? null : 'dog')}
+            onChange={() =>
+              setSelectedPet(selectedPet === 'dog' ? null : 'dog')
+            }
             className="mr-10"
           />
           <div className="w-[50px] relative text-[16px] leading-[30px] font-medium font-pretendard text-light-gray text-left inline-block">
@@ -36,7 +38,9 @@ const Filter: React.FC = () => {
           <input
             type="checkbox"
             checked={selectedPet === 'cat'}
-            onChange={() => setSelectedPet(selectedPet === 'cat' ? null : 'cat')}
+            onChange={() =>
+              setSelectedPet(selectedPet === 'cat' ? null : 'cat')
+            }
             className="mr-10"
           />
           <div className="w-[50px] relative text-[16px] leading-[30px] font-medium font-pretendard text-light-gray text-left inline-block">
@@ -47,11 +51,11 @@ const Filter: React.FC = () => {
 
       {/* Line SVG Image */}
       <div className="flex justify-center mb-[16px]">
-        <Image 
-          src="/images/Line.svg" 
-          alt="Line Divider" 
-          width={140} 
-          height={1} 
+        <Image
+          src="/images/Line.svg"
+          alt="Line Divider"
+          width={140}
+          height={1}
         />
       </div>
 
@@ -79,7 +83,7 @@ const Filter: React.FC = () => {
         </label>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Filter;
+export default Filter

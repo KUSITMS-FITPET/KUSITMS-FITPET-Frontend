@@ -1,60 +1,77 @@
-import React, { useState, useEffect } from 'react';
-import type { ComponentType } from 'react';
-import dynamic from 'next/dynamic';
-import { fetchConsultationCount } from '../../pages/api/ConsultationCount';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
-import Link from 'next/link';
-import Image from 'next/image';
-import { FaArrowRight } from 'react-icons/fa';
+import React, { useState, useEffect } from 'react'
+import dynamic from 'next/dynamic'
+import Link from 'next/link'
+import Image from 'next/image'
+import { FaArrowRight } from 'react-icons/fa'
+import { fetchConsultationCount } from '../../pages/api/ConsultationCount'
+import 'slick-carousel/slick/slick.css'
+import 'slick-carousel/slick/slick-theme.css'
 
-// react-slick의 기본 내보내기를 명시적으로 가져오고 dynamic import 사용
-const Slider = dynamic(() => import('react-slick').then(mod => mod.default) as Promise<ComponentType<any>>, { ssr: false });
+const Slider = dynamic(() => import('react-slick'), { ssr: false })
 
-const CustomPrevArrow = (props: any) => (
-  <div
-    {...props}
-    className="absolute left-8 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer"
-  >
-    <Image
-      src="/images/arrow.svg"
-      alt="Previous"
-      width={50}
-      height={50}
-    />
-  </div>
-);
+interface ArrowProps {
+  onClick?: () => void
+}
 
-const CustomNextArrow = (props: any) => (
-  <div
-    {...props}
-    className="absolute right-8 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer"
-  >
-    <Image
-      src="/images/arrow.svg"
-      alt="Next"
-      width={50}
-      height={50}
-      style={{ transform: 'rotate(180deg)' }} 
-    />
-  </div>
-);
+function CustomPrevArrow({ onClick }: ArrowProps) {
+  return (
+    <div
+      onClick={onClick}
+      onKeyPress={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          onClick?.()
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      className="absolute left-8 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer"
+    >
+      <Image src="/images/arrow.svg" alt="Previous" width={50} height={50} />
+    </div>
+  )
+}
 
-const SlideBanner: React.FC = () => {
-  const [consultationCount, setConsultationCount] = useState<number>(0);
+function CustomNextArrow({ onClick }: ArrowProps) {
+  return (
+    <div
+      onClick={onClick}
+      onKeyPress={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          onClick?.()
+        }
+      }}
+      role="button"
+      tabIndex={0}
+      className="absolute right-8 top-1/2 transform -translate-y-1/2 z-10 cursor-pointer"
+    >
+      <Image
+        src="/images/arrow.svg"
+        alt="Next"
+        width={50}
+        height={50}
+        style={{ transform: 'rotate(180deg)' }}
+      />
+    </div>
+  )
+}
+
+function SlideBanner() {
+  const [consultationCount, setConsultationCount] = useState<number>(0)
 
   useEffect(() => {
     const loadConsultationCount = async () => {
       try {
-        const count = await fetchConsultationCount();
-        setConsultationCount(count); 
+        const count = await fetchConsultationCount()
+        setConsultationCount(count)
       } catch (error) {
-        console.error("Failed to fetch consultation count", error);
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Failed to fetch consultation count', error)
+        }
       }
-    };
+    }
 
-    loadConsultationCount();
-  }, []);
+    loadConsultationCount()
+  }, [])
 
   const settings = {
     infinite: true,
@@ -68,7 +85,7 @@ const SlideBanner: React.FC = () => {
     dots: true,
     prevArrow: <CustomPrevArrow />,
     nextArrow: <CustomNextArrow />,
-  };
+  }
 
   const slides = [
     {
@@ -79,8 +96,10 @@ const SlideBanner: React.FC = () => {
       buttonText: '나에게 딱 맞는 펫보험 찾아보기',
       textColor: 'text-white',
       link: '/compare',
-      titleStyle: 'absolute top-[20%] left-[10%] text-4xl md:text-5xl lg:text-6xl leading-loose',
-      subtitleStyle: 'absolute top-[30%] left-[10%] text-3xl md:text-4xl lg:text-5xl leading-loose',
+      titleStyle:
+        'absolute top-[20%] left-[10%] text-4xl md:text-5xl lg:text-6xl leading-loose',
+      subtitleStyle:
+        'absolute top-[30%] left-[10%] text-3xl md:text-4xl lg:text-5xl leading-loose',
       buttonStyle: 'absolute bottom-[30%] left-[10%]',
       infoTextStyle: 'absolute bottom-[20%] left-[10%] text-xl md:text-2xl',
     },
@@ -92,8 +111,10 @@ const SlideBanner: React.FC = () => {
       buttonText: '오늘의 펫보험 지식 UP!',
       textColor: 'text-textColor',
       link: '/compare',
-      titleStyle: 'absolute top-[20%] left-[10%] text-4xl md:text-5xl lg:text-6xl leading-loose',
-      subtitleStyle: 'absolute top-[30%] left-[10%] text-3xl md:text-4xl lg:text-5xl leading-loose',
+      titleStyle:
+        'absolute top-[20%] left-[10%] text-4xl md:text-5xl lg:text-6xl leading-loose',
+      subtitleStyle:
+        'absolute top-[30%] left-[10%] text-3xl md:text-4xl lg:text-5xl leading-loose',
       buttonStyle: 'absolute bottom-[35%] left-[10%]',
       buttonBackground: 'bg-black',
       buttonTextColor: 'text-white',
@@ -105,49 +126,58 @@ const SlideBanner: React.FC = () => {
       title2: '풍성한 혜택 누리세요!',
       textColor: 'text-white',
       link: '#',
-      titleStyle: 'absolute top-[40%] right-[8%] text-5xl md:text-6xl lg:text-7xl leading-loose',
-      title2Style: 'absolute top-[50%] right-[8%] text-5xl md:text-6xl lg:text-7xl leading-loose',
+      titleStyle:
+        'absolute top-[40%] right-[8%] text-5xl md:text-6xl lg:text-7xl leading-loose',
+      title2Style:
+        'absolute top-[50%] right-[8%] text-5xl md:text-6xl lg:text-7xl leading-loose',
       subtitle: '핏펫몰 상품 이미지 + 네이버페이 상품권',
-      subtitleStyle: 'absolute top-[75%] left-[20%] text-base md:text-lg lg:text-3xl leading-loose',
+      subtitleStyle:
+        'absolute top-[75%] left-[20%] text-base md:text-lg lg:text-3xl leading-loose',
     },
-  ];
+  ]
 
   return (
     <div className="relative w-full overflow-hidden mt-0 font-pretendard">
       <Slider {...settings} className="w-full">
         {slides.map((slide) => (
-          <div 
-            key={slide.id} 
+          <div
+            key={slide.id}
             className="relative w-full h-[85vh] md:h-[75vh] lg:h-[65vh] flex items-center justify-center"
           >
             <div className="absolute inset-0 w-full h-full">
-              <Image 
-                src={slide.image} 
-                alt={slide.title} 
-                layout="fill"
-                objectFit="cover"
+              <Image
+                src={slide.image}
+                alt={slide.title}
+                fill
+                style={{ objectFit: 'cover' }}
                 priority
               />
             </div>
 
             <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-8 lg:p-12">
               <div className={`${slide.titleStyle} z-10`}>
-                <p className={`font-bold leading-loose mb-4 ${slide.textColor}`}>
+                <p
+                  className={`font-bold leading-loose mb-4 ${slide.textColor}`}
+                >
                   {slide.title}
                 </p>
               </div>
 
               {slide.title2 && (
                 <div className={`${slide.title2Style} z-10`}>
-                  <p className={`font-bold leading-loose mb-4 ${slide.textColor}`}>
+                  <p
+                    className={`font-bold leading-loose mb-4 ${slide.textColor}`}
+                  >
                     {slide.title2}
                   </p>
                 </div>
               )}
 
-              {(slide.subtitle || slide.subtitleStyle) && (
+              {slide.subtitle && (
                 <div className={`${slide.subtitleStyle} z-10`}>
-                  <h2 className={`font-normal leading-loose ${slide.textColor}`}>
+                  <h2
+                    className={`font-normal leading-loose ${slide.textColor}`}
+                  >
                     {slide.subtitle}
                   </h2>
                 </div>
@@ -155,7 +185,7 @@ const SlideBanner: React.FC = () => {
 
               {slide.buttonText && (
                 <Link href={slide.link} passHref>
-                  <span 
+                  <span
                     className={`
                       ${slide.buttonStyle} 
                       inline-flex items-center justify-center 
@@ -173,15 +203,18 @@ const SlideBanner: React.FC = () => {
               )}
 
               {slide.id === 1 && (
-                <div className={`${slide.infoTextStyle} text-white flex items-center`}>
-                  <Image 
-                    src="/images/check_circle.png" 
-                    alt="Check Circle" 
-                    width={28} 
-                    height={28} 
+                <div
+                  className={`${slide.infoTextStyle} text-white flex items-center`}
+                >
+                  <Image
+                    src="/images/check_circle.png"
+                    alt="Check Circle"
+                    width={28}
+                    height={28}
                     className="mr-2"
                   />
-                  지금까지 <b>{consultationCount}</b>명이 SC를 통해 딱 맞는 펫보험을 찾았어요!
+                  지금까지 <b>{consultationCount}</b>명이 SC를 통해 딱 맞는
+                  펫보험을 찾았어요!
                 </div>
               )}
             </div>
@@ -189,7 +222,7 @@ const SlideBanner: React.FC = () => {
         ))}
       </Slider>
     </div>
-  );
-};
+  )
+}
 
-export default SlideBanner;
+export default SlideBanner

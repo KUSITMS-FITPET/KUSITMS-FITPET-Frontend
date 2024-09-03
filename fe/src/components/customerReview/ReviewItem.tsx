@@ -1,12 +1,12 @@
-import React from 'react';
+import React from 'react'
 
 interface ReviewItemProps {
-  title: string;
-  rating: number;
-  content: string;
+  title: string
+  rating: number
+  content: string
 }
 
-const ReviewItem: React.FC<ReviewItemProps> = ({ title, rating, content }) => {
+function ReviewItem({ title, rating, content }: ReviewItemProps) {
   return (
     <div className="bg-white p-4 rounded shadow-md mb-4">
       <div className="flex justify-between">
@@ -15,7 +15,7 @@ const ReviewItem: React.FC<ReviewItemProps> = ({ title, rating, content }) => {
       </div>
       <p>{content}</p>
     </div>
-  );
-};
+  )
+}
 
-export default ReviewItem;
+export default ReviewItem

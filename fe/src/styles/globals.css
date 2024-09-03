@@ -19,7 +19,8 @@
   }
 }
 
-html, body {
+html,
+body {
   font-family: 'Pretendard Variable', Pretendard, sans-serif; /* Pretendard 폰트 적용 */
   margin: 0; /* 기본 margin 제거 */
   padding: 0; /* 기본 padding 제거 */
@@ -65,6 +66,10 @@ body {
   }
 
   .gradient-circle {
-    background: linear-gradient(157deg, rgba(205, 250, 250, 0.30) 8.58%, rgba(205, 250, 250, 0.00) 51.24%);
+    background: linear-gradient(
+      157deg,
+      rgba(205, 250, 250, 0.3) 8.58%,
+      rgba(205, 250, 250, 0) 51.24%
+    );
   }
 }
