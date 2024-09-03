@@ -8,7 +8,7 @@ export function CardSkeleton() {
   )
 }
 
-export function SkeletonCard() {
+export default function SkeletonCard() {
   return (
     <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-30">
       {[...Array(6)].map((_, index) => (

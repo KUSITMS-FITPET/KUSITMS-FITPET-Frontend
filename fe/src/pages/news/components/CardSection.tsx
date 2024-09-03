@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react'
 import { CSSTransition, TransitionGroup } from 'react-transition-group'
 import Card from './Card'
 import { useNewsContext } from './NewsFetcher'
-import { SkeletonCard } from './SkeletonCard'
+import SkeletonCard from './SkeletonCard'
 
 export default function CardSection() {
   const { listPageResponse } = useNewsContext()

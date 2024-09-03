@@ -2,7 +2,6 @@ import { RadioButton } from '@/components'
 import { useState } from 'react'
 import { AsyncBoundaryWithQuery } from '@/react-utils'
 import { CardSection, NewsFetcher, NewsPagination } from './components'
-import { SkeletonCard } from './components/SkeletonCard'
 
 export default function Page() {
   const [option, setOption] = useState<'desc' | 'asc'>('desc')
@@ -32,7 +31,7 @@ export default function Page() {
           />
         </div>
 
-        <AsyncBoundaryWithQuery pendingFallback={<SkeletonCard />}>
+        <AsyncBoundaryWithQuery>
           <NewsFetcher page={1} option={option}>
             <CardSection />
             <NewsPagination />
