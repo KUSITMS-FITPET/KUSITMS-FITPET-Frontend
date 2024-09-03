@@ -12,7 +12,7 @@ export default function Page() {
   }
 
   return (
-    <div className="h-screen">
+    <div className="flex flex-col min-h-screen">
       <section className="w-full h-300 bg-[#008CFF]">
         <div className="h-full flex flex-col px-120 justify-center text-white font-normal">
           <p className="text-2xl font-regular">어렵기만 했던 펫보험,</p>
@@ -22,7 +22,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="w-4/5 h-auto mt-100 flex flex-col items-center mx-auto p-20">
+      <section className="w-4/5 h-auto mt-100 flex flex-col items-center mx-auto p-20 flex-grow">
         <div className="w-full flex flex-row gap-20 justify-end mb-36">
           <RadioButton
             label="최신순"
