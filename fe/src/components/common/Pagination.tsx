@@ -33,7 +33,7 @@ export default function Pagination({
   }, [currentPage, totalPages])
 
   return (
-    <div className="flex  mt-25 text-[#3e3e3e] text-10">
+    <div className="flex justify-center mt-25 text-[#3e3e3e] text-10">
       <ul className="flex flex-row">
         <li className={cn('relative', { invisible: currentPage === 1 })}>
           <button

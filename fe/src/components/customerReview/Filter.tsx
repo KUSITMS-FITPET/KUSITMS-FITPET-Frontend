@@ -7,7 +7,7 @@ interface FilterProps {
 
 function Filter({ setSelectedPet, setOrder }: FilterProps) {
   return (
-    <div className="w-[180px] h-auto bg-white p-[16px] pt-[40px] rounded-lg shadow-md">
+    <div className="w-full md:w-[180px] h-auto bg-white p-[16px] pt-[40px] rounded-lg shadow-md mt-8 md:mt-40">
       <h3 className="font-bold mb-[16px]">필터</h3>
       <div className="flex justify-center mb-[16px]">
         <img
@@ -22,9 +22,9 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
           <input
             type="checkbox"
             onChange={() => setSelectedPet('dog')}
-            className="mr-10"
+            className="mr-2 md:mr-10"
           />
-          <div className="w-[50px] relative text-[16px] leading-[30px] font-medium font-pretendard text-light-gray text-left inline-block">
+          <div className="w-[50px] text-[14px] md:text-[16px] leading-[30px] font-medium text-light-gray">
             강아지
           </div>
         </label>
@@ -32,9 +32,9 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
           <input
             type="checkbox"
             onChange={() => setSelectedPet('cat')}
-            className="mr-10"
+            className="mr-2 md:mr-10"
           />
-          <div className="w-[50px] relative text-[16px] leading-[30px] font-medium font-pretendard text-light-gray text-left inline-block">
+          <div className="w-[50px] text-[14px] md:text-[16px] leading-[30px] font-medium text-light-gray">
             고양이
           </div>
         </label>
@@ -47,13 +47,13 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
         />
       </div>
       <div>
-        <h4 className="font-semibold mb-10">정렬</h4>
-        <label className="flex items-center mb-10">
+        <h4 className="font-semibold mb-4 md:mb-10">정렬</h4>
+        <label className="flex items-center mb-4 md:mb-10">
           <input
             type="radio"
             name="sortOrder"
             onChange={() => setOrder('desc')}
-            className="mr-10"
+            className="mr-2 md:mr-10"
           />
           최신순
         </label>
@@ -62,7 +62,7 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
             type="radio"
             name="sortOrder"
             onChange={() => setOrder('asc')}
-            className="mr-10"
+            className="mr-2 md:mr-10"
           />
           별점순
         </label>

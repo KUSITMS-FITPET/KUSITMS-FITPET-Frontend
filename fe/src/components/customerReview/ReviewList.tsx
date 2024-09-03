@@ -10,6 +10,7 @@ interface Review {
   star: number
   content: string
   createdAt: string
+  localDateTime: string // localDateTime 필드 추가
 }
 
 interface ReviewListProps {
@@ -41,7 +42,7 @@ function ReviewList({ currentPage, order, selectedPet }: ReviewListProps) {
   }, [currentPage, order, selectedPet])
 
   return (
-    <div className="grid grid-cols-1 gap-4">
+    <div className="flex flex-col gap-30">
       {reviews.map((review) => (
         <ReviewItem key={review.reviewId} reviewId={review.reviewId} />
       ))}
