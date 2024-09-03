@@ -1,22 +1,12 @@
-/* 기본 Tailwind CSS 설정 */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* 기본 색상 변수를 설정합니다 */
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255; /* 하얀색 시작 색상 */
-  --background-end-rgb: 255, 255, 255; /* 하얀색 끝 색상 */
-}
-
-/* 다크 모드 색상 변수를 설정합니다 */
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
-  }
+  --background-start-rgb: 255, 255, 255; 
+  --background-end-rgb: 255, 255, 255;
 }
 
 html,
@@ -72,4 +62,37 @@ body {
       rgba(205, 250, 250, 0) 51.24%
     );
   }
+}
+
+/* .fade-enter {
+  opacity: 0;
+  transform: translateY(10px);
+}
+.fade-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 300ms, transform 300ms;
+}
+.fade-exit {
+  opacity: 1;
+  transform: translateY(0);
+}
+.fade-exit-active {
+  opacity: 0;
+  transform: translateY(10px);
+  transition: opacity 300ms, transform 300ms;
+} */
+@keyframes skeleton-animation {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-skeleton {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-animation 1.5s infinite linear;
 }
