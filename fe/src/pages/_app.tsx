@@ -1,6 +1,7 @@
 import '@/styles/globals.css'
 import type { AppProps } from 'next/app'
 import localFont from 'next/font/local'
+import QueryProvider from '@/lib/QueryProvider'
 
 const Pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -10,8 +11,10 @@ const Pretendard = localFont({
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <div className={Pretendard.className}>
-      <Component {...pageProps} />
-    </div>
+    <QueryProvider>
+      <div className={Pretendard.className}>
+        <Component {...pageProps} />
+      </div>
+    </QueryProvider>
   )
 }

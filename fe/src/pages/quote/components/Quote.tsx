@@ -3,6 +3,7 @@ import {
   ChangeEvent,
   Dispatch,
   RefObject,
+  useCallback,
   useEffect,
   useRef,
   useState,
@@ -11,28 +12,47 @@ import Input from '@/components/common/Input'
 import { cn } from '@/util'
 import { Down, Question } from '@/components/common/Icons'
 import Image from 'next/image'
+import Modal from '@/components/common/Modal'
+import { useRouter } from 'next/navigation'
+import { usePostQuotation } from '@/pages/api/quote'
 import { dogList } from '../../../../public/content/dogList'
 import { catList } from '../../../../public/content/catList'
 import ToggleButton from './ToggleButton'
 import { privacyPolicy } from '../../../../public/content/privacyPolicy'
 
 export default function Quote() {
+  const { mutate } = usePostQuotation()
+
+  const [filteredBreeds, setFilteredBreeds] = useState<string[]>([])
+  const [showImage, setShowImage] = useState(false)
   const [petType, setPetType] = useState<'dog' | 'cat'>('dog')
   const [name, setName] = useState('')
-  const [nameError, setNameError] = useState('')
   const [age, setAge] = useState('')
   const [breed, setBreed] = useState('')
-  const [filteredBreeds, setFilteredBreeds] = useState<string[]>([])
+  const [agreement, setAgreement] = useState(false)
+  const [ageError, setAgeError] = useState('')
+  const [nameError, setNameError] = useState('')
   const [notes, setNotes] = useState('')
   const [phone2, setPhone2] = useState('')
   const [phone3, setPhone3] = useState('')
-  const [agreement, setAgreement] = useState(false)
-  const [ageError, setAgeError] = useState('')
-  const [showImage, setShowImage] = useState(false)
+  const [phoneError, setPhoneError] = useState('')
+  const [showModal, setShowModal] = useState(false)
 
   const breedList = petType === 'dog' ? dogList : catList
-  const isSection1Complete = petType && name && age && breed && notes
-  const isCompleted = isSection1Complete && phone2 && phone3 && agreement
+  const isSection1Complete = petType && name && age && breed
+  const isCompleted =
+    isSection1Complete &&
+    phone2 &&
+    phone3 &&
+    agreement &&
+    !ageError &&
+    !nameError &&
+    !phoneError
+
+  const phone2Ref = useRef<HTMLInputElement>(null)
+  const phone3Ref = useRef<HTMLInputElement>(null)
+
+  const { push } = useRouter()
 
   useEffect(() => {
     if (breed) {
@@ -54,17 +74,19 @@ export default function Quote() {
     }
   }
 
-  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target
-    setName(value)
-    validateName(value)
+  const validatePhone = (value: string) => {
+    if (phone3 && value.length !== 4) {
+      setPhoneError('올바른 전화번호를 입력해주세요.')
+    } else {
+      setPhoneError('')
+    }
   }
 
-  const validateAge = () => {
+  const validateAge = (value: string) => {
     const numberRegex = /\d/
-    const ageValue = parseInt(age, 10)
+    const ageValue = parseInt(value, 10)
 
-    if (!numberRegex.test(age)) {
+    if (!numberRegex.test(value)) {
       setAgeError('나이는 숫자를 포함하여 입력 가능합니다.')
     } else if (ageValue > 10) {
       setAgeError('현재 펫보험은 만 0-10세만 가능합니다.')
@@ -73,10 +95,16 @@ export default function Quote() {
     }
   }
 
+  const handleNameChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setName(value)
+    validateName(value)
+  }
+
   const handleAgeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
     setAge(value)
-    validateAge()
+    validateAge(value)
   }
 
   const handlePhoneChange = (
@@ -92,17 +120,58 @@ export default function Quote() {
         nextInputRef.current.focus()
       }
     }
+    validatePhone(value)
   }
-
-  const phone2Ref = useRef<HTMLInputElement>(null)
-  const phone3Ref = useRef<HTMLInputElement>(null)
-
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault()
-  }
+  const handleSubmit = useCallback(() => {
+    if (ageError || nameError || phoneError) {
+      alert('에러')
+      console.log(ageError, nameError)
+    }
+    mutate(
+      {
+        petName: name,
+        petSpecies: petType,
+        petAge: parseInt(age, 10),
+        phoneNumber: `010${phone2}${phone3}`,
+        moreInfo: notes,
+        agreement: true,
+        petInfo: petType,
+      },
+      {
+        onSuccess: () => {
+          setShowModal(true)
+        },
+        onError: () => {
+          alert('잠시 후 다시 시도해주세요.')
+        },
+      },
+    )
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className="max-w-2xl mx-auto pl-10">
+      {showModal && (
+        <Modal>
+          <div>
+            <h1 className="text-2xl font-medium mb-22 leading-36">
+              펫보험 비교 신청이 정상적으로 접수되었어요. <br />
+              비교 견적서를 카카오톡으로 보내드릴게요.
+            </h1>
+            <p className="text-md mb-40 leading-24">
+              견적서는 접수된 순으로 순차적으로 발송드립니다. <br />
+              접수 후 발송가지 최대 1~3일 정도 소요됩니다.
+            </p>
+            <button
+              type="button"
+              onClick={() => push('/')}
+              className="bg-main text-white font-bold w-full rounded-lg py-13"
+            >
+              네, 확인했어요
+            </button>
+          </div>
+        </Modal>
+      )}
       <div className="flex items-center mb-36 w-auto relative">
         <h1 className="text-3xl font-semibold mr-16">펫보험 견적서 입력</h1>
         <Question />
@@ -115,7 +184,7 @@ export default function Quote() {
             견적서 예시 보기
           </p>
           {showImage && (
-            <div className="absolute z-10 top-full mt-4 left-0 w-[40vw] h-auto">
+            <div className="absolute z-20 top-full mt-4 left-0 w-[40vw] h-auto">
               {/* TODO: 견적서 예시 이미지 추가 */}
               <Image
                 src="/images/temp.jpg"
@@ -130,7 +199,7 @@ export default function Quote() {
         </div>
       </div>
 
-      <form onSubmit={handleSubmit}>
+      <form>
         {/* Section 1 */}
         <div className="relative flex flex-row mb-53">
           <div className="flex flex-col items-center justify-center">
@@ -160,7 +229,8 @@ export default function Quote() {
                 <Input
                   value={name}
                   onChange={handleNameChange}
-                  className={cn('w-full', nameError && 'border-red')}
+                  className="w-full"
+                  wrapperClassName={nameError && 'border-red'}
                   placeholder="이름을 입력해주세요"
                 />
                 {nameError && <p className="text-red mt-2">{nameError}</p>}
@@ -173,7 +243,8 @@ export default function Quote() {
                 <Input
                   value={age}
                   onChange={handleAgeChange}
-                  className={cn('w-full', ageError && 'border-red')}
+                  className="w-full"
+                  wrapperClassName={ageError && 'border-red'}
                   placeholder="ex. 만 3세"
                 />
                 {ageError && <p className="text-red mt-2">{ageError}</p>}
@@ -257,7 +328,7 @@ export default function Quote() {
                   type="text"
                   value="010"
                   disabled
-                  className="w-50 pl-10 text-textColor"
+                  className="w-77 text-textColor text-center"
                 />
                 -
                 <Input
@@ -267,7 +338,8 @@ export default function Quote() {
                   onChange={(e) =>
                     handlePhoneChange(e, setPhone2, 4, phone3Ref)
                   }
-                  className="w-80 pl-20 text-textColor"
+                  className="w-120 text-center text-textColor"
+                  wrapperClassName={phoneError && 'border-red'}
                   maxLength={4}
                 />
                 -
@@ -276,10 +348,12 @@ export default function Quote() {
                   type="text"
                   value={phone3}
                   onChange={(e) => handlePhoneChange(e, setPhone3, 4)}
-                  className="w-80 pl-20 text-textColor"
+                  className="w-120 text-center text-textColor"
+                  wrapperClassName={phoneError && 'border-red'}
                   maxLength={4}
                 />
               </div>
+              {phoneError && <p className="text-red mt-2">{phoneError}</p>}
             </div>
             <p className="text-main ml-3">
               작성해주신 연락처의 카카오톡으로 견적서를 보내드려요
@@ -305,16 +379,17 @@ export default function Quote() {
                 type="checkbox"
                 checked={agreement}
                 onChange={() => setAgreement(!agreement)}
-                className="w-15"
+                className="w-20"
               />
               <label className="text-sm font-medium">
                 개인정보 수집 및 이용에 동의합니다
               </label>
             </div>
             <button
-              type="submit"
+              onClick={handleSubmit}
+              type="button"
               className={cn(
-                'w-full h-52 bg-main text-whie rounded-sm',
+                'w-full h-52 text-lg font-semibold bg-main rounded-md text-white',
                 !isCompleted && 'bg-white border border-main text-main',
               )}
               disabled={!isCompleted}
