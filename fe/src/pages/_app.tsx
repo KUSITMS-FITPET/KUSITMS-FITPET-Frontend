@@ -3,7 +3,7 @@ import type { AppProps } from 'next/app'
 import localFont from 'next/font/local'
 import QueryProvider from '@/lib/QueryProvider'
 import Header from '@/components/layout/Header'
-import { Footer } from '@/components/layout/Index'
+import Footer from '@/components/layout/Footer'
 
 const Pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',

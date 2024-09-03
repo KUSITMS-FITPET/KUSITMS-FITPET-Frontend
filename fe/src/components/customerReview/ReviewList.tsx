@@ -1,21 +1,49 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import ReviewItem from './ReviewItem'
+import { getReviews } from '../../api/customereview'
 
-const reviews = [
-  {
-    id: 1,
-    title: '말티즈 | 5세',
-    rating: 5,
-    content: 'Lorem ipsum dolor sit amet consectetur.',
-  },
-  // 더 많은 리뷰를 여기에 추가
-]
+interface Review {
+  reviewId: number
+  petSpecies: string
+  petInfo: string
+  petAge: number
+  star: number
+  content: string
+  createdAt: string
+}
 
-function ReviewList() {
+interface ReviewListProps {
+  currentPage: number
+  order: 'asc' | 'desc'
+  selectedPet: string | null
+}
+
+function ReviewList({ currentPage, order, selectedPet }: ReviewListProps) {
+  const [reviews, setReviews] = useState<Review[]>([])
+
+  useEffect(() => {
+    const fetchReviews = async () => {
+      try {
+        const data = await getReviews(currentPage, order)
+        if (data.isSuccess) {
+          const filteredReviews = data.result.listPageResponse.filter(
+            (review: Review) =>
+              !selectedPet || review.petSpecies.toLowerCase() === selectedPet,
+          )
+          setReviews(filteredReviews)
+        }
+      } catch (error) {
+        console.error('Failed to fetch reviews:', error)
+      }
+    }
+
+    fetchReviews()
+  }, [currentPage, order, selectedPet])
+
   return (
-    <div className="mt-8">
+    <div className="grid grid-cols-1 gap-4">
       {reviews.map((review) => (
-        <ReviewItem key={review.id} {...review} />
+        <ReviewItem key={review.reviewId} reviewId={review.reviewId} />
       ))}
     </div>
   )

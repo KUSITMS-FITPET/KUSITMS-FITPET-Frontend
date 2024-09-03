@@ -55,6 +55,24 @@ function CustomNextArrow({ onClick }: ArrowProps) {
   )
 }
 
+interface Slide {
+  id: number
+  image: string
+  title: string
+  subtitle: string
+  buttonText?: string // Optional property
+  textColor: string
+  link: string
+  titleStyle: string
+  subtitleStyle: string
+  buttonStyle?: string // Optional property
+  infoTextStyle?: string // Optional property
+  title2?: string // Optional property
+  title2Style?: string // Optional property
+  buttonBackground?: string // Optional property
+  buttonTextColor?: string // Optional property
+}
+
 function SlideBanner() {
   const [consultationCount, setConsultationCount] = useState<number>(0)
 
@@ -87,19 +105,19 @@ function SlideBanner() {
     nextArrow: <CustomNextArrow />,
   }
 
-  const slides = [
+  const slides: Slide[] = [
     {
       id: 1,
       image: '/images/blue.svg',
       title: '전문가와 함께 꼼꼼 비교하세요',
-      subtitle: '반려동물을 위한 최고의 선택,',
+      subtitle: '전문가와 딱 맞는 펫보험 찾아보세요.',
       buttonText: '나에게 딱 맞는 펫보험 찾아보기',
       textColor: 'text-white',
-      link: '/compare',
+      link: '/quote',
       titleStyle:
-        'absolute top-[20%] left-[10%] text-4xl md:text-5xl lg:text-6xl leading-loose',
+        'absolute top-[20%] left-[10%] text-4xl md:text-4xl lg:text-5xl leading-loose',
       subtitleStyle:
-        'absolute top-[30%] left-[10%] text-3xl md:text-4xl lg:text-5xl leading-loose',
+        'absolute top-[33%] left-[10%] text-3xl md:text-3xl lg:text-4xl leading-loose',
       buttonStyle: 'absolute bottom-[30%] left-[10%]',
       infoTextStyle: 'absolute bottom-[20%] left-[10%] text-xl md:text-2xl',
     },
@@ -110,11 +128,11 @@ function SlideBanner() {
       subtitle: '우리 아이 치아 스케일링도 보장될까?',
       buttonText: '오늘의 펫보험 지식 UP!',
       textColor: 'text-textColor',
-      link: '/compare',
+      link: '/news',
       titleStyle:
-        'absolute top-[20%] left-[10%] text-4xl md:text-5xl lg:text-6xl leading-loose',
+        'absolute top-[20%] left-[10%] text-4xl md:text-4xl lg:text-5xl leading-loose',
       subtitleStyle:
-        'absolute top-[30%] left-[10%] text-3xl md:text-4xl lg:text-5xl leading-loose',
+        'absolute top-[33%] left-[10%] text-3xl md:text-3xl lg:text-4xl leading-loose',
       buttonStyle: 'absolute bottom-[35%] left-[10%]',
       buttonBackground: 'bg-black',
       buttonTextColor: 'text-white',
@@ -127,9 +145,9 @@ function SlideBanner() {
       textColor: 'text-white',
       link: '#',
       titleStyle:
-        'absolute top-[40%] right-[8%] text-5xl md:text-6xl lg:text-7xl leading-loose',
+        'absolute top-[40%] right-[8%] text-5xl md:text-5xl lg:text-4xl leading-loose',
       title2Style:
-        'absolute top-[50%] right-[8%] text-5xl md:text-6xl lg:text-7xl leading-loose',
+        'absolute top-[50%] right-[8%] text-5xl md:text-5xl lg:text-4xl leading-loose',
       subtitle: '핏펫몰 상품 이미지 + 네이버페이 상품권',
       subtitleStyle:
         'absolute top-[75%] left-[20%] text-base md:text-lg lg:text-3xl leading-loose',
