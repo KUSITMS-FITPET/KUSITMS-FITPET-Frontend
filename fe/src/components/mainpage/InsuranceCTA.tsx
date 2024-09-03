@@ -7,7 +7,7 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
   const router = useRouter()
 
   const handleComparisonClick = () => {
-    router.push('/insurance-comparison')
+    router.push('/quote') // 페이지 경로를 '/quote'로 수정
   }
 
   const handleConsultationClick = () => {

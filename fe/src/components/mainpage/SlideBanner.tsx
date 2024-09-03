@@ -55,6 +55,24 @@ function CustomNextArrow({ onClick }: ArrowProps) {
   )
 }
 
+interface Slide {
+  id: number
+  image: string
+  title: string
+  subtitle: string
+  buttonText?: string // Optional property
+  textColor: string
+  link: string
+  titleStyle: string
+  subtitleStyle: string
+  buttonStyle?: string // Optional property
+  infoTextStyle?: string // Optional property
+  title2?: string // Optional property
+  title2Style?: string // Optional property
+  buttonBackground?: string // Optional property
+  buttonTextColor?: string // Optional property
+}
+
 function SlideBanner() {
   const [consultationCount, setConsultationCount] = useState<number>(0)
 
@@ -87,7 +105,7 @@ function SlideBanner() {
     nextArrow: <CustomNextArrow />,
   }
 
-  const slides = [
+  const slides: Slide[] = [
     {
       id: 1,
       image: '/images/blue.svg',
@@ -95,7 +113,7 @@ function SlideBanner() {
       subtitle: '전문가와 딱 맞는 펫보험 찾아보세요.',
       buttonText: '나에게 딱 맞는 펫보험 찾아보기',
       textColor: 'text-white',
-      link: '/compare',
+      link: '/quote',
       titleStyle:
         'absolute top-[20%] left-[10%] text-4xl md:text-4xl lg:text-5xl leading-loose',
       subtitleStyle:
@@ -110,7 +128,7 @@ function SlideBanner() {
       subtitle: '우리 아이 치아 스케일링도 보장될까?',
       buttonText: '오늘의 펫보험 지식 UP!',
       textColor: 'text-textColor',
-      link: '/compare',
+      link: '/news',
       titleStyle:
         'absolute top-[20%] left-[10%] text-4xl md:text-4xl lg:text-5xl leading-loose',
       subtitleStyle:
