@@ -7,7 +7,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 255, 255, 255; 
   --background-end-rgb: 255, 255, 255;
-
+}
 html,
 body {
   font-family: 'Pretendard Variable', Pretendard, sans-serif; /* Pretendard 폰트 적용 */
@@ -63,24 +63,6 @@ body {
   }
 }
 
-/* .fade-enter {
-  opacity: 0;
-  transform: translateY(10px);
-}
-.fade-enter-active {
-  opacity: 1;
-  transform: translateY(0);
-  transition: opacity 300ms, transform 300ms;
-}
-.fade-exit {
-  opacity: 1;
-  transform: translateY(0);
-}
-.fade-exit-active {
-  opacity: 0;
-  transform: translateY(10px);
-  transition: opacity 300ms, transform 300ms;
-} */
 @keyframes skeleton-animation {
   0% {
     background-position: -200% 0;
