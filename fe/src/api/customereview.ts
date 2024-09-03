@@ -5,6 +5,7 @@ const API_BASE_URL = 'http://3.35.191.40:8080/api/v1/reviews'
 // 정의된 타입으로 교체
 interface ReviewResponse {
   isSuccess: boolean
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   result: any // 여기에 정확한 타입을 넣어야 합니다.
 }
 
