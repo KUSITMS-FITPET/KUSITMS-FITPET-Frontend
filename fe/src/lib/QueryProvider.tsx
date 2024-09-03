@@ -1,6 +1,5 @@
 'use client'
-efault function QueryProvider({ children }: { children: ReactNode }) {
-=======
+default function QueryProvider({ children }: { children: ReactNode }) {
 import { useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { StrictPropsWithChildren } from '@/type'
