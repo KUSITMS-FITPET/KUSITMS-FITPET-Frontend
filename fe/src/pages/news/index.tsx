@@ -1,7 +1,7 @@
 import { RadioButton } from '@/components'
 import { useState } from 'react'
 import { AsyncBoundaryWithQuery } from '@/react-utils'
-import { CardSection, NewsFetcher, NewsPagination } from './components'
+import { CardSection, NewsFetcher, NewsPagination } from '@/components/news'
 
 export default function Page() {
   const [option, setOption] = useState<'desc' | 'asc'>('desc')

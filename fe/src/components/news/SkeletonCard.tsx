@@ -1,5 +1,3 @@
-import React from 'react'
-
 export function CardSkeleton() {
   return (
     <div className="w-full max-w-sm rounded-xl shadow-sm animate-pulse">
