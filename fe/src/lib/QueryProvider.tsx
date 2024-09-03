@@ -1,10 +1,11 @@
 'use client'
 
-import { useState } from 'react'
+import { ReactNode, useState } from 'react'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
-import { StrictPropsWithChildren } from '@/type'
 
-	@@ -10,14 +10,16 @@ export default function QueryProvider({ children }: StrictPropsWithChildren) {
+export default function QueryProvider({ children }: { children: ReactNode }) {
+  const [queryClient] = useState(
+    () =>
       new QueryClient({
         defaultOptions: {
           queries: {
@@ -17,3 +18,5 @@ import { StrictPropsWithChildren } from '@/type'
 
   return (
     <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+  )
+}
