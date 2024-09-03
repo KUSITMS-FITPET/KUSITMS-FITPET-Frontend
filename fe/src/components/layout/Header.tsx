@@ -8,8 +8,8 @@ const Header: FC = function Header() {
 
   const navLinks = [
     { href: '/', label: '홈' },
-    { href: '/compare', label: '보험 비교' },
-    { href: '/news', label: '보험 팁' },
+    { href: '/compare', label: '펫보험 비교' },
+    { href: '/news', label: '펫보험 팁' },
     { href: '/customerReview', label: '고객 리뷰' },
     { href: '/faq', label: 'FAQ' },
   ]
