@@ -1,9 +1,10 @@
 import { useMutation } from '@tanstack/react-query'
-import { http } from '@/api'
+import http from './core'
 
 export type Quotation = {
   petName: string
   petSpecies: string
+  petInfo: 'dog' | 'cat'
   petAge: number
   phoneNumber: string
   moreInfo: string

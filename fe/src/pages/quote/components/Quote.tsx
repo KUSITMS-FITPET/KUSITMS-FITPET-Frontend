@@ -14,11 +14,11 @@ import { Down, Question } from '@/components/common/Icons'
 import Image from 'next/image'
 import Modal from '@/components/common/Modal'
 import { useRouter } from 'next/navigation'
-import { usePostQuotation } from '@/api/quote'
 import { dogList } from '../../../../public/content/dogList'
 import { catList } from '../../../../public/content/catList'
 import ToggleButton from './ToggleButton'
 import { privacyPolicy } from '../../../../public/content/privacyPolicy'
+import { usePostQuotation } from '@/pages/api/quote'
 
 export default function Quote() {
   const { mutate } = usePostQuotation()
@@ -135,6 +135,7 @@ export default function Quote() {
         phoneNumber: `010${phone2}${phone3}`,
         moreInfo: notes,
         agreement: true,
+        petInfo: petType,
       },
       {
         onSuccess: () => {

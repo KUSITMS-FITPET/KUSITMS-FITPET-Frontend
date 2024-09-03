@@ -21,17 +21,17 @@ export default function Card({
       <button
         type="button"
         onClick={handleClick}
-        className="overflow-hidden rounded-t-xl"
+        className="relative w-full h-240 overflow-hidden rounded-t-xl"
       >
         <Image
           src="/images/temp.jpg"
           alt="card"
-          width={400}
-          height={250}
-          className="w-full h-250 object-cover transition-opacity duration-300"
+          layout="fill"
+          objectFit="cover"
+          className="transition-opacity duration-300"
         />
       </button>
-      <div className="m-33">
+      <div className="m-4">
         <h1 className="text-2xl font-bold mb-2">{title}</h1>
         <p className="text-base line-clamp-2">{content}</p>
       </div>
