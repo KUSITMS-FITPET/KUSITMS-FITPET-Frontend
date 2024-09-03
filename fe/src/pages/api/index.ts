@@ -1,2 +1,2 @@
 export { default as http } from './core'
-export * from './types'
+export type { BaseResponse } from './types'
