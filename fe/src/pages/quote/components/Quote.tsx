@@ -3,7 +3,6 @@ import {
   ChangeEvent,
   Dispatch,
   RefObject,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -37,6 +36,7 @@ export default function Quote() {
   const [phone3, setPhone3] = useState('')
   const [phoneError, setPhoneError] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const imageRef = useRef<HTMLDivElement>(null)
 
   const breedList = petType === '강아지' ? dogList : catList
   const isSection1Complete = petType && name && age && breed
@@ -63,6 +63,7 @@ export default function Quote() {
     } else {
       setFilteredBreeds([])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breed])
 
   const validateName = (value: string) => {
@@ -122,10 +123,9 @@ export default function Quote() {
     }
     validatePhone(value)
   }
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     if (ageError || nameError || phoneError) {
-      alert('에러')
-      console.log(ageError, nameError)
+      alert('올바른 값을 입력해주세요.')
     }
     mutate(
       {
@@ -146,11 +146,49 @@ export default function Quote() {
         },
       },
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }
+
+  const throttleTimer = useRef<NodeJS.Timeout | null>(null)
+  const throttle = (func: () => void, delay: number) => {
+    return () => {
+      if (!throttleTimer.current) {
+        func()
+        throttleTimer.current = setTimeout(() => {
+          throttleTimer.current = null
+        }, delay)
+      }
+    }
+  }
+
+  const handleMouseEnter = throttle(() => {
+    setShowImage(true)
+  }, 200)
+
+  const handleMouseLeave = throttle(() => {
+    setShowImage(false)
+  }, 200)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        imageRef.current &&
+        !imageRef.current.contains(event.target as Node)
+      ) {
+        setShowImage(false)
+      }
+    }
+
+    if (showImage) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showImage])
 
   return (
-    <div className="max-w-2xl mx-auto pl-10">
+    <div className="relative max-w-2xl mx-auto pl-10">
       {showModal && (
         <Modal>
           <div>
@@ -172,22 +210,29 @@ export default function Quote() {
           </div>
         </Modal>
       )}
+
+      {showImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-10" />
+      )}
+
       <div className="flex items-center mb-36 w-auto relative">
         <h1 className="text-3xl font-semibold mr-16">펫보험 견적서 입력</h1>
         <Question />
         <div
           className="relative"
-          onMouseEnter={() => setShowImage(true)}
-          onMouseLeave={() => setShowImage(false)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <p className="text-main ml-8 cursor-pointer w-auto">
             견적서 예시 보기
           </p>
           {showImage && (
-            <div className="absolute z-20 top-full mt-4 left-0 w-[40vw] h-auto">
-              {/* TODO: 견적서 예시 이미지 추가 */}
+            <div
+              className="absolute z-50 top-full mt-4 left-0 w-[40vw] h-auto"
+              ref={imageRef}
+            >
               <Image
-                src="/images/temp.jpg"
+                src="/images/example.svg"
                 alt="견적서예시"
                 layout="responsive"
                 width={500}
