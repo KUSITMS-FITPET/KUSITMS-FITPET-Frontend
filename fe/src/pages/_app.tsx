@@ -4,6 +4,8 @@ import localFont from 'next/font/local'
 import QueryProvider from '@/lib/QueryProvider'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
+import { usePathname } from 'next/navigation'
+import AuthProviderWrapper from '@/components/admin/AuthlProvider'
 
 const Pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -12,12 +14,23 @@ const Pretendard = localFont({
 })
 
 export default function App({ Component, pageProps }: AppProps) {
+  const pathname = usePathname()
+  const isAdminPage = pathname.startsWith('/admin')
+
   return (
     <QueryProvider>
       <div className={Pretendard.className}>
-        <Header />
-        <Component {...pageProps} />
-        <Footer />
+        {isAdminPage ? (
+          <AuthProviderWrapper>
+            <Component {...pageProps} />
+          </AuthProviderWrapper>
+        ) : (
+          <>
+            <Header />
+            <Component {...pageProps} />
+            <Footer />
+          </>
+        )}
       </div>
     </QueryProvider>
   )

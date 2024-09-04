@@ -67,7 +67,7 @@ export function useInput(props: UseInputProps) {
       ),
       onChange: handleChangeValue,
     }),
-    [domRef, handleChangeValue, otherProps, error], // Added `error` to the dependency array
+    [domRef, handleChangeValue, otherProps, error],
   )
 
   const getClearButtonProps = useCallback(
