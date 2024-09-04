@@ -3,6 +3,7 @@ import Cookies from 'js-cookie'
 import http from '@/api/core'
 import { ACCESS_TOKEN } from '@/api/constants'
 import { useAuthContext } from '@/components/admin/AuthlProvider'
+import { useRouter } from 'next/navigation'
 import { LoginRequest, LoginResponse } from './type'
 
 export const postLogin = (data: LoginRequest) =>
@@ -13,6 +14,7 @@ export const postLogin = (data: LoginRequest) =>
 
 export const usePostLogin = (data: LoginRequest) => {
   const { setAuthInfo } = useAuthContext()
+  const { push } = useRouter()
 
   return useMutation({
     mutationKey: ['login'],
@@ -37,6 +39,7 @@ export const usePostLogin = (data: LoginRequest) => {
         roleSites,
         roleMaster,
       })
+      push('/admin/setting')
     },
     onError: () => {
       const message = '로그인에 실패했습니다.'

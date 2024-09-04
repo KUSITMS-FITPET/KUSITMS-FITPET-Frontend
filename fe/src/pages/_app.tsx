@@ -5,6 +5,7 @@ import QueryProvider from '@/lib/QueryProvider'
 import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { usePathname } from 'next/navigation'
+import AuthProviderWrapper from '@/components/admin/AuthlProvider'
 
 const Pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -19,9 +20,17 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryProvider>
       <div className={Pretendard.className}>
-        {!isAdminPage && <Header />}
-        <Component {...pageProps} />
-        {!isAdminPage && <Footer />}
+        {isAdminPage ? (
+          <AuthProviderWrapper>
+            <Component {...pageProps} />
+          </AuthProviderWrapper>
+        ) : (
+          <>
+            <Header />
+            <Component {...pageProps} />
+            <Footer />
+          </>
+        )}
       </div>
     </QueryProvider>
   )
