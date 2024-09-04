@@ -1,5 +1,3 @@
-import React from 'react'
-
 interface FilterProps {
   setSelectedPet: (pet: string | null) => void
   setOrder: (order: 'asc' | 'desc') => void
