@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 interface FilterProps {
   setSelectedPet: (pet: string | null) => void
@@ -6,6 +6,22 @@ interface FilterProps {
 }
 
 function Filter({ setSelectedPet, setOrder }: FilterProps) {
+  const [selectedPets, setSelectedPets] = useState<string[]>([])
+
+  const handlePetChange = (pet: string) => {
+    if (selectedPets.includes(pet)) {
+      const newSelectedPets = selectedPets.filter((p) => p !== pet)
+      setSelectedPets(newSelectedPets)
+      setSelectedPet(
+        newSelectedPets.length > 0 ? newSelectedPets.join(',') : null,
+      )
+    } else {
+      const newSelectedPets = [...selectedPets, pet]
+      setSelectedPets(newSelectedPets)
+      setSelectedPet(newSelectedPets.join(','))
+    }
+  }
+
   return (
     <div className="w-full md:w-[180px] h-auto bg-white p-[16px] pt-[40px] rounded-lg shadow-md mt-8 md:mt-40">
       <h3 className="font-bold mb-[16px]">필터</h3>
@@ -21,7 +37,8 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
         <label className="flex items-center mb-2">
           <input
             type="checkbox"
-            onChange={() => setSelectedPet('dog')}
+            checked={selectedPets.includes('dog')}
+            onChange={() => handlePetChange('dog')}
             className="mr-2 md:mr-10"
           />
           <div className="w-[50px] text-[14px] md:text-[16px] leading-[30px] font-medium text-light-gray">
@@ -31,7 +48,8 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
         <label className="flex items-center">
           <input
             type="checkbox"
-            onChange={() => setSelectedPet('cat')}
+            checked={selectedPets.includes('cat')}
+            onChange={() => handlePetChange('cat')}
             className="mr-2 md:mr-10"
           />
           <div className="w-[50px] text-[14px] md:text-[16px] leading-[30px] font-medium text-light-gray">

@@ -11,6 +11,7 @@ const CustomerReviewPage: React.FC = function CustomerReviewPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedPet, setSelectedPet] = useState<string | null>(null)
   const [order, setOrder] = useState<'asc' | 'desc'>('desc')
+  const [totalPages, setTotalPages] = useState(1) // Added state for dynamic pagination
 
   return (
     <div>
@@ -30,11 +31,12 @@ const CustomerReviewPage: React.FC = function CustomerReviewPage() {
               currentPage={currentPage}
               order={order}
               selectedPet={selectedPet}
+              onTotalPages={setTotalPages} // Pass callback to dynamically update total pages
             />
             <Pagination
-              totalPages={3} // 이 값은 실제 API 응답에 따라 동적으로 설정해야 합니다.
+              totalPages={totalPages} // Use the dynamically updated total pages
               currentPage={currentPage}
-              onPageChange={setCurrentPage}
+              onPageChange={setCurrentPage} // Update current page when pagination changes
             />
           </main>
         </div>

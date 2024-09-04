@@ -1,25 +1,20 @@
 import React, { useState, useEffect } from 'react'
+import { getReviews, Review } from '../../api/customereview'
 import ReviewItem from './ReviewItem'
-import { getReviews } from '../../api/customereview'
-
-interface Review {
-  reviewId: number
-  petSpecies: string
-  petInfo: string
-  petAge: number
-  star: number
-  content: string
-  createdAt: string
-  localDateTime: string // localDateTime 필드 추가
-}
 
 interface ReviewListProps {
   currentPage: number
   order: 'asc' | 'desc'
   selectedPet: string | null
+  onTotalPages: (totalPages: number) => void
 }
 
-function ReviewList({ currentPage, order, selectedPet }: ReviewListProps) {
+function ReviewList({
+  currentPage,
+  order,
+  selectedPet,
+  onTotalPages,
+}: ReviewListProps) {
   const [reviews, setReviews] = useState<Review[]>([])
 
   useEffect(() => {
@@ -28,10 +23,12 @@ function ReviewList({ currentPage, order, selectedPet }: ReviewListProps) {
         const data = await getReviews(currentPage, order)
         if (data.isSuccess) {
           const filteredReviews = data.result.listPageResponse.filter(
-            (review: Review) =>
-              !selectedPet || review.petSpecies.toLowerCase() === selectedPet,
+            (review) =>
+              !selectedPet ||
+              review.petSpecies.toLowerCase() === selectedPet?.toLowerCase(),
           )
           setReviews(filteredReviews)
+          onTotalPages(Math.ceil(data.result.totalCount / data.result.size))
         }
       } catch (error) {
         console.error('Failed to fetch reviews:', error)
@@ -39,13 +36,17 @@ function ReviewList({ currentPage, order, selectedPet }: ReviewListProps) {
     }
 
     fetchReviews()
-  }, [currentPage, order, selectedPet])
+  }, [currentPage, order, selectedPet, onTotalPages])
 
   return (
-    <div className="flex flex-col gap-30">
-      {reviews.map((review) => (
-        <ReviewItem key={review.reviewId} reviewId={review.reviewId} />
-      ))}
+    <div className="flex flex-col gap-4">
+      {reviews.length > 0 ? (
+        reviews.map((review) => (
+          <ReviewItem key={review.reviewId} reviewId={review.reviewId} />
+        ))
+      ) : (
+        <p>No reviews found.</p>
+      )}
     </div>
   )
 }
