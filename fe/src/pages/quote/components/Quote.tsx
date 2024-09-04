@@ -14,7 +14,7 @@ import { Down, Question } from '@/components/common/Icons'
 import Image from 'next/image'
 import Modal from '@/components/common/Modal'
 import { useRouter } from 'next/navigation'
-import { usePostQuotation } from '@/pages/api/quote'
+import { usePostQuotation } from '@/pages/api/api'
 import { dogList } from '../../../../public/content/dogList'
 import { catList } from '../../../../public/content/catList'
 import ToggleButton from './ToggleButton'
@@ -25,7 +25,7 @@ export default function Quote() {
 
   const [filteredBreeds, setFilteredBreeds] = useState<string[]>([])
   const [showImage, setShowImage] = useState(false)
-  const [petType, setPetType] = useState<'dog' | 'cat'>('dog')
+  const [petType, setPetType] = useState<'강아지' | '고양이'>('강아지')
   const [name, setName] = useState('')
   const [age, setAge] = useState('')
   const [breed, setBreed] = useState('')
@@ -38,7 +38,7 @@ export default function Quote() {
   const [phoneError, setPhoneError] = useState('')
   const [showModal, setShowModal] = useState(false)
 
-  const breedList = petType === 'dog' ? dogList : catList
+  const breedList = petType === '강아지' ? dogList : catList
   const isSection1Complete = petType && name && age && breed
   const isCompleted =
     isSection1Complete &&
@@ -212,13 +212,13 @@ export default function Quote() {
             <div className="flex gap-16">
               <ToggleButton
                 label="강아지"
-                isSelected={petType === 'dog'}
-                onClick={() => setPetType('dog')}
+                isSelected={petType === '강아지'}
+                onClick={() => setPetType('강아지')}
               />
               <ToggleButton
                 label="고양이"
-                isSelected={petType === 'cat'}
-                onClick={() => setPetType('cat')}
+                isSelected={petType === '고양이'}
+                onClick={() => setPetType('고양이')}
               />
             </div>
             <div className="flex gap-25 items-start">
