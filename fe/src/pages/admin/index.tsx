@@ -1,5 +1,6 @@
 import { Input, PasswordHidden } from '@/components'
 import { usePostLogin } from '@/pages/api/admin/api'
+import Image from 'next/image'
 import { useCallback, useState } from 'react'
 
 export default function Login() {
@@ -14,7 +15,8 @@ export default function Login() {
   }, [mutate])
 
   return (
-    <div className="flex items-center justify-center h-screen">
+    <div className="flex flex-col gap-45 items-center justify-center h-screen pb-50">
+      <Image src="/images/logoImage.svg" height={66} width={66} alt="logo" />
       <article className="bg-white shadow-lg lg:w-440 max-h-2xl p-40 space-y-32 flex flex-col items-center justify-between ">
         <p className="text-lg font-semibold">로그인을 진행해주세요.</p>
         <div className="flex flex-col gap-20 w-full">
