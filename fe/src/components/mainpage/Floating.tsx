@@ -16,7 +16,7 @@ const Floating: NextPage = function Floating() {
 
   return (
     <div
-      className="fixed top-[32px] right-[8px] lg:top-[64px] lg:right-[16px] shadow-[0px_6px_20px_rgba(0,_0,_0,_0.2)] rounded-lg bg-white w-[72px] h-[164px] lg:w-[100px] lg:h-[260px] overflow-hidden text-center text-sm text-darkslategray font-pretendard z-50"
+      className="fixed top-[90px] right-[16px] lg:top-[130px] lg:right-[50px] shadow-[0px_6px_20px_rgba(0,_0,_0,_0.2)] rounded-lg bg-white w-[72px] h-[164px] lg:w-[100px] lg:h-[260px] overflow-hidden text-center text-sm text-darkslategray font-pretendard z-50"
       role="region"
       aria-label="Floating contact options"
     >

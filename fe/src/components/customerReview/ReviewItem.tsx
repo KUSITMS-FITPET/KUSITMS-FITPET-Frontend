@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { getReviewById, Review } from '../../api/customereview' // Import Review type from shared location
+import Image from 'next/image' // 외부 라이브러리 import를 우선
+import { getReviewById, Review } from '../../api/customereview' // 로컬 모듈 import
 
 interface ReviewItemProps {
   reviewId: number
 }
 
 function ReviewItem({ reviewId }: ReviewItemProps) {
-  const [review, setReview] = useState<Review | null>(null) // Use the Review type from shared location
+  const [review, setReview] = useState<Review | null>(null)
   const [isExpanded, setIsExpanded] = useState(false)
   const [isOverflowing, setIsOverflowing] = useState(false)
   const contentRef = useRef<HTMLParagraphElement>(null)
@@ -19,7 +20,9 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
           setReview(data.result)
         }
       } catch (error) {
-        console.error('Failed to fetch review:', error)
+        if (process.env.NODE_ENV === 'development') {
+          console.error('Failed to fetch review:', error)
+        }
       }
     }
 
@@ -32,7 +35,7 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
       const lineHeight = parseFloat(
         window.getComputedStyle(contentRef.current).lineHeight,
       )
-      const maxHeight = lineHeight * 3 // Calculate height for 3 lines
+      const maxHeight = lineHeight * 3
       setIsOverflowing(contentHeight > maxHeight)
       contentRef.current.style.height = isExpanded
         ? `${contentHeight}px`
@@ -83,7 +86,7 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
               boxShadow: 'none',
             }}
           >
-            <img
+            <Image
               src="/images/add.svg"
               alt="더보기"
               width={24}

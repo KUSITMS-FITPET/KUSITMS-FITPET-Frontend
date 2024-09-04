@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import Image from 'next/image' // 추가
 
 interface FilterProps {
   setSelectedPet: (pet: string | null) => void
@@ -26,9 +27,12 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
     <div className="w-full md:w-[180px] h-auto bg-white p-[16px] pt-[40px] rounded-lg shadow-md mt-8 md:mt-40">
       <h3 className="font-bold mb-[16px]">필터</h3>
       <div className="flex justify-center mb-[16px]">
-        <img
+        {/* <img> 대신 <Image> 사용 */}
+        <Image
           src="/images/Line.svg"
           alt="Line Divider"
+          width={140}
+          height={1}
           className="w-[140px] h-[1px]"
         />
       </div>
@@ -58,9 +62,12 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
         </label>
       </div>
       <div className="flex justify-center mb-[16px]">
-        <img
+        {/* <img> 대신 <Image> 사용 */}
+        <Image
           src="/images/Line.svg"
           alt="Line Divider"
+          width={140}
+          height={1}
           className="w-[140px] h-[1px]"
         />
       </div>

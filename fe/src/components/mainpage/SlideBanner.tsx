@@ -3,11 +3,15 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
 import { FaArrowRight } from 'react-icons/fa'
-import { fetchConsultationCount } from '../../pages/api/ConsultationCount'
+import { fetchConsultationCount } from '@/api/consultationCount' // 수정된 경로
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-const Slider = dynamic(() => import('react-slick'), { ssr: false })
+// 슬라이더 컴포넌트를 서버 사이드 렌더링에서 제외하고, 로딩 메시지를 추가
+const Slider = dynamic(() => import('react-slick'), {
+  ssr: false,
+  loading: () => <p>Loading...</p>,
+})
 
 interface ArrowProps {
   onClick?: () => void
@@ -59,28 +63,29 @@ interface Slide {
   id: number
   image: string
   title: string
-  subtitle: string
-  buttonText?: string // Optional property
+  subtitle?: string
+  buttonText?: string
   textColor: string
   link: string
   titleStyle: string
-  subtitleStyle: string
-  buttonStyle?: string // Optional property
-  infoTextStyle?: string // Optional property
-  title2?: string // Optional property
-  title2Style?: string // Optional property
-  buttonBackground?: string // Optional property
-  buttonTextColor?: string // Optional property
+  subtitleStyle?: string
+  buttonStyle?: string
+  infoTextStyle?: string
+  title2?: string
+  title2Style?: string
+  buttonBackground?: string
+  buttonTextColor?: string
 }
 
 function SlideBanner() {
   const [consultationCount, setConsultationCount] = useState<number>(0)
 
+  // API 호출을 통해 상담 수를 불러옴
   useEffect(() => {
     const loadConsultationCount = async () => {
       try {
-        const count = await fetchConsultationCount()
-        setConsultationCount(count)
+        const response = await fetchConsultationCount()
+        setConsultationCount(response.result) // API로부터 받은 상담 건수 설정
       } catch (error) {
         if (process.env.NODE_ENV === 'development') {
           console.error('Failed to fetch consultation count', error)
@@ -91,6 +96,7 @@ function SlideBanner() {
     loadConsultationCount()
   }, [])
 
+  // 슬라이더 설정
   const settings = {
     infinite: true,
     speed: 800,
@@ -109,31 +115,33 @@ function SlideBanner() {
     {
       id: 1,
       image: '/images/blue.svg',
-      title: '전문가와 함께 꼼꼼 비교하세요',
-      subtitle: '전문가와 딱 맞는 펫보험 찾아보세요.',
+      title: '반려동물을 위한 최고의 선택,',
+      subtitle: '전문가와 함께 꼼꼼 비교하세요',
       buttonText: '나에게 딱 맞는 펫보험 찾아보기',
       textColor: 'text-white',
       link: '/quote',
       titleStyle:
-        'absolute top-[20%] left-[10%] text-4xl md:text-4xl lg:text-5xl leading-loose',
+        'absolute top-[20%] left-[10%] text-[32px] font-normal font-["Pretendard"] mb-4',
       subtitleStyle:
-        'absolute top-[33%] left-[10%] text-3xl md:text-3xl lg:text-4xl leading-loose',
-      buttonStyle: 'absolute bottom-[30%] left-[10%]',
-      infoTextStyle: 'absolute bottom-[20%] left-[10%] text-xl md:text-2xl',
+        'absolute top-[calc(20%+55px)] left-[10%] text-5xl font-bold font-["Pretendard"] leading-[68px] mb-6',
+      buttonStyle:
+        'absolute bottom-[20%] left-[10%] w-[300px] h-[60px] text-lg',
+      infoTextStyle: 'absolute bottom-[15%] left-[10%] text-lg',
     },
     {
       id: 2,
       image: '/images/skyblue.svg',
-      title: '펫보험 들기 전에 꼼꼼히 알아보자',
-      subtitle: '우리 아이 치아 스케일링도 보장될까?',
+      title: '반려동물을 위한 최고의 선택,',
+      subtitle: '전문가와 함께 꼼꼼 비교하세요',
       buttonText: '오늘의 펫보험 지식 UP!',
-      textColor: 'text-textColor',
+      textColor: 'text-white',
       link: '/news',
       titleStyle:
-        'absolute top-[20%] left-[10%] text-4xl md:text-4xl lg:text-5xl leading-loose',
+        'absolute top-[20%] left-[10%] text-[32px] font-normal font-["Pretendard"] mb-4',
       subtitleStyle:
-        'absolute top-[33%] left-[10%] text-3xl md:text-3xl lg:text-4xl leading-loose',
-      buttonStyle: 'absolute bottom-[35%] left-[10%]',
+        'absolute top-[calc(20%+55px)] left-[10%] text-5xl font-bold font-["Pretendard"] leading-[68px] mb-6',
+      buttonStyle:
+        'absolute bottom-[20%] left-[10%] w-[300px] h-[60px] text-lg',
       buttonBackground: 'bg-black',
       buttonTextColor: 'text-white',
     },
@@ -145,12 +153,9 @@ function SlideBanner() {
       textColor: 'text-white',
       link: '#',
       titleStyle:
-        'absolute top-[40%] right-[8%] text-5xl md:text-5xl lg:text-4xl leading-loose',
+        'absolute top-[40%] right-[12%] text-5xl font-bold font-["Pretendard"] leading-[72px] mb-6',
       title2Style:
-        'absolute top-[50%] right-[8%] text-5xl md:text-5xl lg:text-4xl leading-loose',
-      subtitle: '핏펫몰 상품 이미지 + 네이버페이 상품권',
-      subtitleStyle:
-        'absolute top-[75%] left-[20%] text-base md:text-lg lg:text-3xl leading-loose',
+        'absolute top-[calc(40%+72px)] right-[12%] text-5xl font-bold font-["Pretendard"] leading-[72px] mb-6',
     },
   ]
 
@@ -172,20 +177,16 @@ function SlideBanner() {
               />
             </div>
 
-            <div className="relative w-full h-full flex flex-col items-center justify-center p-4 md:p-8 lg:p-12">
+            <div className="relative w-full h-full flex flex-col items-start justify-center p-4 md:p-8 lg:p-12">
               <div className={`${slide.titleStyle} z-10`}>
-                <p
-                  className={`font-bold leading-loose mb-4 ${slide.textColor}`}
-                >
+                <p className={`leading-loose ${slide.textColor}`}>
                   {slide.title}
                 </p>
               </div>
 
               {slide.title2 && (
                 <div className={`${slide.title2Style} z-10`}>
-                  <p
-                    className={`font-bold leading-loose mb-4 ${slide.textColor}`}
-                  >
+                  <p className={`leading-loose ${slide.textColor}`}>
                     {slide.title2}
                   </p>
                 </div>
@@ -193,9 +194,7 @@ function SlideBanner() {
 
               {slide.subtitle && (
                 <div className={`${slide.subtitleStyle} z-10`}>
-                  <h2
-                    className={`font-normal leading-loose ${slide.textColor}`}
-                  >
+                  <h2 className={`leading-loose ${slide.textColor}`}>
                     {slide.subtitle}
                   </h2>
                 </div>
@@ -210,19 +209,18 @@ function SlideBanner() {
                       rounded-lg 
                       ${slide.buttonBackground || 'bg-white'} 
                       ${slide.buttonTextColor || 'text-[#008cff]'}
-                      w-[440px] h-[90px] px-14 text-2xl font-semibold 
                       transition-colors cursor-pointer custom-button
                     `}
                   >
                     {slide.buttonText}
-                    <FaArrowRight className="ml-10 text-3xl" />
+                    <FaArrowRight className="ml-4 lg:ml-6 text-lg lg:text-2xl" />
                   </span>
                 </Link>
               )}
 
               {slide.id === 1 && (
                 <div
-                  className={`${slide.infoTextStyle} text-white flex items-center`}
+                  className={`${slide.infoTextStyle} text-white flex items-center space-x-2`}
                 >
                   <Image
                     src="/images/check_circle.png"
@@ -231,8 +229,9 @@ function SlideBanner() {
                     height={28}
                     className="mr-2"
                   />
-                  지금까지 <b>{consultationCount}</b>명이 SC를 통해 딱 맞는
-                  펫보험을 찾았어요!
+                  <span>지금까지 </span>
+                  <b>{consultationCount}</b>
+                  <span> 명이 SC를 통해 딱 맞는 펫보험을 찾았어요!</span>
                 </div>
               )}
             </div>

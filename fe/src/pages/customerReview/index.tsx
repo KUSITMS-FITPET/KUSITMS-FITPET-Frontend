@@ -31,12 +31,12 @@ const CustomerReviewPage: React.FC = function CustomerReviewPage() {
               currentPage={currentPage}
               order={order}
               selectedPet={selectedPet}
-              onTotalPages={setTotalPages} // Pass callback to dynamically update total pages
+              onTotalPages={setTotalPages}
             />
             <Pagination
-              totalPages={totalPages} // Use the dynamically updated total pages
+              totalPages={totalPages}
               currentPage={currentPage}
-              onPageChange={setCurrentPage} // Update current page when pagination changes
+              onPageChange={setCurrentPage}
             />
           </main>
         </div>

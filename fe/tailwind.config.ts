@@ -8,7 +8,6 @@ const px0To10 = {
   ),
 }
 
-// Generate pixel values from 0 to 100
 const px0To100 = {
   ...Array.from(Array(101)).reduce(
     (acc, _, i) => ({ ...acc, [i]: `${i}px` }),
@@ -16,7 +15,6 @@ const px0To100 = {
   ),
 }
 
-// Generate pixel values from 0 to 1000
 const px0To1000 = {
   ...Array.from(Array(1001)).reduce(
     (acc, _, i) => ({ ...acc, [i]: `${i}px` }),
