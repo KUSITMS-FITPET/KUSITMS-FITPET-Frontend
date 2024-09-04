@@ -1,70 +1,79 @@
-/* 기본 Tailwind CSS 설정 */
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 :root {
   --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 255, 255, 255;
+  --background-start-rgb: 255, 255, 255; 
   --background-end-rgb: 255, 255, 255;
+}
+html,
+body {
+  font-family: 'Pretendard Variable', Pretendard, sans-serif; /* Pretendard 폰트 적용 */
+  margin: 0; /* 기본 margin 제거 */
+  padding: 0; /* 기본 padding 제거 */
+  background: linear-gradient(
+    to bottom,
+    rgb(var(--background-start-rgb)),
+    rgb(var(--background-end-rgb))
+  ); /* 배경 색상 그라데이션 */
+  color: rgb(var(--foreground-rgb)); /* 전경 색상 설정 */
+  min-height: 100vh; /* 페이지의 최소 높이 설정 */
+  overflow-x: hidden; /* 수평 스크롤 방지 */
+  overflow-y: scroll; /* 수직 스크롤 활성화 */
+}
 
-  @media (prefers-color-scheme: dark) {
-    :root {
-      --foreground-rgb: 255, 255, 255;
-      --background-start-rgb: 0, 0, 0;
-      --background-end-rgb: 0, 0, 0;
-    }
+/* 스크롤바를 숨기거나 투명하게 설정 */
+::-webkit-scrollbar {
+  width: 0; /* 스크롤바 너비를 0으로 설정하여 숨기기 */
+  background: transparent; /* 스크롤바 배경을 투명하게 설정 */
+}
+
+::-webkit-scrollbar-thumb {
+  background: transparent; /* 스크롤바 핸들 색상도 투명하게 설정 */
+}
+
+/* Firefox 및 기타 브라우저에서 스크롤바 숨기기 */
+body {
+  scrollbar-width: none; /* Firefox에서 스크롤바 숨기기 */
+}
+
+body::-webkit-scrollbar {
+  display: none; /* Chrome, Safari에서 스크롤바 숨기기 */
+}
+
+/* 추가된 스타일 */
+body {
+  @apply text-textColor;
+  font-family: 'Pretendard Variable', Pretendard;
+}
+
+@layer utilities {
+  .text-balance {
+    text-wrap: balance; /* 텍스트 균형 맞추기 */
   }
 
-  html,
-  body {
-    font-family: 'Pretendard Variable', Pretendard, sans-serif;
-    margin: 0;
-    padding: 0;
+  .gradient-circle {
     background: linear-gradient(
-      to bottom,
-      rgb(var(--background-start-rgb)),
-      rgb(var(--background-end-rgb))
+      157deg,
+      rgba(205, 250, 250, 0.3) 8.58%,
+      rgba(205, 250, 250, 0) 51.24%
     );
-    color: rgb(var(--foreground-rgb));
-    min-height: 100vh;
-    overflow-x: hidden;
-    overflow-y: scroll;
   }
+}
 
-  ::-webkit-scrollbar {
-    width: 0;
-    background: transparent;
+@keyframes skeleton-animation {
+  0% {
+    background-position: -200% 0;
   }
-
-  ::-webkit-scrollbar-thumb {
-    background: transparent;
+  100% {
+    background-position: 200% 0;
   }
+}
 
-  body {
-    scrollbar-width: none;
-  }
-
-  body::-webkit-scrollbar {
-    display: none;
-  }
-
-  body {
-    @apply text-textColor;
-    font-family: 'Pretendard Variable', Pretendard;
-  }
-
-  @layer utilities {
-    .text-balance {
-      text-wrap: balance;
-    }
-
-    .gradient-circle {
-      background: linear-gradient(
-        157deg,
-        rgba(205, 250, 250, 0.3) 8.58%,
-        rgba(205, 250, 250, 0) 51.24%
-      );
-    }
-  }
+.animate-skeleton {
+  background: linear-gradient(90deg, #e0e0e0 25%, #f0f0f0 50%, #e0e0e0 75%);
+  background-size: 200% 100%;
+  animation: skeleton-animation 1.5s infinite linear;
 }

@@ -16,9 +16,7 @@ export default function App({ Component, pageProps }: AppProps) {
     <QueryProvider>
       <div className={Pretendard.className}>
         <Header />
-        <main className="min-h-screen">
-          <Component {...pageProps} />
-        </main>
+        <Component {...pageProps} />
         <Footer />
       </div>
     </QueryProvider>
