@@ -419,12 +419,12 @@ export default function Quote() {
             <p className="bg-[#F7F8F9] mb-4 text-sm p-16 text-[#646F7C]">
               {privacyPolicy.content}
             </p>
-            <div className="flex gap-10 mt-20 mb-68">
+            <div className="flex items-center gap-15 mt-20 mb-68 ml-3">
               <input
                 type="checkbox"
                 checked={agreement}
                 onChange={() => setAgreement(!agreement)}
-                className="w-20"
+                className="w-[1rem] h-[1rem] scale-140"
               />
               <label className="text-sm font-medium">
                 개인정보 수집 및 이용에 동의합니다
