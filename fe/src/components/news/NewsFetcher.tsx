@@ -1,5 +1,3 @@
-'use client'
-
 import { useGetNews } from '@/pages/api/api'
 import { NewsResponse } from '@/pages/api/types'
 import { generateContext } from '@/react-utils'
