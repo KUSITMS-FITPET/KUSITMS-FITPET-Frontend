@@ -44,6 +44,9 @@ const config: Config = {
       gray: {
         '100': '#858585',
         '200': '#282828',
+        '300': '#c5c8ce',
+        '400': '#f7f8f9',
+        '500': '#9ca3af',
       },
       lightcyan: '#cdfafa',
       gold: '#ffd600',

@@ -26,24 +26,53 @@ export interface ReviewResponse {
   result: Review
 }
 
+// 리뷰 목록을 가져오는 함수
 export const getReviews = async (
   page: number,
   order: 'asc' | 'desc',
-): Promise<ReviewListResponse> => {
-  const response = await axios.get<ReviewListResponse>(
-    `${API_BASE_URL}/${order}`,
-    {
-      params: { page, size: 9 },
-    },
-  )
-  return response.data
+  dog: boolean,
+  cat: boolean,
+): Promise<ReviewListResponse | null> => {
+  try {
+    const response = await axios.post<ReviewListResponse>(
+      `${API_BASE_URL}/filter`,
+      {
+        dog,
+        cat,
+        orderBy: order,
+      },
+      {
+        params: { page, size: 9 },
+      },
+    )
+
+    if (response.data.isSuccess) {
+      return response.data
+    }
+    console.error('Failed to fetch reviews: ', response.data)
+    return null
+  } catch (error) {
+    console.error('Error fetching reviews:', error)
+    return null
+  }
 }
 
+// 특정 리뷰를 ID로 가져오는 함수
 export const getReviewById = async (
   reviewId: number,
-): Promise<ReviewResponse> => {
-  const response = await axios.get<ReviewResponse>(
-    `${API_BASE_URL}/${reviewId}`,
-  )
-  return response.data
+): Promise<ReviewResponse | null> => {
+  try {
+    const response = await axios.get<ReviewResponse>(
+      `${API_BASE_URL}/${reviewId}`,
+    )
+
+    if (response.data.isSuccess) {
+      return response.data
+    }
+    console.error('Failed to fetch review by ID: ', response.data)
+    return null
+  } catch (error) {
+    console.error('Error fetching review by ID:', error)
+    return null
+  }
 }

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { getReviewById, Review } from '../../api/customereview' // Import Review type from shared location
+import { getReviewById, Review } from '../../api/customereview'
 
 interface ReviewItemProps {
   reviewId: number
 }
 
 function ReviewItem({ reviewId }: ReviewItemProps) {
-  const [review, setReview] = useState<Review | null>(null) // Use the Review type from shared location
+  const [review, setReview] = useState<Review | null>(null)
   const [isExpanded, setIsExpanded] = useState(false)
   const [isOverflowing, setIsOverflowing] = useState(false)
   const contentRef = useRef<HTMLParagraphElement>(null)
@@ -15,8 +15,10 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
     const fetchReview = async () => {
       try {
         const data = await getReviewById(reviewId)
-        if (data.isSuccess) {
+        if (data && data.isSuccess) {
           setReview(data.result)
+        } else {
+          setReview(null)
         }
       } catch (error) {
         console.error('Failed to fetch review:', error)
@@ -32,7 +34,7 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
       const lineHeight = parseFloat(
         window.getComputedStyle(contentRef.current).lineHeight,
       )
-      const maxHeight = lineHeight * 3 // Calculate height for 3 lines
+      const maxHeight = lineHeight * 3
       setIsOverflowing(contentHeight > maxHeight)
       contentRef.current.style.height = isExpanded
         ? `${contentHeight}px`
@@ -53,12 +55,15 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
       className="relative bg-white p-6 rounded shadow-md mb-4 transition-all duration-300 ease-in-out"
       style={{ minHeight: '160px' }}
     >
-      <div className="flex items-center bg-[#E2F2FF] p-2 rounded">
-        <span className="text-yellow-500 mr-4">{'⭐'.repeat(review.star)}</span>
-        <h4 className="font-bold text-[#0093FF]">
-          {review.petSpecies} | 만 {review.petAge}세
-        </h4>
+      <div className="flex items-center bg-[#E2F2FF] p-6 rounded justify-between">
+        <div className="flex items-center">
+          <h4 className="font-bold text-[#0093FF] mr-4">
+            {review.petSpecies} | 만 {review.petAge}세
+          </h4>
+          <span className="text-yellow-500">{'⭐'.repeat(review.star)}</span>
+        </div>
       </div>
+
       <p
         ref={contentRef}
         className="mt-6 text-[#4A4A4A] overflow-hidden transition-all duration-300 ease-in-out text-left"

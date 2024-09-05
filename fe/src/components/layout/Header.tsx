@@ -15,9 +15,10 @@ const Header: FC = function Header() {
   ]
 
   return (
-    <nav className="w-full h-16 sm:h-20 lg:h-78 bg-white flex items-center px-4 sm:px-8 shadow-md font-pretendard">
-      <div className="flex items-center justify-between w-full max-w-screen-xl mx-auto">
-        <div className="flex-shrink-0">
+    <nav className="w-full h-16 sm:h-20 lg:h-78 bg-white flex items-center shadow-md font-pretendard">
+      <div className="w-full flex justify-between items-center mx-auto">
+        {/* 로고 */}
+        <div className="flex-shrink-0 ml-4 lg:ml-35">
           <Link href="/" aria-label="Homepage">
             <Image
               src="/images/logo.svg"
@@ -30,7 +31,10 @@ const Header: FC = function Header() {
           </Link>
         </div>
 
-        <div className="flex flex-row items-center justify-end gap-6 sm:gap-10 lg:gap-54 text-base sm:text-lg lg:text-xl text-text-color">
+        {/* 네비게이션 */}
+        <div className="flex flex-row items-center gap-6 sm:gap-10 lg:gap-70 text-base sm:text-lg lg:text-xl text-text-color mr-6 lg:mr-55">
+          {' '}
+          {/* 네비게이션 오른쪽 간격 추가 */}
           {navLinks.map(({ href, label }) =>
             router.pathname === href ? (
               <span key={href} className="text-[#008cff] font-bold">

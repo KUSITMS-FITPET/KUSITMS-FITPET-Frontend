@@ -17,8 +17,8 @@ const Reviewimage: FC<{ src?: string; alt?: string }> = function Reviewimage({
           objectFit="contain"
         />
         {/* 텍스트 오버레이 */}
-        <div className="absolute top-0 left-1/2 transform -translate-x-1/2 translate-y-0 text-center mt-150">
-          <b className="w-full max-w-3xl text-[30px] leading-tight text-white">
+        <div className="absolute top-70 left-0 w-full flex justify-center mt-6 lg:mt-8">
+          <b className="text-center text-white text-[24px] lg:text-[30px] leading-tight">
             <p className="m-0 mb-2.5">수많은 유저가 말하는</p>
             <p className="m-0 mb-2.5">스마트커버 인슈어런스의 찐후기 ✨</p>
           </b>

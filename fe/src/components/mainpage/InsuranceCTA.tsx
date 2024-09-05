@@ -1,19 +1,26 @@
-import type { NextPage } from 'next'
+import { NextPage } from 'next'
 import React from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 import { useRouter } from 'next/router'
+import { increasePhoneCount } from '@/api/consultationCount'
 
 const InsuranceCTA: NextPage = function InsuranceCTA() {
   const router = useRouter()
 
   const handleComparisonClick = () => {
-    router.push('/quote') // 페이지 경로를 '/quote'로 수정
+    router.push('/quote')
   }
 
-  const handleConsultationClick = () => {
+  const handleConsultationClick = async () => {
     const confirmCall = window.confirm('연결하시겠습니까?')
     if (confirmCall) {
-      window.location.href = 'tel:01057461800'
+      try {
+        await increasePhoneCount()
+        console.log('Phone count increased successfully.')
+        window.location.href = 'tel:01057461800'
+      } catch (error) {
+        console.error('Failed to increase phone count:', error)
+      }
     }
   }
 
@@ -25,7 +32,7 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
         <div className="flex gap-4 lg:gap-10">
           {['#편리한', '#딱 맞는', '#전문가'].map((tag) => (
             <div
-              key={tag} // Use tag text as the key
+              key={tag}
               className="rounded-full border-main-color border-[1px] flex items-center justify-center py-1 sm:py-1.5 px-4 lg:px-7 bg-white"
             >
               <div className="leading-[20px] sm:leading-[24px] lg:leading-[28px] font-medium">
