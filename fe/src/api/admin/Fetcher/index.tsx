@@ -11,11 +11,11 @@ export const [QuotationProvider, useQuotationContext] =
 export default function QuoationsFetcher({
   children,
   page = 1,
-  size = 9,
+  size,
   option,
 }: {
   children: ReactNode
-  size?: number
+  size: number
   page: number
   option: 'desc' | 'asc'
 }) {

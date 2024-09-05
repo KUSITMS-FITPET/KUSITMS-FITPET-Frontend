@@ -31,7 +31,7 @@ export default function Filtering({ page, setPage }: FilteringProps) {
         <Pagination
           currentPage={page}
           onPageChange={setPage}
-          totalPages={Math.ceil(totalCount / 12)}
+          totalPages={Math.ceil(totalCount / 13)}
         />
       </div>
     </section>

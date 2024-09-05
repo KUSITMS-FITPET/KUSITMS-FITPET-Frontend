@@ -12,7 +12,7 @@ export default function NewsPagination({ page, setPage }: NewsPaginationProps) {
   return (
     <div className="mt-50 mb-100">
       <Pagination
-        totalPages={totalCount}
+        totalPages={Math.ceil(totalCount / 9)}
         currentPage={page}
         onPageChange={(data) => setPage(data)}
       />

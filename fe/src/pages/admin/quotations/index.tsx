@@ -11,7 +11,7 @@ export default function QuotationsPage() {
     <div className="flex flex-col h-full">
       <h1 className="text-22 mb-20">견적서 목록 조회</h1>
       <AsyncBoundaryWithQuery>
-        <QuoationsFetcher size={12} page={page} option="desc">
+        <QuoationsFetcher size={13} page={page} option="desc">
           <Filtering page={page} setPage={setPage} />
           <QuotationTable />
         </QuoationsFetcher>

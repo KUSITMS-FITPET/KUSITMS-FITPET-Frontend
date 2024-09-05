@@ -23,6 +23,7 @@ export interface QuotationInfo {
   petAge: number
   moreInfo: string
   phoneNumber: string
+  [key: string]: string | number
 }
 
 export interface QuotationsResponse {
@@ -30,3 +31,8 @@ export interface QuotationsResponse {
   totalCount: number
   size: number
 }
+
+export type PatchQuotationInfo = Pick<
+  QuotationInfo,
+  'petInfo' | 'petName' | 'petSpecies' | 'petAge' | 'moreInfo' | 'phoneNumber'
+>
