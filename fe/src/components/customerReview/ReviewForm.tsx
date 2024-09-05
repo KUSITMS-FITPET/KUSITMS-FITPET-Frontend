@@ -4,7 +4,7 @@ import { postReview } from '../../api/reviewwrite'
 import ReviewModal from './ReviewModal'
 
 function ReviewForm() {
-  const [petType, setPetType] = useState<string | null>(null)
+  const [petType, setPetType] = useState<'dog' | 'cat'>('dog') // Default to 'dog'
   const [age, setAge] = useState('')
   const [breed, setBreed] = useState('')
   const [review, setReview] = useState('')
@@ -154,7 +154,7 @@ function ReviewForm() {
             <input
               type="number"
               className="w-full border border-[#9ca3af] rounded-md p-4 lg:p-6 text-lg lg:text-xl text-black placeholder-[#9CA3AF]"
-              placeholder="ex) 나이는 숫자만 입력 가능합니다."
+              placeholder="나이는 숫자만 입력 가능합니다."
               value={age}
               onChange={(e) => setAge(e.target.value)}
             />
