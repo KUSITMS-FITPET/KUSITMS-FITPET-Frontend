@@ -6,6 +6,7 @@ import Header from '@/components/layout/Header'
 import Footer from '@/components/layout/Footer'
 import { usePathname } from 'next/navigation'
 import AuthProviderWrapper from '@/components/admin/AuthlProvider'
+import AdminHeader from '@/components/admin/AdminHeader'
 
 const Pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -22,7 +23,11 @@ export default function App({ Component, pageProps }: AppProps) {
       <div className={Pretendard.className}>
         {isAdminPage ? (
           <AuthProviderWrapper>
-            <Component {...pageProps} />
+            <main className="w-screen h-screen overflow-hidden">
+              <AdminHeader>
+                <Component {...pageProps} />
+              </AdminHeader>
+            </main>
           </AuthProviderWrapper>
         ) : (
           <>

@@ -61,7 +61,7 @@ export function useInput(props: UseInputProps) {
       ...otherProps,
       ref: domRef,
       className: cn(
-        'bg-white my-12 focus:outline-none',
+        'bg-white my-12 h-full focus:outline-none',
         otherProps.className,
         error && 'border-[##EF4444]',
       ),
