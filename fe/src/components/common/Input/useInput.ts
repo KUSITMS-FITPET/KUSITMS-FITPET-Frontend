@@ -61,13 +61,13 @@ export function useInput(props: UseInputProps) {
       ...otherProps,
       ref: domRef,
       className: cn(
-        'bg-white my-12 focus:outline-none',
+        'bg-white my-12 h-full focus:outline-none',
         otherProps.className,
         error && 'border-[##EF4444]',
       ),
       onChange: handleChangeValue,
     }),
-    [domRef, handleChangeValue, otherProps, error], // Added `error` to the dependency array
+    [domRef, handleChangeValue, otherProps, error],
   )
 
   const getClearButtonProps = useCallback(

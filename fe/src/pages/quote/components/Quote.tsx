@@ -3,7 +3,6 @@ import {
   ChangeEvent,
   Dispatch,
   RefObject,
-  useCallback,
   useEffect,
   useRef,
   useState,
@@ -14,7 +13,7 @@ import { Down, Question } from '@/components/common/Icons'
 import Image from 'next/image'
 import Modal from '@/components/common/Modal'
 import { useRouter } from 'next/navigation'
-import { usePostQuotation } from '@/pages/api/quote'
+import { usePostQuotation } from '@/pages/api/api'
 import { dogList } from '../../../../public/content/dogList'
 import { catList } from '../../../../public/content/catList'
 import ToggleButton from './ToggleButton'
@@ -25,7 +24,7 @@ export default function Quote() {
 
   const [filteredBreeds, setFilteredBreeds] = useState<string[]>([])
   const [showImage, setShowImage] = useState(false)
-  const [petType, setPetType] = useState<'dog' | 'cat'>('dog')
+  const [petType, setPetType] = useState<'강아지' | '고양이'>('강아지')
   const [name, setName] = useState('')
   const [age, setAge] = useState('')
   const [breed, setBreed] = useState('')
@@ -37,8 +36,9 @@ export default function Quote() {
   const [phone3, setPhone3] = useState('')
   const [phoneError, setPhoneError] = useState('')
   const [showModal, setShowModal] = useState(false)
+  const imageRef = useRef<HTMLDivElement>(null)
 
-  const breedList = petType === 'dog' ? dogList : catList
+  const breedList = petType === '강아지' ? dogList : catList
   const isSection1Complete = petType && name && age && breed
   const isCompleted =
     isSection1Complete &&
@@ -63,6 +63,7 @@ export default function Quote() {
     } else {
       setFilteredBreeds([])
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [breed])
 
   const validateName = (value: string) => {
@@ -122,10 +123,9 @@ export default function Quote() {
     }
     validatePhone(value)
   }
-  const handleSubmit = useCallback(() => {
+  const handleSubmit = () => {
     if (ageError || nameError || phoneError) {
-      alert('에러')
-      console.log(ageError, nameError)
+      alert('올바른 값을 입력해주세요.')
     }
     mutate(
       {
@@ -146,11 +146,49 @@ export default function Quote() {
         },
       },
     )
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [])
+  }
+
+  const throttleTimer = useRef<NodeJS.Timeout | null>(null)
+  const throttle = (func: () => void, delay: number) => {
+    return () => {
+      if (!throttleTimer.current) {
+        func()
+        throttleTimer.current = setTimeout(() => {
+          throttleTimer.current = null
+        }, delay)
+      }
+    }
+  }
+
+  const handleMouseEnter = throttle(() => {
+    setShowImage(true)
+  }, 200)
+
+  const handleMouseLeave = throttle(() => {
+    setShowImage(false)
+  }, 200)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        imageRef.current &&
+        !imageRef.current.contains(event.target as Node)
+      ) {
+        setShowImage(false)
+      }
+    }
+
+    if (showImage) {
+      document.addEventListener('mousedown', handleClickOutside)
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [showImage])
 
   return (
-    <div className="max-w-2xl mx-auto pl-10">
+    <div className="relative max-w-2xl mx-auto pl-10">
       {showModal && (
         <Modal>
           <div>
@@ -172,22 +210,29 @@ export default function Quote() {
           </div>
         </Modal>
       )}
+
+      {showImage && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 backdrop-blur-sm z-10" />
+      )}
+
       <div className="flex items-center mb-36 w-auto relative">
         <h1 className="text-3xl font-semibold mr-16">펫보험 견적서 입력</h1>
         <Question />
         <div
           className="relative"
-          onMouseEnter={() => setShowImage(true)}
-          onMouseLeave={() => setShowImage(false)}
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
         >
           <p className="text-main ml-8 cursor-pointer w-auto">
             견적서 예시 보기
           </p>
           {showImage && (
-            <div className="absolute z-20 top-full mt-4 left-0 w-[40vw] h-auto">
-              {/* TODO: 견적서 예시 이미지 추가 */}
+            <div
+              className="absolute z-50 top-full mt-4 left-0 w-[40vw] h-auto"
+              ref={imageRef}
+            >
               <Image
-                src="/images/temp.jpg"
+                src="/images/example.svg"
                 alt="견적서예시"
                 layout="responsive"
                 width={500}
@@ -212,13 +257,13 @@ export default function Quote() {
             <div className="flex gap-16">
               <ToggleButton
                 label="강아지"
-                isSelected={petType === 'dog'}
-                onClick={() => setPetType('dog')}
+                isSelected={petType === '강아지'}
+                onClick={() => setPetType('강아지')}
               />
               <ToggleButton
                 label="고양이"
-                isSelected={petType === 'cat'}
-                onClick={() => setPetType('cat')}
+                isSelected={petType === '고양이'}
+                onClick={() => setPetType('고양이')}
               />
             </div>
             <div className="flex gap-25 items-start">
@@ -374,12 +419,12 @@ export default function Quote() {
             <p className="bg-[#F7F8F9] mb-4 text-sm p-16 text-[#646F7C]">
               {privacyPolicy.content}
             </p>
-            <div className="flex gap-10 mt-20 mb-68">
+            <div className="flex items-center gap-15 mt-20 mb-68 ml-3">
               <input
                 type="checkbox"
                 checked={agreement}
                 onChange={() => setAgreement(!agreement)}
-                className="w-20"
+                className="w-[1rem] h-[1rem] scale-140"
               />
               <label className="text-sm font-medium">
                 개인정보 수집 및 이용에 동의합니다

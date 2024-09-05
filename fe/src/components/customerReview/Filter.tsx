@@ -28,7 +28,7 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
     setSelectedOrder(order) // 선택된 정렬 기준 상태 업데이트
     setOrder(order) // 부모 컴포넌트로 선택된 정렬 방식 전달
   }
-
+    
   return (
     <div className="w-full md:w-[180px] h-auto bg-white p-[16px] pt-[40px] rounded-lg shadow-md mt-8 md:mt-40">
       <h3 className="font-bold mb-[16px]">필터</h3>
