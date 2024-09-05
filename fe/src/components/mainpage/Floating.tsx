@@ -1,12 +1,20 @@
-import type { NextPage } from 'next'
+import { NextPage } from 'next'
 import React from 'react'
 import Image from 'next/image'
+import { increasePhoneCount } from '@/api/consultationCount'
 
 const Floating: NextPage = function Floating() {
-  const handleCallClick = () => {
+  const handleCallClick = async () => {
     const confirmCall = window.confirm('연결하시겠습니까?')
     if (confirmCall) {
-      window.location.href = 'tel:01057461800'
+      try {
+        // 전화 상담 버튼 클릭 시 API로 카운트를 증가시키는 함수 호출
+        await increasePhoneCount()
+        console.log('Phone count increased successfully.')
+        window.location.href = 'tel:01057461800'
+      } catch (error) {
+        console.error('Failed to increase phone count:', error)
+      }
     }
   }
 

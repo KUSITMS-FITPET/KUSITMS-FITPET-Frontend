@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react'
-import Image from 'next/image' // 외부 라이브러리 import를 우선
-import { getReviewById, Review } from '../../api/customereview' // 로컬 모듈 import
+import Image from 'next/image'
+import { getReviewById, Review } from '../../api/customereview'
 
 interface ReviewItemProps {
   reviewId: number
@@ -16,7 +16,7 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
     const fetchReview = async () => {
       try {
         const data = await getReviewById(reviewId)
-        if (data.isSuccess) {
+        if (data && data.isSuccess) {
           setReview(data.result)
         }
       } catch (error) {
@@ -56,12 +56,17 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
       className="relative bg-white p-6 rounded shadow-md mb-4 transition-all duration-300 ease-in-out"
       style={{ minHeight: '160px' }}
     >
-      <div className="flex items-center bg-[#E2F2FF] p-2 rounded">
-        <span className="text-yellow-500 mr-4">{'⭐'.repeat(review.star)}</span>
-        <h4 className="font-bold text-[#0093FF]">
-          {review.petSpecies} | 만 {review.petAge}세
-        </h4>
+      {/* 하늘색 배경을 더 넓게 하고, 텍스트와 별점을 나란히 배치 */}
+      <div className="flex items-center bg-[#E2F2FF] p-6 rounded justify-between">
+        <div className="flex items-center">
+          <h4 className="font-bold text-[#0093FF] mr-4">
+            {review.petSpecies} | 만 {review.petAge}세
+          </h4>
+          <span className="text-yellow-500">{'⭐'.repeat(review.star)}</span>{' '}
+          {/* 별점 텍스트 옆에 붙음 */}
+        </div>
       </div>
+
       <p
         ref={contentRef}
         className="mt-6 text-[#4A4A4A] overflow-hidden transition-all duration-300 ease-in-out text-left"
@@ -91,7 +96,9 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
               alt="더보기"
               width={24}
               height={24}
-              className={`cursor-pointer transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+              className={`cursor-pointer transform transition-transform ${
+                isExpanded ? 'rotate-180' : ''
+              }`}
             />
           </button>
         </div>

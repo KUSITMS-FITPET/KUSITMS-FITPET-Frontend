@@ -3,7 +3,10 @@ import dynamic from 'next/dynamic'
 import Link from 'next/link'
 import Image from 'next/image'
 import { FaArrowRight } from 'react-icons/fa'
-import { fetchConsultationCount } from '@/api/consultationCount' // 수정된 경로
+import {
+  fetchConsultationCount,
+  increasePhoneCount,
+} from '@/api/consultationCount'
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
@@ -80,21 +83,33 @@ interface Slide {
 function SlideBanner() {
   const [consultationCount, setConsultationCount] = useState<number>(0)
 
-  // API 호출을 통해 상담 수를 불러옴
-  useEffect(() => {
-    const loadConsultationCount = async () => {
-      try {
-        const response = await fetchConsultationCount()
-        setConsultationCount(response.result) // API로부터 받은 상담 건수 설정
-      } catch (error) {
-        if (process.env.NODE_ENV === 'development') {
-          console.error('Failed to fetch consultation count', error)
-        }
+  // 상담 수를 불러오는 함수
+  const loadConsultationCount = async () => {
+    try {
+      const response = await fetchConsultationCount()
+      setConsultationCount(response.result) // API로부터 받은 상담 건수 설정
+    } catch (error) {
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to fetch consultation count', error)
       }
     }
+  }
 
+  // 컴포넌트가 마운트될 때 상담 수를 불러옴
+  useEffect(() => {
     loadConsultationCount()
   }, [])
+
+  // 전화 문의 카운트를 증가시키는 함수
+  const handlePhoneCountIncrease = async () => {
+    try {
+      await increasePhoneCount()
+      // 전화 문의 카운트 증가 후 상담 수 새로고침
+      await loadConsultationCount()
+    } catch (error) {
+      console.error('Failed to increase phone count', error)
+    }
+  }
 
   // 슬라이더 설정
   const settings = {
@@ -194,15 +209,17 @@ function SlideBanner() {
 
               {slide.subtitle && (
                 <div className={`${slide.subtitleStyle} z-10`}>
-                  <h2 className={`leading-loose ${slide.textColor}`}>
+                  <p className={`leading-loose ${slide.textColor}`}>
                     {slide.subtitle}
-                  </h2>
+                  </p>
                 </div>
               )}
 
               {slide.buttonText && (
-                <Link href={slide.link} passHref>
-                  <span
+                <Link href={slide.link}>
+                  <button
+                    type="button" // 명시적인 타입 추가
+                    onClick={handlePhoneCountIncrease}
                     className={`
                       ${slide.buttonStyle} 
                       inline-flex items-center justify-center 
@@ -214,7 +231,7 @@ function SlideBanner() {
                   >
                     {slide.buttonText}
                     <FaArrowRight className="ml-4 lg:ml-6 text-lg lg:text-2xl" />
-                  </span>
+                  </button>
                 </Link>
               )}
 

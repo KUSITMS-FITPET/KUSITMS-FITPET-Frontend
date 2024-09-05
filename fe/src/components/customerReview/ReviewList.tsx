@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState, Dispatch, SetStateAction } from 'react'
 import { getReviews, Review } from '../../api/customereview'
 import ReviewItem from './ReviewItem'
 
@@ -6,7 +6,7 @@ interface ReviewListProps {
   currentPage: number
   order: 'asc' | 'desc'
   selectedPet: string | null
-  onTotalPages: (totalPages: number) => void
+  onTotalPages: Dispatch<SetStateAction<number>>
 }
 
 function ReviewList({
@@ -16,36 +16,53 @@ function ReviewList({
   onTotalPages,
 }: ReviewListProps) {
   const [reviews, setReviews] = useState<Review[]>([])
+  const [loading, setLoading] = useState(true)
+  const [error, setError] = useState<string | null>(null)
 
   useEffect(() => {
     const fetchReviews = async () => {
+      setLoading(true)
+      setError(null)
+
       try {
-        const data = await getReviews(currentPage, order)
-        if (data.isSuccess) {
-          const filteredReviews = data.result.listPageResponse.filter(
-            (review) =>
-              !selectedPet ||
-              review.petSpecies.toLowerCase() === selectedPet?.toLowerCase(),
-          )
-          setReviews(filteredReviews)
+        const data = await getReviews(
+          currentPage,
+          order,
+          selectedPet === 'dog',
+          selectedPet === 'cat',
+        )
+        if (data) {
+          setReviews(data.result.listPageResponse)
           onTotalPages(Math.ceil(data.result.totalCount / data.result.size))
+        } else {
+          setError('리뷰를 불러오는 데 실패했습니다.')
         }
-      } catch (error) {
-        console.error('Failed to fetch reviews:', error)
+      } catch (e) {
+        setError('리뷰를 불러오는 데 실패했습니다.')
       }
+
+      setLoading(false)
     }
 
     fetchReviews()
   }, [currentPage, order, selectedPet, onTotalPages])
 
+  if (loading) {
+    return <p>리뷰 로딩 중...</p>
+  }
+
+  if (error) {
+    return <p>{error}</p>
+  }
+
   return (
-    <div className="flex flex-col gap-4">
+    <div className="review-list">
       {reviews.length > 0 ? (
         reviews.map((review) => (
           <ReviewItem key={review.reviewId} reviewId={review.reviewId} />
         ))
       ) : (
-        <p>No reviews found.</p>
+        <p>리뷰가 없습니다.</p>
       )}
     </div>
   )
