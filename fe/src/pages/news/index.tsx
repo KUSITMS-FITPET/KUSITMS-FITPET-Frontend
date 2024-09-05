@@ -5,6 +5,7 @@ import { CardSection, NewsFetcher, NewsPagination } from '@/components/news'
 
 export default function Page() {
   const [option, setOption] = useState<'desc' | 'asc'>('desc')
+  const [currentPage, setCurrentPage] = useState(1)
 
   return (
     <div className="bg-bgColor3">
@@ -32,9 +33,9 @@ export default function Page() {
         </div>
 
         <AsyncBoundaryWithQuery>
-          <NewsFetcher page={1} option={option}>
+          <NewsFetcher page={currentPage} option={option}>
             <CardSection />
-            <NewsPagination />
+            <NewsPagination page={currentPage} setPage={setCurrentPage} />
           </NewsFetcher>
         </AsyncBoundaryWithQuery>
       </section>

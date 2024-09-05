@@ -1,7 +1,7 @@
 import { Input, PasswordHidden } from '@/components'
-import { usePostLogin } from '@/pages/api/admin/api'
 import Image from 'next/image'
 import { useCallback, useState } from 'react'
+import { usePostLogin } from '@/api/admin/login'
 
 export default function Login() {
   const [adminId, setAdminId] = useState<string>('')

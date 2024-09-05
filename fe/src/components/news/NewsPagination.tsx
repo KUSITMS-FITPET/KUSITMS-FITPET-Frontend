@@ -1,17 +1,20 @@
 import { Pagination } from '@/components'
-import { useState } from 'react'
 import { useNewsContext } from './NewsFetcher'
 
-export default function NewsPagination() {
-  const [currentPage, setCurrentPage] = useState(1)
+interface NewsPaginationProps {
+  page: number
+  setPage: (page: number) => void
+}
+
+export default function NewsPagination({ page, setPage }: NewsPaginationProps) {
   const { totalCount } = useNewsContext()
 
   return (
     <div className="mt-50 mb-100">
       <Pagination
         totalPages={totalCount}
-        currentPage={currentPage}
-        onPageChange={(page) => setCurrentPage(page)}
+        currentPage={page}
+        onPageChange={(data) => setPage(data)}
       />
     </div>
   )
