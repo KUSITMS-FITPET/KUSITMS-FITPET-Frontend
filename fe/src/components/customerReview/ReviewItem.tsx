@@ -18,6 +18,8 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
         const data = await getReviewById(reviewId)
         if (data && data.isSuccess) {
           setReview(data.result)
+        } else {
+          setReview(null)
         }
       } catch (error) {
         console.error('Failed to fetch review:', error)
@@ -54,14 +56,12 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
       className="relative bg-white p-6 rounded shadow-md mb-4 transition-all duration-300 ease-in-out"
       style={{ minHeight: '160px' }}
     >
-      {/* 하늘색 배경을 더 넓게 하고, 텍스트와 별점을 나란히 배치 */}
       <div className="flex items-center bg-[#E2F2FF] p-6 rounded justify-between">
         <div className="flex items-center">
           <h4 className="font-bold text-[#0093FF] mr-4">
             {review.petSpecies} | 만 {review.petAge}세
           </h4>
-          <span className="text-yellow-500">{'⭐'.repeat(review.star)}</span>{' '}
-          {/* 별점 텍스트 옆에 붙음 */}
+          <span className="text-yellow-500">{'⭐'.repeat(review.star)}</span>
         </div>
       </div>
 
