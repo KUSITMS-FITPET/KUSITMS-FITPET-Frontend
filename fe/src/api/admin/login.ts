@@ -4,6 +4,7 @@ import http from '@/api/core'
 import { ACCESS_TOKEN } from '@/api/constants'
 import { useAuthContext } from '@/components/admin/AuthlProvider'
 import { useRouter } from 'next/navigation'
+import { toast } from 'react-toastify'
 import { LoginRequest, LoginResponse } from './type'
 
 export const postLogin = (data: LoginRequest) =>
@@ -29,21 +30,22 @@ export const usePostLogin = (data: LoginRequest) => {
         roleMaster,
         roleSites,
       },
+      isSuccess,
     }) => {
-      Cookies.set(ACCESS_TOKEN, accessToken)
-      setAuthInfo({
-        isLoggedIn: true,
-        name,
-        roleContents,
-        roleEstimates,
-        roleSites,
-        roleMaster,
-      })
-      push('/admin/setting')
-    },
-    onError: () => {
-      const message = '로그인에 실패했습니다.'
-      alert(message)
+      if (isSuccess) {
+        Cookies.set(ACCESS_TOKEN, accessToken)
+        setAuthInfo({
+          isLoggedIn: true,
+          name,
+          roleContents,
+          roleEstimates,
+          roleSites,
+          roleMaster,
+        })
+        push('/admin/quotations')
+      } else {
+        toast.error('로그인에 실패했어요.')
+      }
     },
   })
 }

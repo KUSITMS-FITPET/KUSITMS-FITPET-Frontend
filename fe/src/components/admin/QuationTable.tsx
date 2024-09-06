@@ -7,12 +7,11 @@ import {
   QuotationInfo,
   QuotationsResponse,
 } from '@/api/admin/type'
-import {
-  useDownloadExcel,
-  usePatchQuotation,
-  usePostPDF,
-} from '@/api/admin/quotations'
+import { usePatchQuotation } from '@/api/admin/quotations'
 import { toast } from 'react-toastify'
+import axios from 'axios'
+import Cookies from 'js-cookie'
+import { ACCESS_TOKEN } from '@/api/constants'
 import Download from '../common/Icons/Download'
 
 export default function QuotationTable({
@@ -46,56 +45,97 @@ export default function QuotationTable({
   const [editedData, setEditedData] = useState<QuotationInfo>(defaultValue)
 
   const { mutate } = usePatchQuotation(editedData?.estimateId)
-  const { mutate: downloadPDF } = usePostPDF()
-  const { mutate: excel } = useDownloadExcel()
+  const accessToken = Cookies.get(ACCESS_TOKEN) as string
 
-  const handleDownload = (id: number) => {
-    const toastId = toast.loading('다운로드하고 있어요...')
+  const handleDownload = async (estimateId: number) => {
+    try {
+      toast.info('견적서를 다운받는 중...', { autoClose: false })
 
-    downloadPDF(id, {
-      onSuccess: () => {
-        toast.update(toastId, {
-          render: '다운로드 되었어요!',
-          type: 'success',
-          isLoading: false,
-          autoClose: 2000,
-        })
-      },
-      onError: () => {
-        toast.update(toastId, {
-          render: '다시 시도해주세요.',
-          type: 'error',
-          isLoading: false,
-          autoClose: 2000,
-        })
-      },
-    })
+      const pdfResponse = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/fitpetAdmin/estimates/convert/${estimateId}`,
+        null,
+        {
+          responseType: 'blob',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+
+      const blob = new Blob([pdfResponse.data], { type: 'application/pdf' })
+      const downloadUrl = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = downloadUrl
+
+      const filename =
+        pdfResponse.headers['content-disposition']
+          ?.split('filename=')[1]
+          ?.replace(/"/g, '') || 'download.pdf'
+      link.download = filename
+
+      document.body.appendChild(link)
+      link.click()
+
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(downloadUrl)
+
+      toast.dismiss()
+      toast.success('견적서가 다운로드되었어요 !')
+    } catch (error) {
+      toast.dismiss()
+      toast.error('다시 시도해주세요.')
+    }
   }
 
-  const handleDownloadExcel = () => {
+  const handleDownloadExcel = async () => {
     const idsToDownload = selectedIds.length > 0 ? selectedIds : [-1]
-
     const toastId = toast.loading('엑셀을 준비하고 있어요...')
 
-    excel(idsToDownload, {
-      onSuccess: ({ isSuccess }) => {
-        if (isSuccess) {
-          toast.update(toastId, {
-            render: '엑셀이 다운로드되었어요 !',
-            type: 'success',
-            isLoading: false,
-            autoClose: 2000,
-          })
-        } else {
-          toast.update(toastId, {
-            render: '다운로드 중 오류가 발생했습니다.',
-            type: 'error',
-            isLoading: false,
-            autoClose: 2000,
-          })
-        }
-      },
-    })
+    try {
+      const excelResponse = await axios.post(
+        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/fitpetAdmin/estimates/export`,
+        { ids: idsToDownload },
+        {
+          responseType: 'blob',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        },
+      )
+
+      const blob = new Blob([excelResponse.data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      })
+      const downloadUrl = window.URL.createObjectURL(blob)
+      const link = document.createElement('a')
+      link.href = downloadUrl
+
+      const filename =
+        excelResponse.headers['content-disposition']
+          ?.split('filename=')[1]
+          ?.replace(/"/g, '') || 'export.xlsx'
+      link.download = filename
+
+      document.body.appendChild(link)
+      link.click()
+
+      document.body.removeChild(link)
+      window.URL.revokeObjectURL(downloadUrl)
+
+      toast.update(toastId, {
+        render: '엑셀 다운로드가 완료되었습니다!',
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000,
+      })
+    } catch (error) {
+      toast.update(toastId, {
+        render: '엑셀 다운로드에 실패했습니다.',
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      })
+    }
   }
 
   const handleCheckboxChange = (id: number) => {

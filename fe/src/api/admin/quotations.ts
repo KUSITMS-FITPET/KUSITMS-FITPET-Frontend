@@ -50,26 +50,3 @@ export const usePostFilter = (page: number, size: number) =>
     mutationKey: ['post-filter', page],
     mutationFn: (data: FilterRequsst) => postFiltering(page, size, data),
   })
-
-const postGetPDF = (id: number) =>
-  http.post<string>({
-    url: `/api/v1/fitpetAdmin/estimates/convert/${id}`,
-  })
-
-export const usePostPDF = () =>
-  useMutation({
-    mutationKey: ['post-filter'],
-    mutationFn: (id: number) => postGetPDF(id),
-  })
-
-const postGetExcel = (data: { ids: number[] }) =>
-  http.post<string>({
-    url: '/api/v1/fitpetAdmin/estimates/export',
-    data,
-  })
-
-export const useDownloadExcel = () =>
-  useMutation({
-    mutationKey: ['excel'],
-    mutationFn: (ids: number[]) => postGetExcel({ ids }),
-  })
