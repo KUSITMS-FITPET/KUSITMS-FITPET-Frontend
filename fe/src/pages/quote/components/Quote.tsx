@@ -14,6 +14,7 @@ import Image from 'next/image'
 import Modal from '@/components/common/Modal'
 import { useRouter } from 'next/navigation'
 import { usePostQuotation } from '@/pages/api/api'
+import { toast } from 'react-toastify'
 import { dogList } from '../../../../public/content/dogList'
 import { catList } from '../../../../public/content/catList'
 import ToggleButton from './ToggleButton'
@@ -125,8 +126,11 @@ export default function Quote() {
   }
   const handleSubmit = () => {
     if (ageError || nameError || phoneError) {
-      alert('올바른 값을 입력해주세요.')
+      toast.error('올바른 값을 입력해주세요.')
     }
+
+    toast.loading('견적서를 저장하고 있어요 !')
+
     mutate(
       {
         petName: name,
@@ -138,11 +142,14 @@ export default function Quote() {
         petInfo: petType,
       },
       {
-        onSuccess: () => {
-          setShowModal(true)
-        },
-        onError: () => {
-          alert('잠시 후 다시 시도해주세요.')
+        onSuccess: ({ isSuccess }) => {
+          if (isSuccess === true) {
+            toast.dismiss()
+            setShowModal(true)
+          } else
+            toast.error('다시 시도해주세요.', {
+              autoClose: 1500,
+            })
         },
       },
     )
