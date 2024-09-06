@@ -26,11 +26,11 @@ export default function Card({
       onBack={() => setShowContent(false)}
     />
   ) : (
-    <div className="w-full max-w-sm rounded-xl shadow-md bg-white hover-pointer hover:opacity-70 cursor-pointer">
+    <div className="w-full min-w-sm rounded-xl shadow-md bg-white hover-pointer hover:opacity-70 cursor-pointer">
       <button
         type="button"
         onClick={handleClick}
-        className="relative w-full h-240 overflow-hidden rounded-t-xl"
+        className="relative w-full h-[20rem]ç overflow-hidden rounded-t-xl"
       >
         <Image
           src={image}

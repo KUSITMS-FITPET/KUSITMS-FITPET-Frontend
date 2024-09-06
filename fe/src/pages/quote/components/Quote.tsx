@@ -346,7 +346,7 @@ export default function Quote() {
               <textarea
                 value={notes}
                 onChange={(e) => setNotes(e.target.value)}
-                className="w-full h-auto rounded-8 border border-[#D1D5DB] py-12 px-20 focus:outline-none"
+                className="w-full h-auto rounded-8 border border-[#D1D5DB] py-12 px-20 focus:outline-none placeholder-[#D1D5DB]"
                 placeholder="병력 여부 및 기타 문의사항을 적어주세요"
                 rows={1}
               />

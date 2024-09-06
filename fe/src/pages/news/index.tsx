@@ -8,7 +8,7 @@ export default function Page() {
   const [currentPage, setCurrentPage] = useState(1)
 
   return (
-    <div className="bg-bgColor3">
+    <div className="bg-bgColor3 flex flex-col min-h-screen">
       <section className="w-full h-300 bg-[#008CFF]">
         <div className="h-full flex flex-col px-160 justify-center text-white font-normal">
           <p className="text-2xl font-regular">
