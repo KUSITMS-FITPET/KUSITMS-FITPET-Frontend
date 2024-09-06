@@ -52,7 +52,7 @@ export default function QuotationTable({
       toast.info('견적서를 다운받는 중...', { autoClose: false })
 
       const pdfResponse = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/fitpetAdmin/estimates/convert/${estimateId}`,
+        `/api/v1/fitpetAdmin/estimates/convert/${estimateId}`,
         null,
         {
           responseType: 'blob',
@@ -93,7 +93,7 @@ export default function QuotationTable({
 
     try {
       const excelResponse = await axios.post(
-        `${process.env.NEXT_PUBLIC_API_URL}/api/v1/fitpetAdmin/estimates/export`,
+        `/api/v1/fitpetAdmin/estimates/export`,
         { ids: idsToDownload },
         {
           responseType: 'blob',
