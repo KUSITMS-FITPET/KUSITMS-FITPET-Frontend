@@ -247,6 +247,7 @@ function SlideBanner() {
                     className="mr-2"
                   />
                   <span>지금까지 </span>
+                  <span></span>
                   <b>{consultationCount}</b>
                   <span> 명이 SC를 통해 딱 맞는 펫보험을 찾았어요!</span>
                 </div>
