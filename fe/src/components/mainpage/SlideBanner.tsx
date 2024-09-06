@@ -130,8 +130,8 @@ function SlideBanner() {
     {
       id: 1,
       image: '/images/blue.svg',
-      title: '반려동물을 위한 최고의 선택,',
-      subtitle: '전문가와 함께 꼼꼼 비교하세요',
+      title: '우리 아이 건강, 걱정 없이 오래오래',
+      subtitle: '전문가와 딱 맞는 펫보험 찾아보세요.',
       buttonText: '나에게 딱 맞는 펫보험 찾아보기',
       textColor: 'text-white',
       link: '/quote',
@@ -146,10 +146,10 @@ function SlideBanner() {
     {
       id: 2,
       image: '/images/skyblue.svg',
-      title: '반려동물을 위한 최고의 선택,',
-      subtitle: '전문가와 함께 꼼꼼 비교하세요',
+      title: '펫보험 들기 전에 꼼꼼히 알아보자',
+      subtitle: '우리 아이 치아 스케일링도 보장 될까?',
       buttonText: '오늘의 펫보험 지식 UP!',
-      textColor: 'text-white',
+      textColor: 'text-black',
       link: '/news',
       titleStyle:
         'absolute top-[20%] left-[10%] text-[32px] font-normal font-["Pretendard"] mb-4',

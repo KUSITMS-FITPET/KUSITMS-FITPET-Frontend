@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
-import { getReviewById, Review } from '../../api/customereview'
+import { getReviewById, Review } from '@/api/customereview'
 
 interface ReviewItemProps {
   reviewId: number

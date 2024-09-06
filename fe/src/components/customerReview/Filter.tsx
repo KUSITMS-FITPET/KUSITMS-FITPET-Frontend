@@ -1,14 +1,14 @@
 import React, { useState } from 'react'
-import Image from 'next/image' // Next.js의 Image 컴포넌트 사용
+import Image from 'next/image'
 
 interface FilterProps {
   setSelectedPet: (pet: string | null) => void
-  setOrder: (order: 'asc' | 'desc') => void
+  setOrder: (order: 'desc' | '') => void // desc = 최신순, 빈 문자열 = 별점순
 }
 
 function Filter({ setSelectedPet, setOrder }: FilterProps) {
   const [selectedPets, setSelectedPets] = useState<string[]>([])
-  const [selectedOrder, setSelectedOrder] = useState<'asc' | 'desc'>('desc') // 최신순 기본값
+  const [selectedOrder, setSelectedOrder] = useState<'desc' | ''>('desc') // 최신순 기본값
 
   const handlePetChange = (pet: string) => {
     if (selectedPets.includes(pet)) {
@@ -24,7 +24,7 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
     }
   }
 
-  const handleOrderChange = (order: 'asc' | 'desc') => {
+  const handleOrderChange = (order: 'desc' | '') => {
     setSelectedOrder(order) // 선택된 정렬 기준 상태 업데이트
     setOrder(order) // 부모 컴포넌트로 선택된 정렬 방식 전달
   }
@@ -89,8 +89,8 @@ function Filter({ setSelectedPet, setOrder }: FilterProps) {
           <input
             type="radio"
             name="sortOrder"
-            checked={selectedOrder === 'asc'} // 별점순이 선택되었을 때만 체크됨
-            onChange={() => handleOrderChange('asc')}
+            checked={selectedOrder === ''} // 별점순이 선택되었을 때만 체크됨
+            onChange={() => handleOrderChange('')}
             className="mr-2 md:mr-10"
           />
           별점순
