@@ -1,7 +1,5 @@
 import axios from 'axios'
 
-const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL
-
 export interface Review {
   reviewId: number
   petSpecies: string
@@ -35,7 +33,7 @@ export const getReviews = async (
 ): Promise<ReviewListResponse | null> => {
   try {
     const response = await axios.post<ReviewListResponse>(
-      `${API_BASE_URL}/api/v1/reviews/filter`,
+      `/api/v1/reviews/filter`,
       {
         dog,
         cat,
@@ -63,7 +61,7 @@ export const getReviewById = async (
 ): Promise<ReviewResponse | null> => {
   try {
     const response = await axios.get<ReviewResponse>(
-      `${API_BASE_URL}/api/v1/reviews/${reviewId}`,
+      `/api/v1/reviews/${reviewId}`,
     )
 
     if (response.data.isSuccess) {
