@@ -25,9 +25,19 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
   }
 
   return (
-    <div className="relative w-full lg:w-[2700px] bg-white h-[400px] sm:h-[500px] lg:h-[672px] overflow-hidden text-center text-lg text-main-color font-pretendard mx-auto">
+    <div
+      className="relative w-full overflow-hidden text-center text-lg text-main-color font-pretendard mx-auto"
+      style={{
+        backgroundImage: "url('/images/Group.svg')", // Set the background image
+        backgroundSize: 'cover', // Ensure the image covers the entire background
+        backgroundPosition: 'center', // Center the background image
+        backgroundRepeat: 'no-repeat', // Prevent image repetition
+        width: '100vw', // Ensure the width fills the entire viewport
+        height: '180vh', // Ensure height fills the full viewport
+      }}
+    >
       {/* Content section */}
-      <div className="absolute top-1/2 transform -translate-y-1/2 left-4 lg:left-[152px] flex flex-col items-start gap-2.5 lg:gap-4">
+      <div className="absolute top-240 left-4 lg:left-[152px] flex flex-col items-start gap-4">
         {/* Hashtags with rounded borders */}
         <div className="flex gap-4 lg:gap-10">
           {['#편리한', '#딱 맞는', '#전문가'].map((tag) => (
@@ -62,7 +72,7 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
         </div>
 
         {/* Buttons */}
-        <div className="flex gap-6 sm:gap-8 lg:gap-20 text-left text-lg sm:text-xl lg:text-2xl mt-[36px] sm:mt-[60px] lg:mt-[72px]">
+        <div className="flex gap-6 sm:gap-8 lg:gap-20 text-left text-lg sm:text-xl lg:text-2xl mt-[16px] sm:mt-[24px] lg:mt-[36px]">
           <button
             type="button"
             className="w-[192px] sm:w-[240px] lg:w-[316px] h-[50px] sm:h-[60px] lg:h-[70px] rounded-lg bg-main-color flex items-center justify-center"
