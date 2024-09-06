@@ -45,8 +45,8 @@ export default function AdminSidebar() {
             </button>
             {isQuotationOpen && (
               <ul className="bg-bgColor3 w-full py-10">
-                {renderLink('견적서 관리', 'admin/quotations/manage')}
                 {renderLink('견적서 목록 조회', 'admin/quotations')}
+                {renderLink('견적서 관리', 'admin/quotations/manage')}
               </ul>
             )}
           </li>
