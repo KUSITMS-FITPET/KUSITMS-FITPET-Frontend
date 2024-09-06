@@ -67,6 +67,14 @@ export default function Filtering({
     )
   }
 
+  const handlePhoneChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = e.target.value.replace(/[^0-9]/g, '')
+
+    if (newValue.length <= 11) {
+      setPhone(newValue)
+    }
+  }
+
   return (
     <section className="flex items-end justify-between mb-10">
       <div className="bg-white rounded-md flex px-20 py-10 gap-20">
@@ -77,9 +85,8 @@ export default function Filtering({
         <div className="flex items-center gap-10">
           <p>전화번호</p>
           <Input
-            type="phone"
             value={phone}
-            onValueChange={setPhone}
+            onChange={handlePhoneChange}
             wrapperClassName="h-28"
           />
         </div>
