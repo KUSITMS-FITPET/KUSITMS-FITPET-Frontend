@@ -9,7 +9,7 @@ interface Props {
 
 export default function Pagination({
   currentPage,
-  totalPages,
+  totalPages = 1,
   onPageChange,
 }: Props) {
   return (

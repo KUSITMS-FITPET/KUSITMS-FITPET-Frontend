@@ -7,6 +7,9 @@ import Footer from '@/components/layout/Footer'
 import { usePathname } from 'next/navigation'
 import AuthProviderWrapper from '@/components/admin/AuthlProvider'
 import AdminHeader from '@/components/admin/AdminHeader'
+import 'react-day-picker/dist/style.css'
+import { ToastContainer } from 'react-toastify'
+import 'react-toastify/dist/ReactToastify.css'
 
 const Pretendard = localFont({
   src: '../../public/fonts/PretendardVariable.woff2',
@@ -21,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
   return (
     <QueryProvider>
       <div className={Pretendard.className}>
+        <ToastContainer />
         {isAdminPage ? (
           <AuthProviderWrapper>
             <main className="w-screen h-screen overflow-hidden">

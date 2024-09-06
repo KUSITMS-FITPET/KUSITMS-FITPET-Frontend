@@ -1,14 +1,35 @@
 /* eslint-disable react/button-has-type */
 import { useQuotationContext } from '@/api/admin/Fetcher'
 import Image from 'next/image'
-import { useEffect, useState } from 'react'
-import { PatchQuotationInfo, QuotationInfo } from '@/api/admin/type'
-import { usePatchQuotation } from '@/api/admin/quotations'
+import { useState } from 'react'
+import {
+  PatchQuotationInfo,
+  QuotationInfo,
+  QuotationsResponse,
+} from '@/api/admin/type'
+import {
+  useDownloadExcel,
+  usePatchQuotation,
+  usePostPDF,
+} from '@/api/admin/quotations'
+import { toast } from 'react-toastify'
 import Download from '../common/Icons/Download'
 
-export default function QuotationTable() {
-  const { listPageResponse, totalCount } = useQuotationContext()
-  const [selectedIds, setSelectedIds] = useState<number[]>([])
+export default function QuotationTable({
+  data,
+  setData,
+  isFiltering,
+}: {
+  data: QuotationsResponse
+  setData: (data: QuotationsResponse) => void
+  isFiltering: boolean
+}) {
+  const { response, selectedIds, setSelectedIds } = useQuotationContext()
+
+  if (!isFiltering) {
+    setData(response)
+  }
+
   const [editMode, setEditMode] = useState<number | null>(null)
   const defaultValue = {
     estimateId: 0,
@@ -23,33 +44,81 @@ export default function QuotationTable() {
     phoneNumber: '',
   }
   const [editedData, setEditedData] = useState<QuotationInfo>(defaultValue)
-  const [data, setData] = useState<QuotationInfo[]>(listPageResponse)
-
-  useEffect(() => {
-    setData(listPageResponse)
-  }, [listPageResponse])
 
   const { mutate } = usePatchQuotation(editedData?.estimateId)
+  const { mutate: downloadPDF } = usePostPDF()
+  const { mutate: excel } = useDownloadExcel()
+
+  const handleDownload = (id: number) => {
+    const toastId = toast.loading('다운로드하고 있어요...')
+
+    downloadPDF(id, {
+      onSuccess: () => {
+        toast.update(toastId, {
+          render: '다운로드 되었어요!',
+          type: 'success',
+          isLoading: false,
+          autoClose: 2000,
+        })
+      },
+      onError: () => {
+        toast.update(toastId, {
+          render: '다시 시도해주세요.',
+          type: 'error',
+          isLoading: false,
+          autoClose: 2000,
+        })
+      },
+    })
+  }
+
+  const handleDownloadExcel = () => {
+    const idsToDownload = selectedIds.length > 0 ? selectedIds : [-1]
+
+    const toastId = toast.loading('엑셀을 준비하고 있어요...')
+
+    excel(idsToDownload, {
+      onSuccess: ({ isSuccess }) => {
+        if (isSuccess) {
+          toast.update(toastId, {
+            render: '엑셀이 다운로드되었어요 !',
+            type: 'success',
+            isLoading: false,
+            autoClose: 2000,
+          })
+        } else {
+          toast.update(toastId, {
+            render: '다운로드 중 오류가 발생했습니다.',
+            type: 'error',
+            isLoading: false,
+            autoClose: 2000,
+          })
+        }
+      },
+    })
+  }
 
   const handleCheckboxChange = (id: number) => {
-    setSelectedIds((prevSelected) =>
+    setSelectedIds((prevSelected: number[]) =>
       prevSelected.includes(id)
-        ? prevSelected.filter((selectedId) => selectedId !== id)
+        ? prevSelected.filter((selectedId: number) => selectedId !== id)
         : [...prevSelected, id],
     )
   }
 
   const handleSelectAll = () => {
-    if (selectedIds.length === data.length) {
+    if (selectedIds.length === data.listPageResponse.length) {
       setSelectedIds([])
     } else {
-      const allIds = data.map((item) => item.estimateId)
+      const allIds = data.listPageResponse.map((item) => item.estimateId)
       setSelectedIds(allIds)
     }
   }
 
   const handleEditClick = (id: number) => {
-    const targetData = data.find((item) => item.estimateId === id)
+    const targetData = data.listPageResponse.find(
+      (item) => item.estimateId === id,
+    )
     setEditMode(id)
     setEditedData(targetData || defaultValue)
   }
@@ -87,24 +156,23 @@ export default function QuotationTable() {
         phoneNumber: editedData.phoneNumber,
       }
       mutate(dataToSend, {
-        onSuccess: () => {
-          const updatedData = data.map((item) =>
-            item.estimateId === editedData.estimateId ? editedData : item,
-          )
-          setData(updatedData)
-          setEditMode(null)
-          setEditedData(defaultValue)
-        },
-        onError: (error) => {
-          alert(`${error}! 다시 시도해주세요.`)
+        onSuccess: ({ isSuccess }) => {
+          if (isSuccess) {
+            const updatedData = data.listPageResponse.map((item) =>
+              item.estimateId === editedData.estimateId ? editedData : item,
+            )
+            setData({ ...data, listPageResponse: updatedData })
+            setEditMode(null)
+            setEditedData(defaultValue)
+          } else {
+            toast.error('다시 시도해주세요.')
+          }
         },
       })
     }
   }
 
   const columns = [
-    { key: 'estimateIP', label: 'IP' },
-    { key: 'estimateRefeere', label: '유입 채널' },
     { key: 'createdAt', label: '접수 시간' },
     { key: 'petInfo', label: '종류' },
     { key: 'petName', label: '이름' },
@@ -120,8 +188,15 @@ export default function QuotationTable() {
     <section className="bg-white h-full rounded-md px-20 py-10">
       <div className="overflow-x-auto">
         <section className="flex justify-between mb-13">
-          <p className="font-semibold">전체 {totalCount}개</p>
-          <button className="underline" type="button">
+          <p className="font-semibold">
+            전체{` `}
+            {selectedIds.length > 0 ? selectedIds.length : data?.totalCount}개
+          </p>
+          <button
+            className="underline"
+            type="button"
+            onClick={handleDownloadExcel}
+          >
             <Image
               src="/images/download-button.svg"
               height={15}
@@ -139,7 +214,8 @@ export default function QuotationTable() {
                   type="checkbox"
                   onChange={handleSelectAll}
                   checked={
-                    selectedIds.length === data.length && data.length > 0
+                    selectedIds.length === data?.listPageResponse.length &&
+                    data.listPageResponse.length > 0
                   }
                 />
               </th>
@@ -154,104 +230,117 @@ export default function QuotationTable() {
             </tr>
           </thead>
           <tbody>
-            {data.map((quotation) => (
-              <tr key={quotation.estimateId}>
-                <td className="px-4 py-2 border-b border-[#D1D5DB] text-center">
-                  <input
-                    type="checkbox"
-                    onChange={() => handleCheckboxChange(quotation.estimateId)}
-                    checked={selectedIds.includes(quotation.estimateId)}
-                  />
+            {data?.listPageResponse.length === 0 ? (
+              <tr>
+                <td colSpan={columns.length + 1} className="text-center py-4">
+                  데이터가 없습니다
                 </td>
-                {columns.map((column) => {
-                  if (column.key === 'action') {
-                    return (
-                      <td
-                        key={column.key}
-                        className="px-4 py-2 border-b border-[#D1D5DB] text-center"
-                      >
-                        {editMode === quotation.estimateId ? (
-                          <button
-                            className="underline"
-                            onClick={handleSaveClick}
-                          >
-                            저장
-                          </button>
-                        ) : (
-                          <button
-                            className="underline"
-                            onClick={() =>
-                              handleEditClick(quotation.estimateId)
-                            }
-                          >
-                            수정
-                          </button>
-                        )}
-                      </td>
-                    )
-                  }
-                  if (column.key === 'download') {
-                    return (
-                      <td
-                        key={column.key}
-                        className="px-4 py-2 border-b border-[#D1D5DB] flex justify-center"
-                      >
-                        <button className="">
-                          <Download width={25} />
-                        </button>
-                      </td>
-                    )
-                  }
-                  if (column.key === 'createdAt') {
-                    return (
-                      <td
-                        key={column.key}
-                        className="px-4 py-2 border-b max-w-[150px] break-words border-[#D1D5DB] text-center"
-                      >
-                        {new Date(quotation[column.key]).toLocaleString(
-                          'ko-KR',
-                          {
-                            year: 'numeric',
-                            month: '2-digit',
-                            day: '2-digit',
-                            hour: '2-digit',
-                            minute: '2-digit',
-                            hour12: false,
-                          },
-                        )}
-                      </td>
-                    )
-                  }
-                  return (
-                    <td
-                      key={column.key}
-                      className="px-4 py-4 border-b max-w-[100px] break-words border-[#D1D5DB] text-center truncate"
-                      style={{
-                        maxHeight: '3em',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                        whiteSpace: 'nowrap',
-                      }}
-                    >
-                      {editMode === quotation.estimateId &&
-                      column.key !== 'estimateIP' &&
-                      column.key !== 'estimateRefeere' ? (
-                        <input
-                          type="text"
-                          value={editedData[column.key]}
-                          onChange={(e) =>
-                            handleInputChange(column.key, e.target.value)
-                          }
-                          className="border rounded text-center w-full"
-                        />
-                      ) : (
-                        quotation[column.key as keyof typeof quotation]
-                      )}
-                    </td>
-                  )
-                })}
               </tr>
-            ))}
+            ) : (
+              data?.listPageResponse.map((quotation) => (
+                <tr key={quotation.estimateId}>
+                  <td className="px-4 py-2 border-b border-[#D1D5DB] text-center">
+                    <input
+                      type="checkbox"
+                      onChange={() =>
+                        handleCheckboxChange(quotation.estimateId)
+                      }
+                      checked={selectedIds.includes(quotation.estimateId)}
+                    />
+                  </td>
+                  {columns.map((column) => {
+                    if (column.key === 'action') {
+                      return (
+                        <td
+                          key={column.key}
+                          className="px-4 py-2 border-b border-[#D1D5DB] text-center"
+                        >
+                          {editMode === quotation.estimateId ? (
+                            <button
+                              className="underline"
+                              onClick={handleSaveClick}
+                            >
+                              저장
+                            </button>
+                          ) : (
+                            <button
+                              className="underline"
+                              onClick={() =>
+                                handleEditClick(quotation.estimateId)
+                              }
+                            >
+                              수정
+                            </button>
+                          )}
+                        </td>
+                      )
+                    }
+                    if (column.key === 'download') {
+                      return (
+                        <td
+                          key={column.key}
+                          className="px-4 py-2 border-b border-[#D1D5DB] flex justify-center"
+                        >
+                          <button
+                            onClick={() => handleDownload(quotation.estimateId)}
+                            className=""
+                          >
+                            <Download width={25} />
+                          </button>
+                        </td>
+                      )
+                    }
+                    if (column.key === 'createdAt') {
+                      return (
+                        <td
+                          key={column.key}
+                          className="px-4 py-2 border-b max-w-[150px] break-words border-[#D1D5DB] text-center"
+                        >
+                          {new Date(quotation[column.key]).toLocaleString(
+                            'ko-KR',
+                            {
+                              year: 'numeric',
+                              month: '2-digit',
+                              day: '2-digit',
+                              hour: '2-digit',
+                              minute: '2-digit',
+                              hour12: false,
+                            },
+                          )}
+                        </td>
+                      )
+                    }
+                    return (
+                      <td
+                        key={column.key}
+                        className="px-4 py-4 border-b max-w-[100px] break-words border-[#D1D5DB] text-center truncate"
+                        style={{
+                          maxHeight: '3em',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                          whiteSpace: 'nowrap',
+                        }}
+                      >
+                        {editMode === quotation.estimateId &&
+                        column.key !== 'estimateIP' &&
+                        column.key !== 'estimateRefeere' ? (
+                          <input
+                            type="text"
+                            value={editedData[column.key]}
+                            onChange={(e) =>
+                              handleInputChange(column.key, e.target.value)
+                            }
+                            className="border rounded text-center w-full"
+                          />
+                        ) : (
+                          quotation[column.key as keyof typeof quotation]
+                        )}
+                      </td>
+                    )
+                  })}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>

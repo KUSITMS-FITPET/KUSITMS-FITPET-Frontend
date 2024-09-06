@@ -36,3 +36,11 @@ export type PatchQuotationInfo = Pick<
   QuotationInfo,
   'petInfo' | 'petName' | 'petSpecies' | 'petAge' | 'moreInfo' | 'phoneNumber'
 >
+
+export type FilterRequsst = {
+  startDate: string
+  endDate: string
+  refeere: string
+  petInfo: string
+  phoneNumber: string
+}

@@ -1,12 +1,15 @@
 import { generateContext } from '@/react-utils'
-import { ReactNode } from 'react'
+import { ReactNode, useState, useMemo } from 'react'
 import { QuotationsResponse } from '../type'
 import { useGetQuotations } from '../quotations'
 
-export const [QuotationProvider, useQuotationContext] =
-  generateContext<QuotationsResponse>({
-    name: 'quotations',
-  })
+export const [QuotationProvider, useQuotationContext] = generateContext<{
+  response: QuotationsResponse
+  selectedIds: number[]
+  setSelectedIds: React.Dispatch<React.SetStateAction<number[]>>
+}>({
+  name: 'quotations',
+})
 
 export default function QuoationsFetcher({
   children,
@@ -19,7 +22,16 @@ export default function QuoationsFetcher({
   page: number
   option: 'desc' | 'asc'
 }) {
-  const { data } = useGetQuotations(page, size, option)
+  const { data: response } = useGetQuotations(page, size, option)
+  const [selectedIds, setSelectedIds] = useState<number[]>([])
+  const contextValue = useMemo(
+    () => ({
+      response,
+      selectedIds,
+      setSelectedIds,
+    }),
+    [response, selectedIds],
+  )
 
-  return <QuotationProvider {...data}>{children} </QuotationProvider>
+  return <QuotationProvider {...contextValue}>{children}</QuotationProvider>
 }
