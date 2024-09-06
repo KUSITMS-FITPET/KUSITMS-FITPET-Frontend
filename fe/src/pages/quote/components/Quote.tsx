@@ -41,6 +41,8 @@ export default function Quote() {
 
   const breedList = petType === '강아지' ? dogList : catList
   const isSection1Complete = petType && name && age && breed
+  const isSection2Complete =
+    phone2 && phone3 && !phoneError && isSection1Complete
   const isCompleted =
     isSection1Complete &&
     phone2 &&
@@ -256,7 +258,7 @@ export default function Quote() {
         <div className="relative flex flex-row mb-53">
           <div className="flex flex-col items-center justify-center">
             <NumberCircle color="blue" number={1} />
-            <div className="w-1 h-full my-12 bg-[#E2F2FF]" />
+            <div className="w-2 h-full my-12 bg-[#E2F2FF]" />
           </div>
 
           <div className="ml-20 w-full space-y-36">
@@ -363,7 +365,7 @@ export default function Quote() {
             />
             <div
               className={cn(
-                'w-1 h-full bg-bgColor3 my-12',
+                'w-2 h-full bg-bgColor3 my-12',
                 isSection1Complete && 'bg-[#E2F2FF]',
               )}
             />
@@ -416,7 +418,10 @@ export default function Quote() {
         {/* Section 3 */}
         <div className="relative flex flex-row items-start">
           <div className="flex flex-col items-center justify-center">
-            <NumberCircle color={agreement ? 'blue' : 'black'} number={3} />
+            <NumberCircle
+              color={isSection2Complete ? 'blue' : 'black'}
+              number={3}
+            />
           </div>
 
           <div className="ml-20 w-full ">
