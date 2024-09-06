@@ -9,7 +9,7 @@ function CardContainer() {
       image: '/images/book.svg', // 첫 번째 카드 이미지
     },
     {
-      title: 'Lorem ipsum 2',
+      title: '전문가 상담',
       content:
         '카카오톡을 통해<br />반려동물 보험 전문가와<br />실시간으로 상담할 수 있어요.',
       image: '/images/call-calling.svg', // 두 번째 카드 이미지
@@ -21,7 +21,7 @@ function CardContainer() {
       image: '/images/lovely.svg', // 세 번째 카드 이미지
     },
     {
-      title: 'Lorem ipsum 4',
+      title: '깊이 있는 케어',
       content:
         '반려동물 헬스케어 1위로서,<br />깊은 이해와 애정으로<br />신뢰있는 보험 서비스를 제공해요.',
       image: '/images/unlimited.svg', // 네 번째 카드 이미지
