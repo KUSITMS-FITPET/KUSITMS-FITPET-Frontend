@@ -107,7 +107,9 @@ function SlideBanner() {
       // 전화 문의 카운트 증가 후 상담 수 새로고침
       await loadConsultationCount()
     } catch (error) {
-      console.error('Failed to increase phone count', error)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to increase phone count', error)
+      }
     }
   }
 
