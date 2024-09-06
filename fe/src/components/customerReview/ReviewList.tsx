@@ -4,7 +4,7 @@ import ReviewItem from './ReviewItem'
 
 interface ReviewListProps {
   currentPage: number
-  order: 'asc' | 'desc'
+  order: 'desc' | '' // 'desc'는 최신순, 빈 문자열 ''은 별점순
   selectedPet: string | null
   onTotalPages: Dispatch<SetStateAction<number>>
 }
@@ -25,9 +25,10 @@ function ReviewList({
       setError(null)
 
       try {
+        // order가 빈 문자열이면 별점순으로 처리
         const data = await getReviews(
           currentPage,
-          order,
+          order, // 이제 'desc' 또는 '' 만 전달됨
           selectedPet === 'dog',
           selectedPet === 'cat',
         )
