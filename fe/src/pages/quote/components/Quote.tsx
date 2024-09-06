@@ -201,18 +201,10 @@ export default function Quote() {
       {showModal && (
         <Modal>
           <div>
-            <h1 className="text-2xl font-medium mb-22 leading-36">
-              펫보험 비교 신청이 정상적으로 접수되었어요. <br />
-              비교 견적서를 카카오톡으로 보내드릴게요.
-            </h1>
-            <p className="text-md mb-40 leading-24">
-              견적서는 접수된 순으로 순차적으로 발송드립니다. <br />
-              접수 후 발송가지 최대 1~3일 정도 소요됩니다.
-            </p>
             <button
               type="button"
               onClick={() => push('/')}
-              className="bg-main text-white font-bold w-full rounded-lg py-13"
+              className="bg-main text-white font-bold w-300 rounded-lg py-13 mt-140"
             >
               네, 확인했어요
             </button>
