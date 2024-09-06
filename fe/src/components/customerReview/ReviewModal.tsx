@@ -11,7 +11,7 @@ function ReviewModal({ children, onClose }: ModalProps) {
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-[#161c24] bg-opacity-80">
       <div className="relative w-[730px] h-[700px]">
         {/* Background Image */}
-        <Image src="/images/review _popup.svg" alt="modal-bg" layout="fill" />
+        <Image src="/images/review_popup.svg" alt="modal-bg" layout="fill" />
 
         {/* Content Area (Shifted More to the Right and Down) */}
         <div
@@ -26,7 +26,7 @@ function ReviewModal({ children, onClose }: ModalProps) {
           type="button"
           onClick={onClose}
           className="absolute bottom-2 left-1/2 transform translate-x-[50%] bg-blue-500 text-white py-2 px-4 rounded-lg"
-        ></button>
+        />
       </div>
     </div>
   )
