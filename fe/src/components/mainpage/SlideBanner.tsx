@@ -140,9 +140,9 @@ function SlideBanner() {
       titleStyle:
         'absolute top-[20%] left-[10%] text-[32px] font-normal font-["Pretendard"] mb-4',
       subtitleStyle:
-        'absolute top-[calc(20%+55px)] left-[10%] text-5xl font-bold font-["Pretendard"] leading-[68px] mb-6',
+        'absolute top-[calc(20%+60px)] left-[10%] text-5xl font-bold font-["Pretendard"] leading-[68px] mb-6',
       buttonStyle:
-        'absolute bottom-[20%] left-[10%] w-[300px] h-[60px] text-lg',
+        'absolute bottom-[23%] left-[10%] w-[300px] h-[60px] text-lg',
       infoTextStyle: 'absolute bottom-[15%] left-[10%] text-lg',
     },
     {
