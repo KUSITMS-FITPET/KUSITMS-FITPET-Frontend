@@ -30,7 +30,7 @@ export default function Card({
       <button
         type="button"
         onClick={handleClick}
-        className="relative w-full h-[20rem]ç overflow-hidden rounded-t-xl"
+        className="relative w-full h-[20rem] overflow-hidden rounded-t-xl"
       >
         <Image
           src={image}
