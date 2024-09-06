@@ -11,10 +11,10 @@ export default function Page() {
     <div className="bg-bgColor3">
       <section className="w-full h-300 bg-[#008CFF]">
         <div className="h-full flex flex-col px-160 justify-center text-white font-normal">
-          <p className="text-2xl font-regular">어렵기만 했던 펫보험,</p>
-          <p className="text-4xl font-semibold">
-            SC의 카드뉴스와 함께 알아볼까요?
+          <p className="text-2xl font-regular">
+            어렵고 헷갈리는 펫보험, 함께 알아볼까요?
           </p>
+          <p className="text-4xl font-semibold mt-10">펫보험 팁</p>
         </div>
       </section>
 
