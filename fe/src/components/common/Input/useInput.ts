@@ -49,7 +49,7 @@ export function useInput(props: UseInputProps) {
   const getBaseProps = useCallback(
     () => ({
       className: cn(
-        'flex items-center bg-white rounded-8 px-20 border border-[#D1D5DB]',
+        'flex items-center bg-white rounded-8 px-18 border border-[#D1D5DB]',
         wrapperClassName,
       ),
     }),

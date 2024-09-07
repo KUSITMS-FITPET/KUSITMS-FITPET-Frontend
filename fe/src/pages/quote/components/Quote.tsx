@@ -33,12 +33,14 @@ export default function Quote() {
   const [agreement, setAgreement] = useState(false)
   const [ageError, setAgeError] = useState('')
   const [nameError, setNameError] = useState('')
+  const [breedError, setBreedError] = useState('')
   const [notes, setNotes] = useState('')
   const [phone2, setPhone2] = useState('')
   const [phone3, setPhone3] = useState('')
   const [phoneError, setPhoneError] = useState('')
   const [showModal, setShowModal] = useState(false)
   const imageRef = useRef<HTMLDivElement>(null)
+  const dropdownRef = useRef<HTMLUListElement>(null)
 
   const breedList = petType === '강아지' ? dogList : catList
   const isSection1Complete = petType && name && age && breed
@@ -92,7 +94,7 @@ export default function Quote() {
     const ageValue = parseInt(value, 10)
 
     if (!numberRegex.test(value)) {
-      setAgeError('나이는 숫자를 포함하여 입력 가능합니다.')
+      setAgeError('나이는 숫자만 입력 가능합니다.')
     } else if (ageValue > 10) {
       setAgeError('현재 펫보험은 만 0-10세만 가능합니다.')
     } else {
@@ -108,8 +110,9 @@ export default function Quote() {
 
   const handleAgeChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target
-    setAge(value)
-    validateAge(value)
+    const numericValue = value.replace(/[^0-9]/g, '')
+    setAge(numericValue)
+    validateAge(numericValue)
   }
 
   const handlePhoneChange = (
@@ -127,6 +130,18 @@ export default function Quote() {
     }
     validatePhone(value)
   }
+
+  const handleBreedChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const { value } = e.target
+    setBreed(value)
+
+    if (!breedList.includes(value)) {
+      setBreedError('유효하지 않은 품종입니다.')
+    } else {
+      setBreedError('')
+    }
+  }
+
   const handleSubmit = () => {
     if (ageError || nameError || phoneError) {
       toast.error('올바른 값을 입력해주세요.')
@@ -137,7 +152,7 @@ export default function Quote() {
     mutate(
       {
         petName: name,
-        petSpecies: petType,
+        petSpecies: breed,
         petAge: parseInt(age, 10),
         phoneNumber: `010${phone2}${phone3}`,
         moreInfo: notes,
@@ -196,6 +211,21 @@ export default function Quote() {
       document.removeEventListener('mousedown', handleClickOutside)
     }
   }, [showImage])
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setFilteredBreeds([])
+      }
+    }
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [dropdownRef])
 
   return (
     <div className="relative max-w-2xl">
@@ -278,14 +308,14 @@ export default function Quote() {
             <div className="flex gap-25 items-start">
               <div className="w-2/3">
                 <label className="block mb-8 font-medium">
-                  이름 <span className="text-red">*</span>
+                  반려동물 이름 <span className="text-red">*</span>
                 </label>
                 <Input
                   value={name}
                   onChange={handleNameChange}
                   className="w-full"
                   wrapperClassName={nameError && 'border-red'}
-                  placeholder="이름을 입력해주세요"
+                  placeholder="반려동물의 이름을 입력해주세요"
                 />
                 {nameError && <p className="text-red mt-2">{nameError}</p>}
               </div>
@@ -295,13 +325,18 @@ export default function Quote() {
                   나이 <span className="text-red">*</span>
                 </label>
                 <Input
+                  type="text"
                   value={age}
                   onChange={handleAgeChange}
                   className="w-full"
                   wrapperClassName={ageError && 'border-red'}
-                  placeholder="ex. 만 3세"
+                  placeholder="만 나이를 입력해주세요."
                 />
-                {ageError && <p className="text-red mt-2">{ageError}</p>}
+                {ageError && (
+                  <p className="text-red mt-2 text-sm absolute whitespace-nowrap">
+                    {ageError}
+                  </p>
+                )}
               </div>
             </div>
             <div className="mb-4 relative">
@@ -309,17 +344,36 @@ export default function Quote() {
                 <label className="block mb-8 font-medium">
                   품종 <span className="text-red">*</span>
                 </label>
-                <Input
-                  value={breed}
-                  onChange={(e) => setBreed(e.target.value)}
-                  onFocus={() => setFilteredBreeds(breedList)}
-                  className="w-full"
-                  placeholder="품종을 입력하거나, 목록에서 선택해주세요"
-                  endContent={<Down />}
-                />
+                <div
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => setFilteredBreeds(breedList)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      setFilteredBreeds(breedList)
+                    }
+                  }}
+                >
+                  <Input
+                    value={breed}
+                    onChange={handleBreedChange}
+                    wrapperClassName={breedError && 'border-red'}
+                    className="w-full"
+                    placeholder="품종을 입력하거나, 목록에서 선택해주세요"
+                    endContent={<Down className="cursor-pointer" />}
+                  />
+                  {breedError && (
+                    <p className="text-red mt-2 text-sm absolute whitespace-nowrap">
+                      {breedError}
+                    </p>
+                  )}
+                </div>
               </div>
               {filteredBreeds.length > 0 && (
-                <ul className="absolute z-10 bg-white border border-[#333333] rounded-md w-full pl-10 max-h-400 overflow-y-auto">
+                <ul
+                  ref={dropdownRef}
+                  className="absolute z-10 bg-white border border-[#333333] rounded-md w-full pl-10 max-h-400 overflow-y-auto"
+                >
                   {filteredBreeds.map((b) => (
                     <div
                       key={b}
