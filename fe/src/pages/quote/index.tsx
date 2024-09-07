@@ -73,7 +73,7 @@ export default function QuotePage() {
           className="absolute right-120"
         />
 
-        <div className="h-300 w-1280 flex flex-col pl-130 justify-center text-white font-normal">
+        <div className="h-300 w-[1280px] flex flex-col mx-auto pl-50 justify-center text-white font-normal">
           <p className="text-2xl font-regular mb-15">
             간편하게 정보 입력하고 우리 아이에게 딱 맞는 보험을 찾아보세요.
           </p>
@@ -81,7 +81,7 @@ export default function QuotePage() {
         </div>
       </section>
 
-      <section className="flex flex-row py-60 px-130 gap-100">
+      <section className="flex flex-row py-60  w-[1280px] mx-auto pl-50 gap-100">
         <Quote />
         <div>
           <RightArticle />
