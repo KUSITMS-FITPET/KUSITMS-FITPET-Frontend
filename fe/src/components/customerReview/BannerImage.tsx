@@ -8,10 +8,10 @@ function BannerImage({ src, alt }: { src: string; alt: string }) {
         <Image src={src} alt={alt} fill style={{ objectFit: 'cover' }} />
         <div className="absolute inset-0 flex flex-col justify-center text-white font-normal px-4 md:px-8 lg:px-24 text-right">
           <p className="text-xl md:text-2xl lg:text-3xl font-regular">
-            스마트커버 인슈어런스 고객의 생생한 리뷰
+            스마트커버 인슈어런스 고객의 생생한 리뷰로 펫보험 고민 해결
           </p>
           <p className="text-2xl md:text-3xl lg:text-4xl font-semibold">
-            펫보험 선택 고민, 스마트커버 인슈어런스에서 해결!
+            고객 리뷰
           </p>
         </div>
       </div>
