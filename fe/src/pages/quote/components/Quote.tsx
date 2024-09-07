@@ -15,6 +15,7 @@ import Modal from '@/components/common/Modal'
 import { useRouter } from 'next/navigation'
 import { usePostQuotation } from '@/pages/api/api'
 import { toast } from 'react-toastify'
+import Close from '@/components/common/Icons/Close'
 import { dogList } from '../../../../public/content/dogList'
 import { catList } from '../../../../public/content/catList'
 import ToggleButton from './ToggleButton'
@@ -197,14 +198,14 @@ export default function Quote() {
   }, [showImage])
 
   return (
-    <div className="relative max-w-2xl mx-auto pl-10">
+    <div className="relative max-w-2xl">
       {showModal && (
         <Modal>
           <div>
             <button
               type="button"
               onClick={() => push('/')}
-              className="bg-main text-white font-bold w-300 rounded-lg py-13 mt-140"
+              className="bg-main text-white font-bold w-300 rounded-lg py-13 mt-20"
             >
               네, 확인했어요
             </button>
@@ -218,20 +219,24 @@ export default function Quote() {
 
       <div className="flex items-center mb-36 w-auto relative">
         <h1 className="text-3xl font-semibold mr-16">펫보험 견적서 입력</h1>
-        <Question />
         <div
-          className="relative"
+          className="relative cursor-pointer"
           onMouseEnter={handleMouseEnter}
           onMouseLeave={handleMouseLeave}
         >
-          <p className="text-main ml-8 cursor-pointer w-auto">
-            견적서 예시 보기
-          </p>
+          <Question />
           {showImage && (
             <div
               className="absolute z-50 top-full mt-4 left-0 w-[40vw] h-auto"
               ref={imageRef}
             >
+              <button
+                type="button"
+                className="absolute top-0 right-0 rounded-full w-50 h-50 flex items-center justify-center text-20"
+                onClick={() => setShowImage(false)}
+              >
+                <Close />
+              </button>
               <Image
                 src="/images/example.svg"
                 alt="견적서예시"
@@ -242,6 +247,9 @@ export default function Quote() {
               />
             </div>
           )}
+        </div>
+        <div>
+          <p className="text-main ml-8 w-auto">견적서 예시 보기</p>
         </div>
       </div>
 
