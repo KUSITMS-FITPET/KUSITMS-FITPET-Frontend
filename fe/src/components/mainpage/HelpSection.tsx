@@ -15,7 +15,7 @@ const HelpSection: NextPage = function HelpSection() {
           </p>
           <p className="text-lg lg:text-xl text-gray-600 mt-4 lg:mt-8">
             {' '}
-            스마트커버 인슈어런스는 고객님의 목소리를 소중히 듣고 {' '}
+            스마트커버 인슈어런스는 고객님의 목소리를 소중히 듣고{' '}
           </p>
           <p className="text-lg lg:text-xl text-gray-600 mt-4 lg:mt-8">
             더 나은 서비스를 제공하겠습니다.
