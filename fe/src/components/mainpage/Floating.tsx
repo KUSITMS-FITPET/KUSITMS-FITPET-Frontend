@@ -8,12 +8,10 @@ const Floating: NextPage = function Floating() {
     const confirmCall = window.confirm('연결하시겠습니까?')
     if (confirmCall) {
       try {
-        // 전화 상담 버튼 클릭 시 API로 카운트를 증가시키는 함수 호출
         await increasePhoneCount()
-        console.log('Phone count increased successfully.')
         window.location.href = 'tel:01057461800'
       } catch (error) {
-        console.error('Failed to increase phone count:', error)
+        throw new Error(`Failed to increase phone count: ${error}`)
       }
     }
   }
@@ -28,7 +26,6 @@ const Floating: NextPage = function Floating() {
       role="region"
       aria-label="Floating contact options"
     >
-      {/* 전문가 전화 상담 */}
       <div
         onClick={handleCallClick}
         onKeyPress={(e) => {
@@ -53,7 +50,6 @@ const Floating: NextPage = function Floating() {
         </div>
       </div>
 
-      {/* 구분선 */}
       <div className="w-full h-[1px] lg:h-[2px]">
         <Image
           src="/images/vector.svg"
@@ -64,7 +60,6 @@ const Floating: NextPage = function Floating() {
         />
       </div>
 
-      {/* 톡문의 */}
       <div
         onClick={handleChatClick}
         onKeyPress={(e) => {

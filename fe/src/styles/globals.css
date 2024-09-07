@@ -8,7 +8,7 @@
   --background-end-rgb: 255, 255, 255;
   --rdp-accent-color: indigo;
   --rdp-background-color: gray;
-  --rdp-selected-color : gray
+  --rdp-selected-color: gray;
 }
 html,
 body {

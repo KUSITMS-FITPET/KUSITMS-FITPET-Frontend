@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 import { getReviewById, Review } from '@/api/customereview'
 
 interface ReviewItemProps {
@@ -21,7 +22,7 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
           setReview(null)
         }
       } catch (error) {
-        console.error('Failed to fetch review:', error)
+        throw new Error(`Failed to fetch review: ${error}`)
       }
     }
 
@@ -88,12 +89,14 @@ function ReviewItem({ reviewId }: ReviewItemProps) {
               boxShadow: 'none',
             }}
           >
-            <img
+            <Image
               src="/images/add.svg"
               alt="더보기"
               width={24}
               height={24}
-              className={`cursor-pointer transform transition-transform ${isExpanded ? 'rotate-180' : ''}`}
+              className={`cursor-pointer transform transition-transform ${
+                isExpanded ? 'rotate-180' : ''
+              }`}
             />
           </button>
         </div>

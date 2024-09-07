@@ -13,7 +13,9 @@ export const fetchConsultationCount = async () => {
     )
     return response.data
   } catch (error) {
-    console.error('Error fetching consultation count:', error)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error fetching consultation count:', error)
+    }
     throw error
   }
 }
@@ -31,10 +33,14 @@ export const increasePhoneCount = async () => {
       },
     )
     if (!response.data.isSuccess) {
-      console.error('Failed to increase phone count:', response.data.message)
+      if (process.env.NODE_ENV === 'development') {
+        console.error('Failed to increase phone count:', response.data.message)
+      }
     }
   } catch (error) {
-    console.error('Error increasing phone count:', error)
+    if (process.env.NODE_ENV === 'development') {
+      console.error('Error increasing phone count:', error)
+    }
     throw error
   }
 }
