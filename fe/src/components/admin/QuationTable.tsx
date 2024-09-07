@@ -40,7 +40,7 @@ export default function QuotationTable({
     petSpecies: '',
     petAge: 0,
     moreInfo: '',
-    phoneNumber: '',
+    phoneNumber: '',  
   }
   const [editedData, setEditedData] = useState<QuotationInfo>(defaultValue)
 

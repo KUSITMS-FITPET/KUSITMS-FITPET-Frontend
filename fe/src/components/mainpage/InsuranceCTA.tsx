@@ -26,24 +26,20 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
 
   return (
     <div
-      className="relative w-full overflow-hidden text-center text-lg text-main-color font-pretendard mx-auto"
+      className="relative w-full overflow-hidden text-center text-lg text-main-color font-pretendard mx-auto bg-white" // 배경색을 흰색으로 변경
       style={{
-        backgroundImage: "url('/images/Group.svg')", // Set the background image
-        backgroundSize: 'cover', // Ensure the image covers the entire background
-        backgroundPosition: 'center', // Center the background image
-        backgroundRepeat: 'no-repeat', // Prevent image repetition
-        width: '100vw', // Ensure the width fills the entire viewport
-        height: '180vh', // Ensure height fills the full viewport
+        width: '100vw', 
+        height: '200vh',
       }}
     >
       {/* Content section */}
-      <div className="absolute top-240 left-4 lg:left-[152px] flex flex-col items-start gap-4">
+      <div className="absolute top-240 left-4 lg:left-[152px] flex flex-col items-start gap-20">
         {/* Hashtags with rounded borders */}
-        <div className="flex gap-4 lg:gap-10">
+        <div className="flex gap-10 lg:gap-14">
           {['#편리한', '#딱 맞는', '#전문가'].map((tag) => (
             <div
               key={tag}
-              className="rounded-full border-main-color border-[1px] flex items-center justify-center py-1 sm:py-1.5 px-4 lg:px-7 bg-white"
+              className="rounded-full border-main-color border-[1px] flex items-center justify-center py-4 sm:py-4 px-8 lg:px-15 bg-white" 
             >
               <div className="leading-[20px] sm:leading-[24px] lg:leading-[28px] font-medium">
                 {tag}
@@ -98,6 +94,15 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
             </div>
           </button>
         </div>
+      </div>
+
+      {/* Background Image on the Right */}
+      <div className="absolute top-0 right-0 h-full w-1/2"> {/* 오른쪽에 이미지 고정 */}
+        <img 
+          src="/images/reviewgroup.svg" 
+          alt="Review Group" 
+          className="h-full w-full object-cover" 
+        />
       </div>
     </div>
   )
