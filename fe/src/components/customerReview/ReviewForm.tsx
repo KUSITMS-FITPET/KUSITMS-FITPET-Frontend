@@ -207,7 +207,8 @@ function ReviewForm() {
               !age ||
               !breed ||
               review.length < 10 ||
-              status === 'pending'
+              status === 'pending' ||
+              rating === null
             }
             style={{ width: '50%' }}
           >
