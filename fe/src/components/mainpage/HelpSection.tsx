@@ -11,14 +11,14 @@ const HelpSection: NextPage = function HelpSection() {
           </h2>
           <p className="text-lg lg:text-xl text-gray-600 mt-4 lg:mt-8">
             {' '}
-            Lorem ipsum dolor sit amet consectetur. Velit porta
+            서비스 이용 중 궁금한 점이나 어려움이 있다면 언제든지 문의해 주세요.
           </p>
           <p className="text-lg lg:text-xl text-gray-600 mt-4 lg:mt-8">
             {' '}
-            bibendum tellus euismod diam eu. Volutpat quis{' '}
+            스마트커버 인슈어런스는 고객님의 목소리를 소중히 듣고{' '}
           </p>
           <p className="text-lg lg:text-xl text-gray-600 mt-4 lg:mt-8">
-            mauris enim turpis.
+            더 나은 서비스를 제공하겠습니다.
           </p>
         </div>
 
