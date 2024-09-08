@@ -9,7 +9,9 @@ function ReviewForm() {
   const [breed, setBreed] = useState('')
   const [review, setReview] = useState('')
   const [rating, setRating] = useState<number>(1) // 기본 별점 1로 설정
-  const [status, setStatus] = useState<'idle' | 'pending' | 'success' | 'error'>('idle')
+  const [status, setStatus] = useState<
+    'idle' | 'pending' | 'success' | 'error'
+  >('idle')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [reviewDate, setReviewDate] = useState<string | null>(null)
   const router = useRouter()
