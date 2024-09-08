@@ -8,7 +8,7 @@ function ReviewForm() {
   const [age, setAge] = useState('')
   const [breed, setBreed] = useState('')
   const [review, setReview] = useState('')
-  const [rating, setRating] = useState<number | null>(null)
+  const [rating, setRating] = useState<number>(1) // 기본 별점 1로 설정
   const [status, setStatus] = useState<
     'idle' | 'pending' | 'success' | 'error'
   >('idle')
@@ -30,7 +30,7 @@ function ReviewForm() {
       petAge: Number(age),
       petSpecies: breed,
       content: review,
-      star: rating || 0,
+      star: rating,
     }
 
     try {
@@ -81,14 +81,11 @@ function ReviewForm() {
               key={star}
               type="button"
               className={`cursor-pointer p-2 lg:p-3 mr-4 lg:mr-6 ${
-                rating !== null && rating >= star
-                  ? 'text-yellow-400'
-                  : 'text-[#9CA3AF]'
+                rating >= star ? 'text-yellow-400' : 'text-[#9CA3AF]'
               }`}
-              onClick={() => setRating(rating === star ? null : star)}
+              onClick={() => setRating(star)} // null 제거
               style={{
-                color:
-                  rating !== null && rating >= star ? '#FFD700' : '#9CA3AF',
+                color: rating >= star ? '#FFD700' : '#9CA3AF',
               }}
             >
               <svg
@@ -207,8 +204,7 @@ function ReviewForm() {
               !age ||
               !breed ||
               review.length < 10 ||
-              status === 'pending' ||
-              rating === null
+              status === 'pending'
             }
             style={{ width: '50%' }}
           >
