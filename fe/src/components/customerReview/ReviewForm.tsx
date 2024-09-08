@@ -8,10 +8,8 @@ function ReviewForm() {
   const [age, setAge] = useState('')
   const [breed, setBreed] = useState('')
   const [review, setReview] = useState('')
-  const [rating, setRating] = useState<number | null>(null)
-  const [status, setStatus] = useState<
-    'idle' | 'pending' | 'success' | 'error'
-  >('idle')
+  const [rating, setRating] = useState<number>(1) // 기본 별점 1로 설정
+  const [status, setStatus] = useState<'idle' | 'pending' | 'success' | 'error'>('idle')
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [reviewDate, setReviewDate] = useState<string | null>(null)
   const router = useRouter()
@@ -30,7 +28,7 @@ function ReviewForm() {
       petAge: Number(age),
       petSpecies: breed,
       content: review,
-      star: rating || 0,
+      star: rating,
     }
 
     try {
@@ -81,14 +79,11 @@ function ReviewForm() {
               key={star}
               type="button"
               className={`cursor-pointer p-2 lg:p-3 mr-4 lg:mr-6 ${
-                rating !== null && rating >= star
-                  ? 'text-yellow-400'
-                  : 'text-[#9CA3AF]'
+                rating >= star ? 'text-yellow-400' : 'text-[#9CA3AF]'
               }`}
-              onClick={() => setRating(rating === star ? null : star)}
+              onClick={() => setRating(star)} // null 제거
               style={{
-                color:
-                  rating !== null && rating >= star ? '#FFD700' : '#9CA3AF',
+                color: rating >= star ? '#FFD700' : '#9CA3AF',
               }}
             >
               <svg
@@ -198,9 +193,7 @@ function ReviewForm() {
               !age ||
               !breed ||
               review.length < 10 ||
-              status === 'pending' ||
-              rating === null ||
-              rating === 0
+              status === 'pending'
                 ? 'bg-gray-400'
                 : 'bg-[#008CFF] hover:bg-[#0056b3]'
             } text-white px-16 lg:px-32 py-4 lg:py-8 rounded-md text-lg lg:text-xl`}
@@ -209,9 +202,7 @@ function ReviewForm() {
               !age ||
               !breed ||
               review.length < 10 ||
-              status === 'pending' ||
-              rating === null ||
-              rating === 0
+              status === 'pending'
             }
             style={{ width: '50%' }}
           >
