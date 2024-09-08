@@ -20,6 +20,7 @@ export type NewsResponse = {
     cardNewsId: number
     cardNewsTitle: string
     cardNewsContent: string
+    cardNewsContentDetail: string
     image_url: string
   }>
   totalCount: number

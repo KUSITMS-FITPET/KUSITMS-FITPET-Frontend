@@ -73,14 +73,14 @@ export default function AdminSidebar() {
             </button>
             {isContentOpen && (
               <ul className="bg-bgColor3 w-full py-10">
-                <li>{renderLink('콘텐츠 목록 조회', '/contents')}</li>
-                <li>{renderLink('콘텐츠 추가', '/contents/add')}</li>
+                <li>{renderLink('콘텐츠 목록 조회', '/admin/contents')}</li>
+                <li>{renderLink('콘텐츠 추가', '/admin/contents/add')}</li>
               </ul>
             )}
           </li>
 
-          <li>{renderLink('사이트 통계', '/statistics')}</li>
-          <li>{renderLink('환경 설정', '/settings')}</li>
+          <li>{renderLink('url 관리', '/admin/url')}</li>
+          <li>{renderLink('환경 설정', '/admin/settings')}</li>
         </ul>
       </nav>
     </div>
