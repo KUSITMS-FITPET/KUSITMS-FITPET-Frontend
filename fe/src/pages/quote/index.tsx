@@ -6,9 +6,10 @@ import RightArticle from './components/RightArticle'
 import ErrorModal from './components/ErrorModal'
 
 export default function QuotePage() {
+  const router = useRouter()
+
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [pendingUrl, setPendingUrl] = useState<string | null>(null)
-  const router = useRouter()
 
   useEffect(() => {
     const handleRouteChange = (url: string) => {

@@ -3,11 +3,12 @@ import { http } from '@/api'
 
 export type Quotation = {
   petName: string
+  petType: string
   petSpecies: string
   petAge: number
   phoneNumber: string
   moreInfo: string
-  agreement: true
+  agreement: boolean
 }
 
 export const postQuotation = (quotation: Quotation) =>
