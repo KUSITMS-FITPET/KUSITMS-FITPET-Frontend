@@ -198,7 +198,9 @@ function ReviewForm() {
               !age ||
               !breed ||
               review.length < 10 ||
-              status === 'pending'
+              status === 'pending' ||
+              rating === null ||
+              rating === 0
                 ? 'bg-gray-400'
                 : 'bg-[#008CFF] hover:bg-[#0056b3]'
             } text-white px-16 lg:px-32 py-4 lg:py-8 rounded-md text-lg lg:text-xl`}
@@ -208,7 +210,8 @@ function ReviewForm() {
               !breed ||
               review.length < 10 ||
               status === 'pending' ||
-              rating === null
+              rating === null ||
+              rating === 0
             }
             style={{ width: '50%' }}
           >
