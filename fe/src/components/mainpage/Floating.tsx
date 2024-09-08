@@ -1,9 +1,9 @@
-import { NextPage } from 'next'
 import React from 'react'
 import Image from 'next/image'
 import { increasePhoneCount } from '@/api/consultationCount'
+import { cn } from '@/util'
 
-const Floating: NextPage = function Floating() {
+export default function Floating({ className }: { className?: string }) {
   const handleCallClick = async () => {
     const confirmCall = window.confirm('연결하시겠습니까?')
     if (confirmCall) {
@@ -22,7 +22,10 @@ const Floating: NextPage = function Floating() {
 
   return (
     <div
-      className="fixed top-[90px] right-[16px] lg:top-[130px] lg:right-[50px] shadow-[0px_6px_20px_rgba(0,_0,_0,_0.2)] rounded-lg bg-white w-[72px] h-[164px] lg:w-[100px] lg:h-[260px] overflow-hidden text-center text-sm text-darkslategray font-pretendard z-50"
+      className={cn(
+        'fixed top-[90px] right-[16px] lg:top-[130px] lg:right-[50px] shadow-[0px_6px_20px_rgba(0,_0,_0,_0.2)] rounded-lg bg-white w-[72px] h-[164px] lg:w-[100px] lg:h-[260px] overflow-hidden text-center text-sm text-darkslategray font-pretendard z-50',
+        className,
+      )}
       role="region"
       aria-label="Floating contact options"
     >
@@ -85,5 +88,3 @@ const Floating: NextPage = function Floating() {
     </div>
   )
 }
-
-export default Floating
