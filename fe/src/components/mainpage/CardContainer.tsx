@@ -15,16 +15,16 @@ function CardContainer() {
       image: '/images/call-calling.svg', // 두 번째 카드 이미지
     },
     {
-      title: '주요 펫보험 제휴',
-      content:
-        'SC에서는 주요 5개<br />보험사의 펫보험 상품을<br />한 눈에 비교할 수 있어요.',
-      image: '/images/lovely.svg', // 세 번째 카드 이미지
-    },
-    {
       title: '깊이 있는 케어',
       content:
         '반려동물 헬스케어 1위로서,<br />깊은 이해와 애정으로<br />신뢰있는 보험 서비스를 제공해요.',
       image: '/images/unlimited.svg', // 네 번째 카드 이미지
+    },
+    {
+      title: '주요 펫보험 제휴',
+      content:
+        'SC에서는 주요 5개<br />보험사의 펫보험 상품을<br />한 눈에 비교할 수 있어요.',
+      image: '/images/lovely.svg', // 세 번째 카드 이미지
     },
   ]
 
