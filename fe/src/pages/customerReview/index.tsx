@@ -10,7 +10,7 @@ import Pagination from '@/components/common/Pagination'
 const CustomerReviewPage: React.FC = function CustomerReviewPage() {
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedPet, setSelectedPet] = useState<string | null>(null)
-  const [order, setOrder] = useState<'' | 'desc'>('desc') // 빈 문자열과 'desc'로만 관리
+  const [order, setOrder] = useState<'' | 'desc'>('desc')
   const [totalPages, setTotalPages] = useState(1)
 
   return (
@@ -29,7 +29,7 @@ const CustomerReviewPage: React.FC = function CustomerReviewPage() {
           <main className="w-3/4">
             <ReviewList
               currentPage={currentPage}
-              order={order} // 수정된 order 값을 넘겨줌
+              order={order}
               selectedPet={selectedPet}
               onTotalPages={setTotalPages}
             />

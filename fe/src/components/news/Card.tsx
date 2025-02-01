@@ -6,11 +6,13 @@ export default function Card({
   title,
   content,
   image,
+  detail,
 }: {
   title: string
   content: string
   id: number
   image: string
+  detail: string
 }) {
   const [showContent, setShowContent] = useState(false)
 
@@ -21,7 +23,7 @@ export default function Card({
   return showContent ? (
     <CardContent
       title={title}
-      content={content}
+      content={detail}
       image={image}
       onBack={() => setShowContent(false)}
     />

@@ -1,19 +1,17 @@
-import { NextPage } from 'next'
 import React from 'react'
 import Image from 'next/image'
 import { increasePhoneCount } from '@/api/consultationCount'
+import { cn } from '@/util'
 
-const Floating: NextPage = function Floating() {
+export default function Floating({ className }: { className?: string }) {
   const handleCallClick = async () => {
     const confirmCall = window.confirm('연결하시겠습니까?')
     if (confirmCall) {
       try {
-        // 전화 상담 버튼 클릭 시 API로 카운트를 증가시키는 함수 호출
         await increasePhoneCount()
-        console.log('Phone count increased successfully.')
         window.location.href = 'tel:01057461800'
       } catch (error) {
-        console.error('Failed to increase phone count:', error)
+        throw new Error(`Failed to increase phone count: ${error}`)
       }
     }
   }
@@ -24,11 +22,13 @@ const Floating: NextPage = function Floating() {
 
   return (
     <div
-      className="fixed top-[90px] right-[16px] lg:top-[130px] lg:right-[50px] shadow-[0px_6px_20px_rgba(0,_0,_0,_0.2)] rounded-lg bg-white w-[72px] h-[164px] lg:w-[100px] lg:h-[260px] overflow-hidden text-center text-sm text-darkslategray font-pretendard z-50"
+      className={cn(
+        'fixed top-[90px] right-[16px] lg:top-[130px] lg:right-[50px] shadow-[0px_6px_20px_rgba(0,_0,_0,_0.2)] rounded-lg bg-white w-[72px] h-[164px] lg:w-[100px] lg:h-[260px] overflow-hidden text-center text-sm text-darkslategray font-pretendard z-50',
+        className,
+      )}
       role="region"
       aria-label="Floating contact options"
     >
-      {/* 전문가 전화 상담 */}
       <div
         onClick={handleCallClick}
         onKeyPress={(e) => {
@@ -53,7 +53,6 @@ const Floating: NextPage = function Floating() {
         </div>
       </div>
 
-      {/* 구분선 */}
       <div className="w-full h-[1px] lg:h-[2px]">
         <Image
           src="/images/vector.svg"
@@ -64,7 +63,6 @@ const Floating: NextPage = function Floating() {
         />
       </div>
 
-      {/* 톡문의 */}
       <div
         onClick={handleChatClick}
         onKeyPress={(e) => {
@@ -90,5 +88,3 @@ const Floating: NextPage = function Floating() {
     </div>
   )
 }
-
-export default Floating

@@ -10,7 +10,6 @@ import {
 import 'slick-carousel/slick/slick.css'
 import 'slick-carousel/slick/slick-theme.css'
 
-// 슬라이더 컴포넌트를 서버 사이드 렌더링에서 제외하고, 로딩 메시지를 추가
 const Slider = dynamic(() => import('react-slick'), {
   ssr: false,
   loading: () => <p>Loading...</p>,
@@ -83,37 +82,30 @@ interface Slide {
 function SlideBanner() {
   const [consultationCount, setConsultationCount] = useState<number>(0)
 
-  // 상담 수를 불러오는 함수
   const loadConsultationCount = async () => {
     try {
       const response = await fetchConsultationCount()
-      setConsultationCount(response.result) // API로부터 받은 상담 건수 설정
+      setConsultationCount(response.result)
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Failed to fetch consultation count', error)
-      }
+      // 에러 핸들링
+      throw new Error(`Failed to fetch consultation count: ${error}`)
     }
   }
 
-  // 컴포넌트가 마운트될 때 상담 수를 불러옴
   useEffect(() => {
     loadConsultationCount()
   }, [])
 
-  // 전화 문의 카운트를 증가시키는 함수
   const handlePhoneCountIncrease = async () => {
     try {
       await increasePhoneCount()
-      // 전화 문의 카운트 증가 후 상담 수 새로고침
       await loadConsultationCount()
     } catch (error) {
-      if (process.env.NODE_ENV === 'development') {
-        console.error('Failed to increase phone count', error)
-      }
+      // 에러 핸들링
+      throw new Error(`Failed to increase phone count: ${error}`)
     }
   }
 
-  // 슬라이더 설정
   const settings = {
     infinite: true,
     speed: 800,
@@ -182,7 +174,7 @@ function SlideBanner() {
         {slides.map((slide) => (
           <div
             key={slide.id}
-            className="relative w-full h-[85vh] md:h-[75vh] lg:h-[65vh] flex items-center justify-center"
+            className="relative w-full h-[100vh] md:h-[85vh] lg:h-[75vh] flex items-center justify-center"
           >
             <div className="absolute inset-0 w-full h-full">
               <Image
@@ -220,7 +212,7 @@ function SlideBanner() {
               {slide.buttonText && (
                 <Link href={slide.link}>
                   <button
-                    type="button" // 명시적인 타입 추가
+                    type="button"
                     onClick={handlePhoneCountIncrease}
                     className={`
                       ${slide.buttonStyle} 

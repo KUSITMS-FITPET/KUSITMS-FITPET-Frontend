@@ -1,6 +1,6 @@
 import { SVGProps } from 'react'
 
-export default function Down(props: SVGProps<SVGSVGElement>) {
+export default function Down(props: SVGProps<SVGSVGElement>, fill = '#637381') {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -23,7 +23,7 @@ export default function Down(props: SVGProps<SVGSVGElement>) {
       <g mask="url(#mask0_882_1568)">
         <path
           d="M10.0001 12.782L5.28857 8.07053L6.0626 7.29651L10.0001 11.234L13.9376 7.29651L14.7116 8.07053L10.0001 12.782Z"
-          fill="#637381"
+          fill={fill}
         />
       </g>
     </svg>

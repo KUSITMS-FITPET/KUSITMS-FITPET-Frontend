@@ -49,7 +49,7 @@ export function useInput(props: UseInputProps) {
   const getBaseProps = useCallback(
     () => ({
       className: cn(
-        'flex items-center bg-white rounded-8 px-20 border border-[#D1D5DB]',
+        'flex items-center bg-white rounded-8 px-18 border border-[#D1D5DB]',
         wrapperClassName,
       ),
     }),
@@ -61,7 +61,7 @@ export function useInput(props: UseInputProps) {
       ...otherProps,
       ref: domRef,
       className: cn(
-        'bg-white my-12 h-full focus:outline-none placeholder-[#D1D5DB]',
+        'bg-white my-12 h-full w-full focus:outline-none placeholder-[#D1D5DB]',
         otherProps.className,
         error && 'border-[##EF4444]',
       ),

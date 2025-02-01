@@ -34,7 +34,7 @@ function ReviewList({
         )
         if (data) {
           setReviews(data.result.listPageResponse)
-          onTotalPages(Math.ceil(data.result.totalCount / data.result.size))
+          onTotalPages(Math.ceil(data.result.totalCount / 9))
         } else {
           setError('리뷰를 불러오는 데 실패했습니다.')
         }

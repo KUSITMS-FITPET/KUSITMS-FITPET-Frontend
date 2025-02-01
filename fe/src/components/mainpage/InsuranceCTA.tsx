@@ -2,6 +2,7 @@ import { NextPage } from 'next'
 import React from 'react'
 import { FaArrowRight } from 'react-icons/fa'
 import { useRouter } from 'next/router'
+import Image from 'next/image'
 import { increasePhoneCount } from '@/api/consultationCount'
 
 const InsuranceCTA: NextPage = function InsuranceCTA() {
@@ -16,15 +17,15 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
     if (confirmCall) {
       try {
         await increasePhoneCount()
-        console.log('Phone count increased successfully.')
         window.location.href = 'tel:01057461800'
       } catch (error) {
-        console.error('Failed to increase phone count:', error)
+        throw new Error(`Failed to increase phone count: ${error}`)
       }
     }
   }
 
   return (
+<<<<<<< HEAD
     <div
       className="relative w-full overflow-hidden text-center text-lg text-main-color font-pretendard mx-auto bg-white" // 배경색을 흰색으로 변경
       style={{
@@ -35,11 +36,19 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
       {/* Content section */}
       <div className="absolute top-240 left-4 lg:left-[152px] flex flex-col items-start gap-20">
         {/* Hashtags with rounded borders */}
+=======
+    <div className="relative w-full h-[725px] overflow-hidden text-center text-lg text-main-color font-pretendard mx-auto bg-white">
+      <div className="absolute top-[180px] left-4 lg:left-[152px] flex flex-col items-start gap-16">
+>>>>>>> main
         <div className="flex gap-10 lg:gap-14">
           {['#편리한', '#딱 맞는', '#전문가'].map((tag) => (
             <div
               key={tag}
+<<<<<<< HEAD
               className="rounded-full border-main-color border-[1px] flex items-center justify-center py-4 sm:py-4 px-8 lg:px-15 bg-white" 
+=======
+              className="rounded-full border-main-color border-[1px] flex items-center justify-center py-4 sm:py-4 px-8 lg:px-15 bg-white"
+>>>>>>> main
             >
               <div className="leading-[20px] sm:leading-[24px] lg:leading-[28px] font-medium">
                 {tag}
@@ -48,7 +57,6 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
           ))}
         </div>
 
-        {/* Main Text */}
         <div className="w-full sm:w-[500px] lg:w-[600px] text-left text-[24px] sm:text-[28px] lg:text-[36px] text-gray-200">
           <b className="leading-[130%] sm:leading-[140%] lg:leading-[150%]">
             <p className="m-0">
@@ -67,7 +75,6 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
           </b>
         </div>
 
-        {/* Buttons */}
         <div className="flex gap-6 sm:gap-8 lg:gap-20 text-left text-lg sm:text-xl lg:text-2xl mt-[16px] sm:mt-[24px] lg:mt-[36px]">
           <button
             type="button"
@@ -96,12 +103,22 @@ const InsuranceCTA: NextPage = function InsuranceCTA() {
         </div>
       </div>
 
+<<<<<<< HEAD
       {/* Background Image on the Right */}
       <div className="absolute top-0 right-0 h-full w-1/2"> {/* 오른쪽에 이미지 고정 */}
         <img 
           src="/images/reviewgroup.svg" 
           alt="Review Group" 
           className="h-full w-full object-cover" 
+=======
+      <div className="absolute bottom-0 right-0 h-full w-1/3 flex items-end justify-center">
+        <Image
+          src="/images/miangroup.svg"
+          alt="Mian Group"
+          width={575}
+          height={575}
+          className="object-contain"
+>>>>>>> main
         />
       </div>
     </div>

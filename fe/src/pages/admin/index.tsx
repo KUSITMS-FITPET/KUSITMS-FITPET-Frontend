@@ -1,12 +1,21 @@
 import { Input, PasswordHidden } from '@/components'
 import Image from 'next/image'
-import { useCallback, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { usePostLogin } from '@/api/admin/login'
+import { useRouter } from 'next/router'
 
 export default function Login() {
   const [adminId, setAdminId] = useState<string>('')
   const [password, setPassword] = useState<string>('')
   const [isPassword, setIsPassword] = useState<boolean>(true)
+
+  const router = useRouter()
+
+  useEffect(() => {
+    if (router.query.err === 'unauthorized') {
+      alert('접근 권한이 없습니다.')
+    }
+  }, [router.query])
 
   const { mutate } = usePostLogin({ adminId, adminPw: password })
 
