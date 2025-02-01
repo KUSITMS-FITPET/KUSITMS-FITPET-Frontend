@@ -1,111 +1,66 @@
-import { useState, useEffect } from 'react'
-import { useRouter } from 'next/router'
-import { jwtDecode } from 'jwt-decode'
-import AdminTable from '@/components/admin/AdminTable'
-import AdminModal from '@/components/admin/AdminListModal'
-import {
-  fetchAdminList,
-  deleteAdmin,
-  createAdmin,
-  Admin,
-  NewAdmin,
-} from '@/api/admin/adminlist'
+import { useState, useEffect } from 'react';
+import { useRouter } from 'next/router';
+import AdminTable from '@/components/admin/AdminTable';
+import AdminModal from '@/components/admin/AdminListModal';
+import { fetchAdminList, deleteAdmin, createAdmin, Admin, NewAdmin } from '@/api/admin/adminlist';
+import { useAuthContext } from '@/components/admin/AuthlProvider';
 
-interface JWTPayload {
-  role: string
-  exp: number
-}
-
-// 함수 선언 방식으로 컴포넌트 정의
 function AdminManagementPage() {
-  const router = useRouter()
-  const [isAuthorized, setIsAuthorized] = useState(false)
-  const [admins, setAdmins] = useState<Admin[]>([])
-  const [loading, setLoading] = useState(true)
-  const [errorMessage, setErrorMessage] = useState<string | null>(null)
-  const [isAddAdminModalOpen, setIsAddAdminModalOpen] = useState(false)
+  const router = useRouter();
+  const { authInfo } = useAuthContext(); // AuthContext에서 권한 정보 가져오기
+  const [admins, setAdmins] = useState<Admin[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [isAddAdminModalOpen, setIsAddAdminModalOpen] = useState(false);
 
   useEffect(() => {
-    const token = localStorage.getItem('token')
-    if (!token) {
-      router.push('/login')
-      return
-    }
-
-    try {
-      const decoded: JWTPayload = jwtDecode<JWTPayload>(token)
-
-      // 토큰 만료 확인
-      if (decoded.exp < Date.now() / 1000) {
-        alert('토큰이 만료되었습니다. 다시 로그인해주세요.')
-        localStorage.removeItem('token')
-        router.push('/login')
-      } else if (decoded.role === 'admin') {
-        setIsAuthorized(true)
-      } else {
-        alert('접근 권한이 없습니다.')
-        router.push('/')
-      }
-    } catch (error) {
-      alert('토큰 디코딩 오류가 발생했습니다.')
-      router.push('/login')
-    }
-  }, [router])
+    loadAdmins(1); // 페이지가 로드될 때 관리자 목록을 가져옵니다.
+  }, []);
 
   const loadAdmins = async (page: number) => {
-    setLoading(true)
+    setLoading(true);
     try {
-      const data = await fetchAdminList(page)
-      const sortedAdmins = data.result.sort(
+      const data = await fetchAdminList(page); // roleMaster 전달하지 않음
+      const sortedAdmins = data.sort(
         (a: Admin, b: Admin) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      )
-      setAdmins(sortedAdmins)
-      setErrorMessage(null)
+      );
+      setAdmins(sortedAdmins);
+      setErrorMessage(null);
     } catch (err) {
-      setErrorMessage('Failed to load admins.')
+      setErrorMessage('Failed to load admins.');
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
 
   const handleDeleteAdmin = async (id: string) => {
     try {
-      await deleteAdmin(id)
-      loadAdmins(1)
+      await deleteAdmin(id, authInfo.roleMaster); // authInfo.roleMaster 전달
+      loadAdmins(1);
     } catch {
-      setErrorMessage('Failed to delete admin.')
+      setErrorMessage('Failed to delete admin.');
     }
-  }
+  };
 
   const handleAddAdmin = async (newAdmin: NewAdmin): Promise<boolean> => {
     try {
-      await createAdmin(newAdmin)
-      setIsAddAdminModalOpen(false)
-      loadAdmins(1)
-      return true
+      await createAdmin(newAdmin, authInfo.roleMaster); // authInfo.roleMaster 전달
+      setIsAddAdminModalOpen(false);
+      loadAdmins(1);
+      return true;
     } catch {
-      setErrorMessage('Failed to add admin.')
-      return false
+      setErrorMessage('Failed to add admin.');
+      return false;
     }
-  }
-
-  useEffect(() => {
-    if (isAuthorized) {
-      loadAdmins(1)
-    }
-  }, [isAuthorized])
-
-  if (!isAuthorized) {
-    return <div>Loading...</div>
-  }
+  };
 
   if (loading) {
-    return <div>Loading...</div>
+    return <div>Loading...</div>;
   }
 
   if (errorMessage) {
-    return <div>{errorMessage}</div>
+    return <div>{errorMessage}</div>;
   }
 
   return (
@@ -126,7 +81,7 @@ function AdminManagementPage() {
         />
       )}
     </>
-  )
+  );
 }
 
-export default AdminManagementPage
+export default AdminManagementPage;
