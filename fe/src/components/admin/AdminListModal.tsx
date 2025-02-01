@@ -7,7 +7,6 @@ interface AdminModalProps {
   onClose: () => void
 }
 
-// 명시적으로 함수형 컴포넌트를 함수 선언으로 변경
 function AdminModal({ onSubmit, onClose }: AdminModalProps) {
   const [formData, setFormData] = useState<NewAdmin>({
     adminId: '',
@@ -17,7 +16,9 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
     roleEstimates: false,
     roleSites: false,
     roleMaster: false,
-    createdAt: new Date().toISOString(),
+    ...(process.env.NEXT_PUBLIC_USE_CREATED_AT === 'true' && {
+      createdAt: new Date().toISOString(),
+    }),
   })
 
   const [errors, setErrors] = useState({
@@ -34,7 +35,6 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
       adminPw: '',
     }
 
-    // 이름 유효성 검사
     if (!formData.name) {
       newErrors.name = '이름을 입력해주세요.'
       valid = false
@@ -43,7 +43,6 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
       valid = false
     }
 
-    // 아이디 유효성 검사
     if (!formData.adminId) {
       newErrors.adminId = '아이디를 입력해주세요.'
       valid = false
@@ -53,7 +52,6 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
       valid = false
     }
 
-    // 비밀번호 유효성 검사
     if (!formData.adminPw) {
       newErrors.adminPw = '비밀번호를 입력해주세요.'
       valid = false
@@ -90,7 +88,6 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
   return (
     <div className="fixed inset-0 bg-[#161c24] bg-opacity-50 flex justify-center items-center z-50">
       <div className="w-[909px] h-[543px] bg-white rounded-lg relative">
-        {/* 모달 닫기 버튼 */}
         <button
           type="button"
           className="absolute top-4 right-4"
@@ -99,12 +96,10 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
           <Image src="/images/close.svg" alt="Close" width={24} height={24} />
         </button>
 
-        {/* 모달 헤더 */}
         <div className="text-center text-[#282828] text-xl font-bold mt-20">
           새로운 관리자 등록
         </div>
 
-        {/* 프로필 이미지 */}
         <div className="absolute left-[116px] top-[142px]">
           <Image
             src="/images/admin.svg"
@@ -115,7 +110,6 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
           />
         </div>
 
-        {/* 관리자명 입력 */}
         <div className="absolute left-[78px] top-[346px]">
           <input
             type="text"
@@ -128,7 +122,6 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
           {errors.name && <p className="text-red-500 text-sm">{errors.name}</p>}
         </div>
 
-        {/* 아이디 */}
         <div className="absolute left-[428px] top-[124px]">
           <div className="text-[#282828] text-base font-bold">아이디</div>
           <div className="text-gray-400 text-sm">
@@ -147,7 +140,6 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
           )}
         </div>
 
-        {/* 비밀번호 */}
         <div className="absolute left-[428px] top-[254px]">
           <div className="text-[#282828] text-base font-bold">비밀번호</div>
           <div className="text-gray-400 text-sm">
@@ -166,7 +158,6 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
           )}
         </div>
 
-        {/* 권한 설정 */}
         <div className="absolute left-[428px] top-[385px]">
           <div className="text-[#282828] text-base font-bold">권한 설정</div>
           <div className="flex space-x-8 mt-4">
@@ -211,7 +202,6 @@ function AdminModal({ onSubmit, onClose }: AdminModalProps) {
           </div>
         </div>
 
-        {/* 등록하기 버튼 */}
         <div className="absolute w-full h-[63px] bottom-0 bg-main flex justify-center items-center cursor-pointer">
           <button
             type="button"

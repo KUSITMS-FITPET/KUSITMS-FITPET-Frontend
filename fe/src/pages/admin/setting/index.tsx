@@ -1,66 +1,71 @@
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/router';
-import AdminTable from '@/components/admin/AdminTable';
-import AdminModal from '@/components/admin/AdminListModal';
-import { fetchAdminList, deleteAdmin, createAdmin, Admin, NewAdmin } from '@/api/admin/adminlist';
-import { useAuthContext } from '@/components/admin/AuthlProvider';
+import { useState, useEffect } from 'react'
+import AdminTable from '@/components/admin/AdminTable'
+import AdminModal from '@/components/admin/AdminListModal'
+import {
+  fetchAdminList,
+  deleteAdmin,
+  createAdmin,
+  Admin,
+  NewAdmin,
+} from '@/api/admin/adminlist'
+import { useAuthContext } from '@/components/admin/AuthlProvider'
 
 function AdminManagementPage() {
-  const router = useRouter();
-  const { authInfo } = useAuthContext(); 
-  const [admins, setAdmins] = useState<Admin[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [errorMessage, setErrorMessage] = useState<string | null>(null);
-  const [isAddAdminModalOpen, setIsAddAdminModalOpen] = useState(false);
+  const { authInfo } = useAuthContext()
+  const [admins, setAdmins] = useState<Admin[]>([])
+  const [loading, setLoading] = useState(true)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const [isAddAdminModalOpen, setIsAddAdminModalOpen] = useState(false)
 
-  useEffect(() => {
-    loadAdmins(1); 
-  }, []);
-
-  const loadAdmins = async (page: number) => {
-    setLoading(true);
+  // ✅ loadAdmins 함수 먼저 선언 후 useEffect에서 호출
+  const loadAdmins = async (page: number = 1) => {
+    setLoading(true)
     try {
-      const data = await fetchAdminList(page); 
+      const data = await fetchAdminList(page)
       const sortedAdmins = data.sort(
         (a: Admin, b: Admin) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
-      );
-      setAdmins(sortedAdmins);
-      setErrorMessage(null);
+      )
+      setAdmins(sortedAdmins)
+      setErrorMessage(null)
     } catch (err) {
-      setErrorMessage('Failed to load admins.');
+      setErrorMessage('관리자 목록을 불러오지 못했습니다.')
     } finally {
-      setLoading(false);
+      setLoading(false)
     }
-  };
+  }
+
+  useEffect(() => {
+    loadAdmins()
+  }, []) // ✅ useEffect 내부에서 loadAdmins 호출
 
   const handleDeleteAdmin = async (id: string) => {
     try {
-      await deleteAdmin(id, authInfo.roleMaster); 
-      loadAdmins(1);
+      await deleteAdmin(id, authInfo.roleMaster)
+      loadAdmins()
     } catch {
-      setErrorMessage('Failed to delete admin.');
+      setErrorMessage('관리자를 삭제하지 못했습니다.')
     }
-  };
+  }
 
   const handleAddAdmin = async (newAdmin: NewAdmin): Promise<boolean> => {
     try {
-      await createAdmin(newAdmin, authInfo.roleMaster); 
-      setIsAddAdminModalOpen(false);
-      loadAdmins(1);
-      return true;
+      await createAdmin(newAdmin, authInfo.roleMaster)
+      setIsAddAdminModalOpen(false)
+      loadAdmins()
+      return true
     } catch {
-      setErrorMessage('Failed to add admin.');
-      return false;
+      setErrorMessage('새 관리자를 추가하지 못했습니다.')
+      return false
     }
-  };
+  }
 
   if (loading) {
-    return <div>Loading...</div>;
+    return <div>로딩 중...</div>
   }
 
   if (errorMessage) {
-    return <div>{errorMessage}</div>;
+    return <div>{errorMessage}</div>
   }
 
   return (
@@ -81,7 +86,7 @@ function AdminManagementPage() {
         />
       )}
     </>
-  );
+  )
 }
 
-export default AdminManagementPage;
+export default AdminManagementPage

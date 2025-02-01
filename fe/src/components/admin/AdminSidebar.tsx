@@ -19,7 +19,7 @@ export default function AdminSidebar() {
         onClick={() => handleNavigation(path)}
         className={cn(
           'block px-20 py-10 text-left w-full',
-          router.pathname === path ? 'text-main font-bold' : 'text-[#9CA3AF]'
+          router.pathname === path ? 'text-main font-bold' : 'text-[#9CA3AF]',
         )}
       >
         {name}
@@ -32,7 +32,7 @@ export default function AdminSidebar() {
       <nav className="pt-32 text-[#9CA3AF]">
         <ul className="space-y-20">
           {renderLink('대시보드', '/dashboard')}
-          
+
           {/* 견적서 관리 */}
           <li>
             <button
@@ -40,7 +40,12 @@ export default function AdminSidebar() {
               className="w-full text-left flex justify-between items-center"
               onClick={() => setIsQuotationOpen(!isQuotationOpen)}
             >
-              <p className={cn('pl-40 py-10 flex justify-between w-full pr-20', isQuotationOpen && 'text-main')}>
+              <p
+                className={cn(
+                  'pl-40 py-10 flex justify-between w-full pr-20',
+                  isQuotationOpen && 'text-main',
+                )}
+              >
                 견적서 관리
                 <span>{isQuotationOpen ? '▼' : '▶'}</span>
               </p>
@@ -60,7 +65,12 @@ export default function AdminSidebar() {
               className="w-full text-left flex justify-between items-center"
               onClick={() => setIsContentOpen(!isContentOpen)}
             >
-              <p className={cn('pl-40 py-10 flex justify-between w-full pr-20', isContentOpen && 'text-main')}>
+              <p
+                className={cn(
+                  'pl-40 py-10 flex justify-between w-full pr-20',
+                  isContentOpen && 'text-main',
+                )}
+              >
                 콘텐츠 관리
                 <span>{isContentOpen ? '▼' : '▶'}</span>
               </p>
@@ -83,7 +93,12 @@ export default function AdminSidebar() {
               className="w-full text-left flex justify-between items-center"
               onClick={() => setIsSettingsOpen(!isSettingsOpen)}
             >
-              <p className={cn('pl-40 py-10 flex justify-between w-full pr-20', isSettingsOpen && 'text-main')}>
+              <p
+                className={cn(
+                  'pl-40 py-10 flex justify-between w-full pr-20',
+                  isSettingsOpen && 'text-main',
+                )}
+              >
                 환경 설정
                 <span>{isSettingsOpen ? '▼' : '▶'}</span>
               </p>
