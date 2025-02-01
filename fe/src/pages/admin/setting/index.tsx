@@ -7,20 +7,20 @@ import { useAuthContext } from '@/components/admin/AuthlProvider';
 
 function AdminManagementPage() {
   const router = useRouter();
-  const { authInfo } = useAuthContext(); // AuthContext에서 권한 정보 가져오기
+  const { authInfo } = useAuthContext(); 
   const [admins, setAdmins] = useState<Admin[]>([]);
   const [loading, setLoading] = useState(true);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [isAddAdminModalOpen, setIsAddAdminModalOpen] = useState(false);
 
   useEffect(() => {
-    loadAdmins(1); // 페이지가 로드될 때 관리자 목록을 가져옵니다.
+    loadAdmins(1); 
   }, []);
 
   const loadAdmins = async (page: number) => {
     setLoading(true);
     try {
-      const data = await fetchAdminList(page); // roleMaster 전달하지 않음
+      const data = await fetchAdminList(page); 
       const sortedAdmins = data.sort(
         (a: Admin, b: Admin) =>
           new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime(),
@@ -36,7 +36,7 @@ function AdminManagementPage() {
 
   const handleDeleteAdmin = async (id: string) => {
     try {
-      await deleteAdmin(id, authInfo.roleMaster); // authInfo.roleMaster 전달
+      await deleteAdmin(id, authInfo.roleMaster); 
       loadAdmins(1);
     } catch {
       setErrorMessage('Failed to delete admin.');
@@ -45,7 +45,7 @@ function AdminManagementPage() {
 
   const handleAddAdmin = async (newAdmin: NewAdmin): Promise<boolean> => {
     try {
-      await createAdmin(newAdmin, authInfo.roleMaster); // authInfo.roleMaster 전달
+      await createAdmin(newAdmin, authInfo.roleMaster); 
       setIsAddAdminModalOpen(false);
       loadAdmins(1);
       return true;

@@ -2,7 +2,6 @@ import axios, { AxiosError } from 'axios';
 import Cookies from 'js-cookie';
 import { ACCESS_TOKEN } from '@/api/constants';
 
-// Admin 인터페이스 정의
 export interface Admin {
   id: string;
   name: string;
@@ -24,23 +23,21 @@ export interface NewAdmin {
   roleMaster: boolean;
 }
 
-// JWT 토큰을 쿠키에서 가져오는 함수
 const getToken = () => {
   const token = Cookies.get(ACCESS_TOKEN);
   if (!token) throw new Error('로그인 토큰이 없습니다.');
   return token;
 };
 
-// 관리자 목록 가져오기
 export const fetchAdminList = async (page: number = 1) => {
   try {
-    const token = getToken(); // 토큰 가져오기
+    const token = getToken(); 
     const response = await axios.get(`/api/v1/fitpetAdmin/master?page=${page}`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+        Authorization: `Bearer ${token}`, 
       },
     });
-    return response.data.result; // 관리자 목록 반환
+    return response.data.result; 
   } catch (error) {
     const axiosError = error as AxiosError;
     console.error('관리자 목록 조회 에러:', axiosError.response?.data || axiosError.message);
@@ -48,15 +45,14 @@ export const fetchAdminList = async (page: number = 1) => {
   }
 };
 
-// 새로운 관리자 추가 (roleMaster 권한 체크)
 export const createAdmin = async (adminData: NewAdmin, roleMaster: boolean) => {
   if (!roleMaster) throw new Error('권한이 없습니다. 관리자 추가는 마스터 권한이 필요합니다.');
 
   try {
-    const token = getToken(); // 토큰 가져오기
+    const token = getToken(); 
     const response = await axios.post('/api/v1/fitpetAdmin/master/register', adminData, {
       headers: {
-        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+        Authorization: `Bearer ${token}`, 
       },
     });
     return response.data;
@@ -67,15 +63,14 @@ export const createAdmin = async (adminData: NewAdmin, roleMaster: boolean) => {
   }
 };
 
-// 관리자 삭제 (roleMaster 권한 체크)
 export const deleteAdmin = async (adminId: string, roleMaster: boolean) => {
   if (!roleMaster) throw new Error('권한이 없습니다. 관리자 삭제는 마스터 권한이 필요합니다.');
 
   try {
-    const token = getToken(); // 토큰 가져오기
+    const token = getToken(); 
     const response = await axios.delete(`/api/v1/fitpetAdmin/master/${adminId}`, {
       headers: {
-        Authorization: `Bearer ${token}`, // Authorization 헤더에 토큰 추가
+        Authorization: `Bearer ${token}`, 
       },
     });
     return response.data;
